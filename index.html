@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pura Vida · August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Freight+Display+Pro:ital@0;1&family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@300;400;500;600&family=Cormorant:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#faf7f2;
+  --paper2:#f4efe6;
+  --paper3:#ede6d9;
+  --ink:#0f0e0c;
+  --ink2:#2a2824;
+  --ink3:#5a5650;
+  --ink4:#9a9590;
+  --sand:#c8b89a;
+  --sand2:#e8dece;
+  --terracotta:#c4623a;
+  --terracotta2:#e8845f;
+  --ocean:#2b6b8a;
+  --ocean2:#4a8fad;
+  --gold:#b8960c;
+  --gold2:#d4ae3a;
+  --white:#ffffff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-weight:400;overflow-x:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;cursor:default}
+
+/* ── COVER ── */
+.cover{
+  min-height:100vh;
+  background:var(--ink);
+  position:relative;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  overflow:hidden;
+}
+
+.cover-texture{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 100% 70% at 60% 0%, rgba(196,98,58,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 10% 80%, rgba(43,107,138,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 90% 70%, rgba(184,150,12,0.1) 0%, transparent 45%);
+}
+
+.cover-grain{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1;
+}
+
+.cover-nav{
+  position:relative;z-index:10;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:28px 40px;
+}
+
+.cover-nav-logo{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:1.1rem;
+  color:rgba(255,255,255,0.5);
+  letter-spacing:0.1em;
+}
+
+.cover-nav-date{
+  font-size:0.65rem;
+  font-weight:500;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.35);
+}
+
+.cover-body{
+  position:relative;z-index:5;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0 40px;
+}
+
+.cover-issue{
+  font-size:0.65rem;
+  font-weight:600;
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  color:var(--terracotta2);
+  margin-bottom:24px;
+  opacity:0;
+  animation:fadeUp 0.7s ease forwards 0.3s;
+}
+
+.cover-headline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(5rem,18vw,14rem);
+  line-height:0.88;
+  color:var(--white);
+  letter-spacing:0.02em;
+  opacity:0;
+  animation:fadeUp 0.9s ease forwards 0.5s;
+}
+
+.cover-headline .hl-accent{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,0.35);
+}
+
+.cover-deck{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1.1rem,2.5vw,1.6rem);
+  color:rgba(255,255,255,0.55);
+  margin-top:28px;
+  max-width:520px;
+  line-height:1.5;
+  opacity:0;
+  animation:fadeUp 0.8s ease forwards 0.8s;
+}
+
+.cover-meta-strip{
+  position:relative;z-index:5;
+  display:flex;
+  gap:0;
+  border-top:1px solid rgba(255,255,255,0.1);
+  opacity:0;
+  animation:fadeIn 0.8s ease forwards 1.1s;
+}
+
+.cover-meta-item{
+  flex:1;
+  padding:24px 28px;
+  border-right:1px solid rgba(255,255,255,0.08);
+}
+
+.cover-meta-item:last-child{border-right:none}
+
+.cmi-label{
+  font-size:0.58rem;
+  font-weight:600;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  margin-bottom:6px;
+}
+
+.cmi-value{
+  font-family:'Cormorant',serif;
+  font-size:1.1rem;
+  font-weight:600;
+  color:rgba(255,255,255,0.85);
+}
+
+/* ── COUNTDOWN STRIP ── */
+.countdown-strip{
+  background:var(--terracotta);
+  padding:0;
+  display:flex;
+  align-items:stretch;
+  overflow:hidden;
+}
+
+.cd-label-block{
+  background:var(--ink);
+  padding:20px 32px;
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
+}
+
+.cd-label-text{
+  font-size:0.6rem;
+  font-weight:600;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.4);
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+}
+
+.cd-units{
+  display:flex;
+  flex:1;
+}
+
+.cd-unit{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px 16px;
+  border-right:1px solid rgba(255,255,255,0.15);
+  position:relative;
+}
+
+.cd-unit:last-child{border-right:none}
+
+.cd-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,6vw,3.5rem);
+  color:var(--white);
+  line-height:1;
+  letter-spacing:0.05em;
+}
+
+.cd-lbl{
+  font-size:0.55rem;
+  font-weight:600;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.5);
+  margin-top:4px;
+}
+
+/* ── APP SHELL ── */
+.app{
+  max-width:900px;
+  margin:0 auto;
+  padding:0 0 80px;
+}
+
+/* ── TAB NAV ── */
+.tab-nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--paper);
+  border-bottom:1px solid var(--paper3);
+  display:flex;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+  padding:0 32px;
+  box-shadow:0 2px 20px rgba(0,0,0,0.06);
+}
+
+.tab-nav::-webkit-scrollbar{display:none}
+
+.tab-btn{
+  padding:18px 24px;
+  font-size:0.7rem;
+  font-weight:600;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--ink4);
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.2s;
+  flex-shrink:0;
+}
+
+.tab-btn:hover{color:var(--ink2)}
+
+.tab-btn.active{
+  color:var(--terracotta);
+  border-bottom-color:var(--terracotta);
+}
+
+/* ── PANELS ── */
+.panel{display:none;padding:48px 32px 0}
+.panel.active{display:block}
+
+/* ── SECTION LABEL ── */
+.section-label{
+  font-size:0.6rem;
+  font-weight:600;
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  color:var(--terracotta);
+  margin-bottom:12px;
+}
+
+.section-headline{
+  font-family:'Cormorant',serif;
+  font-weight:600;
+  font-size:clamp(2rem,5vw,3rem);
+  color:var(--ink);
+  line-height:1.1;
+  margin-bottom:32px;
+  letter-spacing:-0.02em;
+}
+
+.section-headline em{
+  font-style:italic;
+  font-weight:300;
+}
+
+/* ── TRIP OVERVIEW ── */
+.overview-hero{
+  background:var(--ink);
+  padding:40px;
+  margin-bottom:3px;
+  position:relative;
+  overflow:hidden;
+}
+
+.overview-hero::after{
+  content:'COSTA RICA';
+  position:absolute;
+  right:-20px;bottom:-30px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:8rem;
+  color:rgba(255,255,255,0.03);
+  letter-spacing:0.05em;
+  white-space:nowrap;
+}
+
+.oh-eyebrow{
+  font-size:0.6rem;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--terracotta2);margin-bottom:16px;
+}
+
+.oh-resort{
+  font-family:'Cormorant',serif;
+  font-size:clamp(1.4rem,3.5vw,2rem);
+  font-weight:600;
+  color:var(--white);
+  margin-bottom:8px;
+  line-height:1.2;
+}
+
+.oh-room{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-size:1.1rem;
+  font-weight:300;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:28px;
+}
+
+.oh-tags{display:flex;gap:8px;flex-wrap:wrap}
+
+.tag{
+  font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  padding:6px 14px;border-radius:2px;
+}
+
+.tag-terra{background:rgba(196,98,58,0.2);color:var(--terracotta2);border:1px solid rgba(196,98,58,0.3)}
+.tag-ocean{background:rgba(43,107,138,0.2);color:var(--ocean2);border:1px solid rgba(43,107,138,0.3)}
+.tag-gold{background:rgba(184,150,12,0.15);color:var(--gold2);border:1px solid rgba(184,150,12,0.25)}
+
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:3px;
+  margin-bottom:3px;
+}
+
+.stat-card{
+  background:var(--paper2);
+  padding:24px;
+}
+
+.stat-label{font-size:0.58rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink4);margin-bottom:8px}
+
+.stat-value{
+  font-family:'Cormorant',serif;
+  font-size:1.4rem;
+  font-weight:600;
+  color:var(--ink);
+  line-height:1.2;
+}
+
+.stat-sub{font-size:0.72rem;color:var(--ink3);margin-top:4px}
+
+.requests-card{
+  background:var(--paper2);
+  padding:24px;
+}
+
+.req-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* ── FLIGHTS ── */
+.flight-card{
+  background:var(--white);
+  border:1px solid var(--paper3);
+  padding:32px 36px;
+  margin-bottom:3px;
+  position:relative;
+  overflow:hidden;
+  transition:box-shadow 0.2s;
+}
+
+.flight-card:hover{box-shadow:0 8px 40px rgba(0,0,0,0.08)}
+
+.flight-direction-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.62rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--terracotta);
+  margin-bottom:24px;
+}
+
+.flight-direction-badge::before{
+  content:'';width:20px;height:1px;background:var(--terracotta);
+}
+
+.fc-num{
+  position:absolute;top:32px;right:36px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.5rem;
+  color:var(--paper3);
+  letter-spacing:0.1em;
+}
+
+.flight-route{display:flex;align-items:center;gap:24px}
+
+.airport-code{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,8vw,5rem);
+  color:var(--ink);
+  line-height:1;
+  letter-spacing:0.05em;
+}
+
+.airport-city{font-size:0.72rem;color:var(--ink4);margin-top:4px;font-weight:500}
+
+.route-mid{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+
+.route-line{
+  width:100%;display:flex;align-items:center;gap:10px;
+}
+
+.rline{flex:1;height:1px;background:var(--paper3)}
+
+.rplane{font-size:1rem;color:var(--ink3)}
+
+.route-dur{
+  font-size:0.65rem;font-weight:600;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--ink4);
+}
+
+.flight-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:24px;padding-top:20px;
+  border-top:1px solid var(--paper3);
+}
+
+.ft-time{font-size:0.9rem;font-weight:500;color:var(--ink2)}
+.ft-label{font-size:0.6rem;color:var(--ink4);margin-bottom:2px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase}
+
+/* ── ACTIVITIES ── */
+.activities-intro{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-size:1.15rem;
+  font-weight:300;
+  color:var(--ink3);
+  line-height:1.7;
+  margin-bottom:40px;
+  max-width:600px;
+  padding-left:16px;
+  border-left:2px solid var(--sand);
+}
+
+.activity-item{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:0;
+  margin-bottom:3px;
+  background:var(--white);
+  border:1px solid var(--paper3);
+  overflow:hidden;
+  transition:box-shadow 0.2s,transform 0.2s;
+  cursor:default;
+}
+
+.activity-item:hover{
+  box-shadow:0 8px 32px rgba(0,0,0,0.1);
+  transform:translateY(-1px);
+}
+
+.ai-number{
+  background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem;
+  color:rgba(255,255,255,0.15);
+  letter-spacing:0.05em;
+  flex-shrink:0;
+}
+
+.ai-body{padding:28px 32px}
+
+.ai-category{
+  font-size:0.58rem;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--terracotta);margin-bottom:8px;
+}
+
+.ai-title{
+  font-family:'Cormorant',serif;
+  font-size:1.5rem;font-weight:600;
+  color:var(--ink);margin-bottom:10px;line-height:1.2;
+}
+
+.ai-desc{font-size:0.85rem;color:var(--ink3);line-height:1.75;margin-bottom:14px}
+
+.ai-tip{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--paper2);
+  padding:12px 16px;
+  font-size:0.78rem;color:var(--ink2);line-height:1.6;
+}
+
+.ai-tip-icon{color:var(--terracotta);flex-shrink:0;font-weight:700;font-size:0.9rem}
+
+/* ── DINING ── */
+.dining-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3px;
+}
+
+.dining-card{
+  background:var(--white);
+  border:1px solid var(--paper3);
+  overflow:hidden;
+  transition:box-shadow 0.2s;
+}
+
+.dining-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.1)}
+
+.dining-card.featured{grid-column:1/-1}
+
+.dc-header{
+  padding:28px 28px 0;
+}
+
+.dc-tags{display:flex;gap:6px;margin-bottom:12px}
+
+.dc-name{
+  font-family:'Cormorant',serif;
+  font-size:1.4rem;font-weight:600;
+  color:var(--ink);line-height:1.2;margin-bottom:6px;
+}
+
+.dc-location{
+  font-size:0.7rem;color:var(--ink4);font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+
+.dc-location::before{content:'→';color:var(--terracotta)}
+
+.dc-divider{height:1px;background:var(--paper3);margin:0 28px}
+
+.dc-body{padding:20px 28px 28px}
+
+.dc-desc{font-size:0.83rem;color:var(--ink3);line-height:1.7;margin-bottom:12px}
+
+.dc-pro{
+  font-size:0.78rem;color:var(--ocean);
+  font-style:italic;
+  padding-top:10px;
+  border-top:1px solid var(--paper3);
+}
+
+/* ── TIMING ── */
+.timing-list{display:flex;flex-direction:column;gap:3px}
+
+.timing-item{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  background:var(--white);
+  border:1px solid var(--paper3);
+  overflow:hidden;
+  transition:box-shadow 0.2s;
+}
+
+.timing-item:hover{box-shadow:0 4px 20px rgba(0,0,0,0.07)}
+
+.ti-left{
+  background:var(--paper2);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid var(--paper3);
+}
+
+.ti-place{
+  font-family:'Cormorant',serif;
+  font-size:1.1rem;font-weight:600;
+  color:var(--ink);margin-bottom:6px;
+}
+
+.ti-time{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.4rem;
+  color:var(--terracotta);
+  letter-spacing:0.05em;
+  line-height:1.2;
+}
+
+.ti-right{padding:24px 28px}
+
+.ti-desc{font-size:0.83rem;color:var(--ink3);line-height:1.7}
+
+/* ── CHECKLIST ── */
+.checklist-intro{
+  font-size:0.85rem;color:var(--ink3);
+  margin-bottom:28px;line-height:1.6;
+}
+
+.progress-bar-wrap{
+  background:var(--paper3);
+  height:3px;
+  margin-bottom:32px;
+  border-radius:2px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  background:var(--terracotta);
+  border-radius:2px;
+  transition:width 0.4s ease;
+  width:0%;
+}
+
+.cl-group{margin-bottom:28px}
+
+.cl-group-label{
+  font-size:0.6rem;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--ink4);margin-bottom:8px;padding-bottom:8px;
+  border-bottom:1px solid var(--paper3);
+}
+
+.cl-item{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 0;
+  border-bottom:1px solid var(--paper3);
+  cursor:pointer;
+  transition:all 0.15s;
+  user-select:none;
+}
+
+.cl-item:last-child{border-bottom:none}
+.cl-item:hover .cl-box{border-color:var(--terracotta)}
+
+.cl-box{
+  width:20px;height:20px;flex-shrink:0;
+  border:1.5px solid var(--sand);
+  border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+  font-size:0.75rem;color:transparent;
+}
+
+.cl-item.done .cl-box{
+  background:var(--terracotta);
+  border-color:var(--terracotta);
+  color:var(--white);
+}
+
+.cl-text{font-size:0.88rem;color:var(--ink);flex:1;line-height:1.4}
+.cl-item.done .cl-text{color:var(--ink4);text-decoration:line-through}
+
+.cl-badge{
+  font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  padding:3px 10px;border-radius:2px;flex-shrink:0;
+}
+
+/* ── INFO ── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+
+.info-card{
+  background:var(--white);
+  border:1px solid var(--paper3);
+  padding:28px;
+}
+
+.info-card.full{grid-column:1/-1}
+
+.info-card.emergency{
+  background:var(--ink);
+  border-color:var(--ink);
+}
+
+.ic-label{
+  font-size:0.58rem;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--ink4);margin-bottom:12px;
+}
+
+.info-card.emergency .ic-label{color:rgba(255,255,255,0.35)}
+
+.ic-value{font-size:0.88rem;color:var(--ink2);line-height:1.7}
+
+.ic-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(43,107,138,0.3);transition:border-color 0.2s}
+.ic-value a:hover{border-color:var(--ocean)}
+
+.emergency-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.2rem;
+  color:var(--terracotta2);
+  letter-spacing:0.08em;
+  margin-top:8px;
+}
+
+.emergency-label{
+  font-size:0.65rem;color:rgba(255,255,255,0.35);
+  font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  margin-top:4px;
+}
+
+/* ── FACTS ── */
+.fact-feature{
+  background:var(--ink);
+  padding:48px 40px;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:3px;
+}
+
+.fact-feature::before{
+  content:'"';
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20rem;
+  color:rgba(255,255,255,0.03);
+  position:absolute;
+  top:-60px;left:-20px;
+  line-height:1;
+}
+
+.fact-nav{display:flex;gap:3px;margin-bottom:32px}
+
+.fact-nav-btn{
+  padding:8px 16px;
+  font-size:0.62rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.4);
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+.fact-nav-btn.active,.fact-nav-btn:hover{
+  background:var(--terracotta);
+  border-color:var(--terracotta);
+  color:var(--white);
+}
+
+.fact-text{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-size:clamp(1.2rem,3vw,1.8rem);
+  font-weight:300;
+  color:var(--white);
+  line-height:1.6;
+  max-width:640px;
+  transition:opacity 0.4s ease,transform 0.4s ease;
+  position:relative;z-index:2;
+}
+
+.fact-attr{
+  margin-top:24px;
+  font-size:0.62rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(255,255,255,0.25);
+  position:relative;z-index:2;
+}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── PRINT ── */
+@media print{
+  @page{size:auto;margin:10mm}
+  .tab-nav,.cover-nav{display:none}
+  .panel{display:block!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .cover-body{padding:0 24px}
+  .cover-nav{padding:20px 24px}
+  .cover-meta-strip{flex-wrap:wrap}
+  .cover-meta-item{min-width:50%}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .dining-grid{grid-template-columns:1fr}
+  .dining-card.featured{grid-column:1}
+  .timing-item{grid-template-columns:1fr}
+  .ti-left{border-right:none;border-bottom:1px solid var(--paper3)}
+  .info-grid{grid-template-columns:1fr}
+  .info-card.full{grid-column:1}
+  .activity-item{grid-template-columns:60px 1fr}
+  .tab-nav{padding:0 16px}
+  .panel{padding:32px 20px 0}
+  .cd-label-block{display:none}
+  .flight-card{padding:24px}
+  .overview-hero{padding:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<header class="cover">
+  <div class="cover-texture"></div>
+  <div class="cover-grain"></div>
+  <nav class="cover-nav">
+    <div class="cover-nav-logo">Pura Vida</div>
+    <div class="cover-nav-date">August 8 – 15, 2026</div>
+  </nav>
+  <div class="cover-body">
+    <div class="cover-issue">Trip of the Year &nbsp;·&nbsp; Star Class Edition</div>
+    <h1 class="cover-headline">
+      Costa<br>
+      <span class="hl-accent">Rica</span>
+    </h1>
+    <p class="cover-deck">Gulf of Papagayo. Seven nights. One unforgettable week in the Pacific.</p>
+  </div>
+  <div class="cover-meta-strip">
+    <div class="cover-meta-item">
+      <div class="cmi-label">Resort</div>
+      <div class="cmi-value">{{RESORT}}</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cmi-label">Room</div>
+      <div class="cmi-value">{{ROOM_TYPE}}</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cmi-label">Departure</div>
+      <div class="cmi-value">Aug 8, 2026</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cmi-label">Nights</div>
+      <div class="cmi-value">7 Nights</div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ COUNTDOWN ══ -->
+<div class="countdown-strip">
+  <div class="cd-label-block">
+    <div class="cd-label-text">Countdown</div>
+  </div>
+  <div class="cd-units">
+    <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-lbl">Days</div></div>
+    <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-lbl">Hours</div></div>
+    <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-lbl">Mins</div></div>
+    <div class="cd-unit"><div class="cd-num" id="cd-s">--</div><div class="cd-lbl">Secs</div></div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div class="app">
+
+  <!-- TAB NAV -->
+  <nav class="tab-nav" id="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('flights',this)">Flights</button>
+    <button class="tab-btn" onclick="switchTab('activities',this)">Activities</button>
+    <button class="tab-btn" onclick="switchTab('dining',this)">Dining</button>
+    <button class="tab-btn" onclick="switchTab('timing',this)">Best Times</button>
+    <button class="tab-btn" onclick="switchTab('checklist',this)">Checklist</button>
+    <button class="tab-btn" onclick="switchTab('info',this)">Key Info</button>
+    <button class="tab-btn" onclick="switchTab('facts',this)">Did You Know</button>
+  </nav>
+
+  <!-- ── OVERVIEW ── -->
+  <div class="panel active" id="panel-overview">
+    <div class="reveal">
+      <div class="overview-hero">
+        <div class="oh-eyebrow">Planet Hollywood · Star Class</div>
+        <div class="oh-resort">{{RESORT}}</div>
+        <div class="oh-room">{{ROOM_TYPE}}</div>
+        <div class="oh-tags">
+          <span class="tag tag-terra">Star Class</span>
+          <span class="tag tag-ocean">Butler Included</span>
+          <span class="tag tag-gold">All Inclusive</span>
+          <span class="tag tag-ocean">Gulf of Papagayo</span>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row reveal">
+      <div class="stat-card">
+        <div class="stat-label">Check-In</div>
+        <div class="stat-value">{{CHECKIN}}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Check-Out</div>
+        <div class="stat-value">{{CHECKOUT}}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Duration</div>
+        <div class="stat-value">7 Nights</div>
+        <div class="stat-sub">8 days total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Aeroplan Savings</div>
+        <div class="stat-value">{{AEROPLAN_POINTS}}</div>
+        <div class="stat-sub">TD Aeroplan Infinite</div>
+      </div>
+    </div>
+    <div class="requests-card reveal">
+      <div class="stat-label">Special Requests Confirmed</div>
+      <div class="req-pills" id="req-pills"></div>
+    </div>
+  </div>
+
+  <!-- ── FLIGHTS ── -->
+  <div class="panel" id="panel-flights">
+    <div class="section-label reveal">Your Flights</div>
+    <h2 class="section-headline reveal">Both direct. <em>No connections.</em></h2>
+    <div class="flight-card reveal">
+      <div class="flight-direction-badge">Outbound · August 8, 2026</div>
+      <div class="fc-num">{{FLIGHT_OUT_NUM}}</div>
+      <div class="flight-route">
+        <div>
+          <div class="airport-code">YYZ</div>
+          <div class="airport-city">Toronto Pearson</div>
+        </div>
+        <div class="route-mid">
+          <div class="route-line"><div class="rline"></div><div class="rplane">✈</div><div class="rline"></div></div>
+          <div class="route-dur">Direct · ~3h 15m</div>
+        </div>
+        <div style="text-align:right">
+          <div class="airport-code">LIR</div>
+          <div class="airport-city">Liberia International</div>
+        </div>
+      </div>
+      <div class="flight-footer">
+        <div><div class="ft-label">Departs</div><div class="ft-time">{{FLIGHT_OUT_DEP}}</div></div>
+        <div style="text-align:right"><div class="ft-label">Arrives</div><div class="ft-time">{{FLIGHT_OUT_ARR}}</div></div>
+      </div>
+    </div>
+    <div class="flight-card reveal">
+      <div class="flight-direction-badge">Return · August 15, 2026</div>
+      <div class="fc-num">{{FLIGHT_HOME_NUM}}</div>
+      <div class="flight-route">
+        <div>
+          <div class="airport-code">LIR</div>
+          <div class="airport-city">Liberia International</div>
+        </div>
+        <div class="route-mid">
+          <div class="route-line"><div class="rline"></div><div class="rplane">✈</div><div class="rline"></div></div>
+          <div class="route-dur">Direct · ~7h 30m</div>
+        </div>
+        <div style="text-align:right">
+          <div class="airport-code">YYZ</div>
+          <div class="airport-city">Toronto Pearson</div>
+        </div>
+      </div>
+      <div class="flight-footer">
+        <div><div class="ft-label">Departs</div><div class="ft-time">{{FLIGHT_HOME_DEP}}</div></div>
+        <div style="text-align:right"><div class="ft-label">Arrives</div><div class="ft-time">{{FLIGHT_HOME_ARR}}</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACTIVITIES ── -->
+  <div class="panel" id="panel-activities">
+    <div class="section-label reveal">What to Do</div>
+    <h2 class="section-headline reveal">Seven days. <em>Make every one count.</em></h2>
+    <p class="activities-intro reveal">Guanacaste in August is peak season for wildlife, warm Pacific water, and adventure. Here's what not to miss — with insider timing for each.</p>
+
+    <div class="activity-item reveal">
+      <div class="ai-number">01</div>
+      <div class="ai-body">
+        <div class="ai-category">Ocean</div>
+        <div class="ai-title">Humpback Whale Watching</div>
+        <div class="ai-desc">August is peak humpback season off Papagayo — one of only two places on Earth where Northern and Southern hemisphere humpbacks both come to breed. You're arriving at the exact right moment. Private boat tours available through your Star Class butler.</div>
+        <div class="ai-tip"><span class="ai-tip-icon">→</span> Best time: 6–8 AM departures. Calmer seas, better surface behaviour. Book 2–3 days ahead — it fills fast in August.</div>
+      </div>
+    </div>
+    <div class="activity-item reveal">
+      <div class="ai-number">02</div>
+      <div class="ai-body">
+        <div class="ai-category">Adventure</div>
+        <div class="ai-title">Arenal Volcano Day Trip</div>
+        <div class="ai-desc">Three hours south — one of the most iconic landscapes in Central America. Hot springs at the base, zip-lining over the canopy, and if the clouds clear, views of the active volcano at sunset that genuinely don't look real.</div>
+        <div class="ai-tip"><span class="ai-tip-icon">→</span> Leave by 6 AM. August clouds roll in over Arenal by early afternoon almost every day — mornings are your window.</div>
+      </div>
+    </div>
+    <div class="activity-item reveal">
+      <div class="ai-number">03</div>
+      <div class="ai-body">
+        <div class="ai-category">Ocean</div>
+        <div class="ai-title">Snorkelling & Scuba — Catalina Islands</div>
+        <div class="ai-desc">45 minutes by boat. Sea turtles, manta rays, reef sharks. The Pacific visibility in Papagayo is exceptional. Catalina has multiple dive sites for all levels — beginner reef snorkel to advanced wall dives.</div>
+        <div class="ai-tip"><span class="ai-tip-icon">→</span> Morning only. The Papagayo wind builds every afternoon — visibility drops and conditions get choppy after noon.</div>
+      </div>
+    </div>
+    <div class="activity-item reveal">
+      <div class="ai-number">04</div>
+      <div class="ai-body">
+        <div class="ai-category">Adventure</div>
+        <div class="ai-title">Zip-lining & Canopy Tours</div>
+        <div class="ai-desc">Congo Trail and Diamante Eco Adventure Park are both 30–40 min from the resort. Multiple lines, suspension bridges, rappelling. Flying through the canopy with Pacific views is a full-sensory moment.</div>
+        <div class="ai-tip"><span class="ai-tip-icon">→</span> Midday works — canopy tours run in all weather. Pre-book at least 2 days ahead in peak season.</div>
+      </div>
+    </div>
+    <div class="activity-item reveal">
+      <div class="ai-number">05</div>
+      <div class="ai-body">
+        <div class="ai-category">Beach</div>
+        <div class="ai-title">Surfing at Playa Tamarindo</div>
+        <div class="ai-desc">45 minutes south — one of Costa Rica's most famous surf breaks. Green season brings consistent swells. Multiple surf schools offer lessons for complete beginners. Combine it with lunch at Langosta Beach Club.</div>
+        <div class="ai-tip"><span class="ai-tip-icon">→</span> 7–10 AM for lessons — best conditions before afternoon wind chop builds on the water.</div>
+      </div>
+    </div>
+    <div class="activity-item reveal">
+      <div class="ai-number">06</div>
+      <div class="ai-body">
+        <div class="ai-category">Wildlife</div>
+        <div class="ai-title">Rio Tempisque Boat Safari</div>
+        <div class="ai-desc">A slow river cruise through mangroves packed with crocodiles, howler monkeys, scarlet macaws, and hundreds of bird species. Green season means the jungle is at maximum density. Zero rush. Total immersion.</div>
+        <div class="ai-tip"><span class="ai-tip-icon">→</span> Early morning or late afternoon — wildlife is most active at the edges of the day. August green season is the best time of year for this.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DINING ── -->
+  <div class="panel" id="panel-dining">
+    <div class="section-label reveal">Where to Eat</div>
+    <h2 class="section-headline reveal">On-resort and <em>the best of Guanacaste.</em></h2>
+    <div class="dining-grid">
+      <div class="dining-card featured reveal">
+        <div class="dc-header">
+          <div class="dc-tags"><span class="tag tag-gold">Star Class Exclusive</span><span class="tag tag-terra">On Resort</span></div>
+          <div class="dc-name">Star Class À La Carte Restaurant</div>
+          <div class="dc-location">Planet Hollywood · Gulf of Papagayo</div>
+        </div>
+        <div class="dc-divider"></div>
+        <div class="dc-body">
+          <div class="dc-desc">Star Class guests have exclusive access to the à la carte restaurant — no buffet lines, no reservations required, no limitations. Your butler handles your table. Steaks, fresh ceviche, grilled seafood, tableside service every night. This is what you paid for — use it every single night if you want.</div>
+          <div class="dc-pro">💡 Ask your butler on arrival to pre-book a table by the water for your first night. Set the tone immediately.</div>
+        </div>
+      </div>
+      <div class="dining-card reveal">
+        <div class="dc-header">
+          <div class="dc-tags"><span class="tag tag-ocean">15 min away</span></div>
+          <div class="dc-name">Ginger — Playa Hermosa</div>
+          <div class="dc-location">Playa Hermosa · Guanacaste</div>
+        </div>
+        <div class="dc-divider"></div>
+        <div class="dc-body">
+          <div class="dc-desc">One of Guanacaste's most celebrated restaurants. Pan-Asian tapas meets Costa Rican ingredients — tuna tataki, coconut shrimp, and a drinks list that punches above its location. Outdoor tropical garden setting.</div>
+          <div class="dc-pro">💡 Reserve 3–5 days ahead. Request garden seating. This is a must-do.</div>
+        </div>
+      </div>
+      <div class="dining-card reveal">
+        <div class="dc-header">
+          <div class="dc-tags"><span class="tag tag-ocean">20 min away</span></div>
+          <div class="dc-name">El Ancla — Playa del Coco</div>
+          <div class="dc-location">Playa del Coco · Guanacaste</div>
+        </div>
+        <div class="dc-divider"></div>
+        <div class="dc-body">
+          <div class="dc-desc">Fresh-off-the-boat seafood. Whole fried snapper with patacones. Cash only, plastic chairs, no frills. The best meal of the trip — and it'll cost less than a cocktail at the resort. The real Costa Rica.</div>
+          <div class="dc-pro">💡 Lunch only — they sell out by 2 PM. Bring USD cash or colones.</div>
+        </div>
+      </div>
+      <div class="dining-card reveal">
+        <div class="dc-header">
+          <div class="dc-tags"><span class="tag tag-ocean">45 min away</span></div>
+          <div class="dc-name">Langosta Beach Club — Tamarindo</div>
+          <div class="dc-location">Tamarindo · Guanacaste</div>
+        </div>
+        <div class="dc-divider"></div>
+        <div class="dc-body">
+          <div class="dc-desc">Combine with the Tamarindo surf day. Beachfront tables, wood-fired meats, killer cocktails, and Pacific sunset views that justify the drive alone. The kind of dinner you still talk about five years later.</div>
+          <div class="dc-pro">💡 Arrive by 5 PM for a table before sunset. The golden hour here is extraordinary.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TIMING ── -->
+  <div class="panel" id="panel-timing">
+    <div class="section-label reveal">August Intel</div>
+    <h2 class="section-headline reveal">Right place. <em>Right time.</em></h2>
+    <div class="timing-list">
+      <div class="timing-item reveal">
+        <div class="ti-left"><div class="ti-place">Pool & Beach</div><div class="ti-time">7–10 AM<br>4–6 PM</div></div>
+        <div class="ti-right"><div class="ti-desc">Guanacaste heat builds fast. The Star Class pool is best early morning and again late afternoon in golden light. August afternoons bring brief tropical showers — 20–30 minutes, then it's clear again. The light after rain is spectacular for photos.</div></div>
+      </div>
+      <div class="timing-item reveal">
+        <div class="ti-left"><div class="ti-place">Whale Watching</div><div class="ti-time">6–10 AM</div></div>
+        <div class="ti-right"><div class="ti-desc">Humpbacks are most active in the morning. Calm seas mean better surface behaviour — breaching, fin slaps, tail dives. Afternoon Papagayo wind builds swells that make for a rougher ride and fewer sightings.</div></div>
+      </div>
+      <div class="timing-item reveal">
+        <div class="ti-left"><div class="ti-place">Day Excursions</div><div class="ti-time">Depart by 6–7 AM</div></div>
+        <div class="ti-right"><div class="ti-desc">For Arenal, zip-lining, or any jungle activity — start before the heat builds and before tour groups arrive. You'll be back at the resort by early afternoon with the whole evening still ahead. Arriving late means crowds and cloud cover.</div></div>
+      </div>
+      <div class="timing-item reveal">
+        <div class="ti-left"><div class="ti-place">Dining Out</div><div class="ti-time">7–9 PM</div></div>
+        <div class="ti-right"><div class="ti-desc">Costa Rica runs on island time. Restaurants hit their stride at 7:30 PM when the day cools down. Ask your butler to time off-resort reservations for 7 PM — you'll get settled before the room fills and catch the last of the evening light.</div></div>
+      </div>
+      <div class="timing-item reveal">
+        <div class="ti-left"><div class="ti-place">Sunset Photos</div><div class="ti-time">5:45–6:30 PM</div></div>
+        <div class="ti-right"><div class="ti-desc">Pacific sunsets in August are exceptional. The green season moisture creates deep orange and purple sky colour. The resort's infinity edge and beach are perfect vantage points. Set an alarm for 5:45 PM every single day — don't miss a single one.</div></div>
+      </div>
+      <div class="timing-item reveal">
+        <div class="ti-left"><div class="ti-place">Nights Out</div><div class="ti-time">10 PM – Late</div></div>
+        <div class="ti-right"><div class="ti-desc">Playa del Coco and Tamarindo have bar scenes that properly come alive after 10. The resort itself has evening entertainment — ask your butler on arrival for the weekly schedule and book ahead for any shows or events.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHECKLIST ── -->
+  <div class="panel" id="panel-checklist">
+    <div class="section-label reveal">Pre-Trip</div>
+    <h2 class="section-headline reveal">Everything you need <em>to do before you go.</em></h2>
+    <div class="progress-bar-wrap reveal"><div class="progress-bar" id="progress-bar"></div></div>
+
+    <div class="cl-group reveal">
+      <div class="cl-group-label">Priority</div>
+      <ul id="cl-priority">
+        <li class="cl-item" onclick="toggleCl(this,'priority',0)"><div class="cl-box">✓</div><span class="cl-text">Complete hotel pre-check-in online</span><span class="cl-badge tag tag-terra">Do Now</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'priority',1)"><div class="cl-box">✓</div><span class="cl-text">Room requests confirmed — King · Ocean View · High Floor · Non-Smoking</span><span class="cl-badge tag tag-gold">Done ✓</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'priority',2)"><div class="cl-box">✓</div><span class="cl-text">Contact Star Class butler before arrival to pre-arrange experiences</span><span class="cl-badge tag tag-ocean">Before Trip</span></li>
+      </ul>
+    </div>
+
+    <div class="cl-group reveal">
+      <div class="cl-group-label">Book Early</div>
+      <ul id="cl-book">
+        <li class="cl-item" onclick="toggleCl(this,'book',0)"><div class="cl-box">✓</div><span class="cl-text">Book whale watching — August fills fast, private boat preferred</span><span class="cl-badge tag tag-terra">Book Early</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'book',1)"><div class="cl-box">✓</div><span class="cl-text">Book Arenal day trip if interested — very popular in green season</span><span class="cl-badge tag tag-terra">Book Early</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'book',2)"><div class="cl-box">✓</div><span class="cl-text">Reserve Ginger Restaurant — Playa Hermosa (3–5 days ahead)</span><span class="cl-badge tag tag-ocean">Dining</span></li>
+      </ul>
+    </div>
+
+    <div class="cl-group reveal">
+      <div class="cl-group-label">Travel Day</div>
+      <ul id="cl-travel">
+        <li class="cl-item" onclick="toggleCl(this,'travel',0)"><div class="cl-box">✓</div><span class="cl-text">Online check-in for AC1873 — opens 24 hrs before Aug 8</span><span class="cl-badge tag tag-ocean">Aug 7</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'travel',1)"><div class="cl-box">✓</div><span class="cl-text">Download Air Canada app · Save boarding passes to Wallet</span><span class="cl-badge tag tag-gold">Pack</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'travel',2)"><div class="cl-box">✓</div><span class="cl-text">Pre-arrange resort transfer from LIR — ~45 min drive</span><span class="cl-badge tag tag-gold">Arrange</span></li>
+      </ul>
+    </div>
+
+    <div class="cl-group reveal">
+      <div class="cl-group-label">Finance & Insurance</div>
+      <ul id="cl-finance">
+        <li class="cl-item" onclick="toggleCl(this,'finance',0)"><div class="cl-box">✓</div><span class="cl-text">Notify TD bank of travel dates to prevent card blocks</span><span class="cl-badge tag tag-ocean">Finance</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'finance',1)"><div class="cl-box">✓</div><span class="cl-text">Review TD Aeroplan Infinite travel insurance documents</span><span class="cl-badge tag tag-ocean">Insurance</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'finance',2)"><div class="cl-box">✓</div><span class="cl-text">Save TD emergency line: {{INSURANCE_PHONE}}</span><span class="cl-badge tag tag-terra">Emergency</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'finance',3)"><div class="cl-box">✓</div><span class="cl-text">Exchange or load CAD → USD (resort pricing in USD)</span><span class="cl-badge tag tag-ocean">Finance</span></li>
+      </ul>
+    </div>
+
+    <div class="cl-group reveal">
+      <div class="cl-group-label">Pack</div>
+      <ul id="cl-pack">
+        <li class="cl-item" onclick="toggleCl(this,'pack',0)"><div class="cl-box">✓</div><span class="cl-text">Reef-safe sunscreen — required by Costa Rican environmental law</span><span class="cl-badge tag tag-gold">Essential</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'pack',1)"><div class="cl-box">✓</div><span class="cl-text">Light linen shirts, swimwear, sandals. Leave the jeans at home.</span><span class="cl-badge tag tag-gold">Pack</span></li>
+        <li class="cl-item" onclick="toggleCl(this,'pack',2)"><div class="cl-box">✓</div><span class="cl-text">Portable charger — excursion days are long and away from outlets</span><span class="cl-badge tag tag-gold">Pack</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── INFO ── -->
+  <div class="panel" id="panel-info">
+    <div class="section-label reveal">Essential Info</div>
+    <h2 class="section-headline reveal">Everything you need, <em>all in one place.</em></h2>
+    <div class="info-grid">
+      <div class="info-card full reveal">
+        <div class="ic-label">Hotel Pre-Check-In</div>
+        <div class="ic-value">
+          <a href="{{CHECKIN_LINK}}" target="_blank">Complete your pre-arrival check-in →</a><br>
+          <span style="color:var(--ink4);font-size:.8rem">Confirm room preferences · Upload ID · Set arrival time · Request early check-in</span>
+        </div>
+      </div>
+      <div class="info-card emergency reveal">
+        <div class="ic-label">Emergency Insurance</div>
+        <div class="ic-value" style="color:rgba(255,255,255,0.55);font-size:.8rem">
+          {{INSURANCE_PRIMARY}} (primary)<br>
+          {{INSURANCE_SECONDARY}} (secondary)
+        </div>
+        <div class="emergency-num">{{INSURANCE_PHONE}}</div>
+        <div class="emergency-label">TD Emergency Line · Available 24/7</div>
+      </div>
+      <div class="info-card reveal">
+        <div class="ic-label">Arrival Airport</div>
+        <div class="ic-value">
+          <strong>LIR</strong> — Liberia International<br>
+          ~45 min drive to resort<br>
+          <span style="color:var(--ink4);font-size:.8rem">Pre-arrange transfer or Uber — both reliable from LIR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FACTS ── -->
+  <div class="panel" id="panel-facts">
+    <div class="section-label reveal">Costa Rica</div>
+    <h2 class="section-headline reveal">Six things that'll make you <em>want to go even more.</em></h2>
+    <div class="fact-feature reveal">
+      <div class="fact-nav" id="fact-nav"></div>
+      <div class="fact-text" id="fact-text">Costa Rica produces over 99% of its electricity from renewable sources — hydropower, wind, and geothermal. The lights at your resort are powered by a volcano.</div>
+      <div class="fact-attr">Costa Rica · Fast Fact · <span id="fact-count">1 of 6</span></div>
+    </div>
+  </div>
+
+</div><!-- end .app -->
+
+<script>
+// ── COUNTDOWN ──
+function tick(){
+  const diff=new Date('2026-08-08T08:35:00-05:00')-new Date();
+  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');return}
+  document.getElementById('cd-d').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+}
+tick();setInterval(tick,1000);
+
+// ── BADGES ──
+const rm={KING:'King Bed',OCVW:'Ocean View',HIGH:'High Floor',NSMK:'Non-Smoking'};
+'{{ROOM_REQUESTS}}'.split(',').map(r=>r.trim()).forEach(r=>{
+  const b=document.createElement('span');
+  b.className='tag tag-gold';b.textContent=rm[r]||r;
+  document.getElementById('req-pills').appendChild(b);
+});
+
+// ── TABS ──
+function switchTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+  // scroll to app
+  document.querySelector('.tab-nav').scrollIntoView({behavior:'smooth',block:'nearest'});
+  // re-trigger reveals for this panel
+  setTimeout(()=>triggerReveals(),50);
+}
+
+// ── REVEAL ──
+function triggerReveals(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);obs.unobserve(e.target);}
+    });
+  },{threshold:.05});
+  document.querySelectorAll('.reveal:not(.in)').forEach(r=>obs.observe(r));
+}
+triggerReveals();
+
+// ── CHECKLIST ──
+function toggleCl(el,group,idx){
+  el.classList.toggle('done');
+  saveChecklist();
+  updateProgress();
+}
+
+function updateProgress(){
+  const all=document.querySelectorAll('.cl-item');
+  const done=document.querySelectorAll('.cl-item.done');
+  document.getElementById('progress-bar').style.width=(done.length/all.length*100)+'%';
+}
+
+function saveChecklist(){
+  try{
+    const state={};
+    ['priority','book','travel','finance','pack'].forEach(g=>{
+      state[g]=[...document.querySelectorAll('#cl-'+g+' .cl-item')].map(i=>i.classList.contains('done'));
+    });
+    localStorage.setItem('cr26v3',JSON.stringify(state));
+  }catch(e){}
+}
+
+function loadChecklist(){
+  try{
+    const state=JSON.parse(localStorage.getItem('cr26v3')||'{}');
+    ['priority','book','travel','finance','pack'].forEach(g=>{
+      if(!state[g])return;
+      const items=document.querySelectorAll('#cl-'+g+' .cl-item');
+      items.forEach((item,i)=>{if(state[g][i])item.classList.add('done');});
+    });
+    updateProgress();
+  }catch(e){}
+}
+loadChecklist();
+
+// ── FACTS ──
+const facts=[
+  "Costa Rica produces over 99% of its electricity from renewable sources — hydropower, wind, and geothermal. The lights at your resort are powered by a volcano.",
+  "Despite covering just 0.03% of Earth's surface, Costa Rica holds nearly 5% of the entire planet's biodiversity. You'll see more species in a week than most people see in a lifetime.",
+  "August is peak humpback whale season off Guanacaste — one of only two places on Earth where both Northern and Southern hemisphere humpbacks come to breed. You're arriving at the perfect moment.",
+  "Costa Rica abolished its military in 1948 and redirected the budget to education and healthcare. It hasn't had an army for over 75 years.",
+  "The Gulf of Papagayo holds one of the highest concentrations of Blue Flag certified clean beaches in Central America. The water quality is exceptional.",
+  "Guanacaste gets a unique weather phenomenon called the Papagayo wind — strong offshore winds that keep afternoons warm but comfortable, and create perfect conditions for sailing and water sports."
+];
+
+let fi=0;
+const fn=document.getElementById('fact-nav');
+facts.forEach((_,i)=>{
+  const b=document.createElement('button');
+  b.className='fact-nav-btn'+(i===0?' active':'');
+  b.textContent=String(i+1).padStart(2,'0');
+  b.onclick=()=>gf(i);
+  fn.appendChild(b);
+});
+
+function gf(i){
+  const el=document.getElementById('fact-text');
+  el.style.opacity='0';el.style.transform='translateY(10px)';
+  setTimeout(()=>{
+    fi=i;el.textContent=facts[i];
+    document.getElementById('fact-count').textContent=(i+1)+' of '+facts.length;
+    document.querySelectorAll('.fact-nav-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+    el.style.transition='opacity .5s ease,transform .5s ease';
+    el.style.opacity='1';el.style.transform='none';
+  },300);
+}
+document.getElementById('fact-text').style.transition='opacity .3s ease,transform .3s ease';
+setInterval(()=>gf((fi+1)%facts.length),8000);
+</script>
+</body>
+</html>
