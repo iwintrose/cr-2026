@@ -1,0 +1,64 @@
+name: Daily Deploy to Netlify
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Every day at midnight EST (5am UTC)
+  workflow_dispatch:       # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Inject env vars into index.html
+        env:
+          RESORT: ${{ secrets.RESORT }}
+          ROOM_TYPE: ${{ secrets.ROOM_TYPE }}
+          CHECKIN: ${{ secrets.CHECKIN }}
+          CHECKOUT: ${{ secrets.CHECKOUT }}
+          FLIGHT_OUT_NUM: ${{ secrets.FLIGHT_OUT_NUM }}
+          FLIGHT_OUT_ROUTE: ${{ secrets.FLIGHT_OUT_ROUTE }}
+          FLIGHT_OUT_DEP: ${{ secrets.FLIGHT_OUT_DEP }}
+          FLIGHT_OUT_ARR: ${{ secrets.FLIGHT_OUT_ARR }}
+          FLIGHT_HOME_NUM: ${{ secrets.FLIGHT_HOME_NUM }}
+          FLIGHT_HOME_ROUTE: ${{ secrets.FLIGHT_HOME_ROUTE }}
+          FLIGHT_HOME_DEP: ${{ secrets.FLIGHT_HOME_DEP }}
+          FLIGHT_HOME_ARR: ${{ secrets.FLIGHT_HOME_ARR }}
+          CHECKIN_LINK: ${{ secrets.CHECKIN_LINK }}
+          INSURANCE_PRIMARY: ${{ secrets.INSURANCE_PRIMARY }}
+          INSURANCE_SECONDARY: ${{ secrets.INSURANCE_SECONDARY }}
+          INSURANCE_PHONE: ${{ secrets.INSURANCE_PHONE }}
+          AEROPLAN_POINTS: ${{ secrets.AEROPLAN_POINTS }}
+          ROOM_REQUESTS: ${{ secrets.ROOM_REQUESTS }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          sed -i "s|{{RESORT}}|${RESORT}|g" index.html
+          sed -i "s|{{ROOM_TYPE}}|${ROOM_TYPE}|g" index.html
+          sed -i "s|{{CHECKIN}}|${CHECKIN}|g" index.html
+          sed -i "s|{{CHECKOUT}}|${CHECKOUT}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_NUM}}|${FLIGHT_OUT_NUM}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_ROUTE}}|${FLIGHT_OUT_ROUTE}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_DEP}}|${FLIGHT_OUT_DEP}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_ARR}}|${FLIGHT_OUT_ARR}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_NUM}}|${FLIGHT_HOME_NUM}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_ROUTE}}|${FLIGHT_HOME_ROUTE}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_DEP}}|${FLIGHT_HOME_DEP}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_ARR}}|${FLIGHT_HOME_ARR}|g" index.html
+          sed -i "s|{{CHECKIN_LINK}}|${CHECKIN_LINK}|g" index.html
+          sed -i "s|{{INSURANCE_PRIMARY}}|${INSURANCE_PRIMARY}|g" index.html
+          sed -i "s|{{INSURANCE_SECONDARY}}|${INSURANCE_SECONDARY}|g" index.html
+          sed -i "s|{{INSURANCE_PHONE}}|${INSURANCE_PHONE}|g" index.html
+          sed -i "s|{{AEROPLAN_POINTS}}|${AEROPLAN_POINTS}|g" index.html
+          sed -i "s|{{ROOM_REQUESTS}}|${ROOM_REQUESTS}|g" index.html
+
+      - name: Deploy to Netlify
+        run: |
+          npm install -g netlify-cli
+          netlify deploy --prod --dir=. --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
