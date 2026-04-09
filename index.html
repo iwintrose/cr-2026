@@ -144,11 +144,28 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
 .legend-item{display:flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--ink3);letter-spacing:.05em}
 .legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 #explore-map{height:480px;border:1px solid var(--paper3);border-radius:4px;margin-bottom:32px}
-.resort-map-section{margin-top:40px}
+.resort-map-section{margin-top:48px}
 .resort-map-label{font-size:.6rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px}
-.resort-map-title{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:600;color:var(--ink);margin-bottom:16px}
-.resort-map-note{font-size:.8rem;color:var(--ink4);margin-bottom:16px;line-height:1.6}
-#resort-map{height:420px;border:1px solid var(--paper3);border-radius:4px}
+.resort-map-title{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:600;color:var(--ink);margin-bottom:8px}
+.resort-map-note{font-size:.8rem;color:var(--ink4);margin-bottom:20px;line-height:1.6}
+#resort-map{height:420px;border:1px solid var(--paper3);border-radius:4px;margin-bottom:20px}
+.resort-info-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:20px}
+.resort-info-card{background:var(--paper2);border:1px solid var(--paper3);padding:18px 20px}
+.ric-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--ink4);margin-bottom:6px}
+.ric-value{font-size:.82rem;color:var(--ink2);line-height:1.5}
+.ric-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(43,107,138,.25)}
+.resort-links-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.resort-link-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s;cursor:pointer;border:none}
+.rlb-primary{background:var(--terracotta);color:var(--white)}
+.rlb-primary:hover{background:#a8542f}
+.rlb-secondary{background:var(--paper2);color:var(--ink2);border:1px solid var(--paper3)}
+.rlb-secondary:hover{background:var(--paper3)}
+.resort-pdf-section{margin-top:40px}
+.resort-pdf-label{font-size:.6rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px}
+.resort-pdf-title{font-family:'Cormorant',serif;font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:8px}
+.resort-pdf-note{font-size:.8rem;color:var(--ink4);margin-bottom:16px;line-height:1.6}
+.pdf-embed-wrap{border:1px solid var(--paper3);background:var(--paper2);overflow:hidden}
+.pdf-embed-wrap iframe{width:100%;height:600px;border:none;display:block}
 .map-popup-name{font-family:'Cormorant',serif;font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px}
 .map-popup-cat{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
 .map-popup-desc{font-size:.78rem;color:var(--ink3);line-height:1.5}
@@ -229,7 +246,9 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
   .activity-item{grid-template-columns:60px 1fr}.tab-nav{padding:0 16px}
   .panel{padding:32px 20px 0}.flight-card{padding:24px}
   .rec-grid{grid-template-columns:1fr}.rec-card.full{grid-column:1}
-  #explore-map{height:320px}#resort-map{height:300px}
+  #explore-map{height:320px}#resort-map{height:280px}
+  .resort-info-row{grid-template-columns:1fr}
+  .pdf-embed-wrap iframe{height:400px}
   .map-legend{gap:10px}
 }
 </style>
@@ -388,11 +407,46 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
     </div>
     <div id="explore-map" class="reveal"></div>
 
+    <!-- RESORT CLOSE-UP + INFO -->
     <div class="resort-map-section reveal">
-      <div class="resort-map-label">Resort Layout</div>
-      <div class="resort-map-title">Planet Hollywood Costa Rica — Property Map</div>
-      <div class="resort-map-note">Use this to orient yourself on arrival. The Star Class pool and restaurant are separate from the main resort areas — your butler will walk you through on check-in, but it helps to know the layout in advance.</div>
+      <div class="resort-map-label">Your Resort</div>
+      <div class="resort-map-title">Planet Hollywood Costa Rica — Exact Location</div>
+      <div class="resort-map-note">Playa Manzanillo, Bahia Culebra, Golfo de Papagayo, Guanacaste. Pinned to the exact coordinates from Google Maps. ~45 min drive from LIR airport.</div>
       <div id="resort-map"></div>
+
+      <!-- RESORT INFO CARDS -->
+      <div class="resort-info-row">
+        <div class="resort-info-card">
+          <div class="ric-label">Address</div>
+          <div class="ric-value">Playa Manzanillo, Bahia Culebra<br>Golfo de Papagayo<br>Guanacaste, Costa Rica</div>
+        </div>
+        <div class="resort-info-card">
+          <div class="ric-label">Resort Phone</div>
+          <div class="ric-value"><a href="tel:+50647031000">(506) 4703-1000</a><br><span style="font-size:.75rem;color:var(--ink4)">Call direct for concierge requests</span></div>
+        </div>
+        <div class="resort-info-card">
+          <div class="ric-label">Resort Email</div>
+          <div class="ric-value"><a href="mailto:assistgmpcr-lir@planethollywoodhotels.com">assistgmpcr-lir@<br>planethollywoodhotels.com</a></div>
+        </div>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="resort-links-row">
+        <a class="resort-link-btn rlb-primary" href="https://www.google.com/maps/place/Planet+Hollywood+Costa+Rica+by+Royalton,+An+Autograph+Collection+All-Inclusive+Resort/@10.6442945,-85.6485512,17z" target="_blank">📍 Open in Google Maps</a>
+        <a class="resort-link-btn rlb-secondary" href="https://planet-hollywood-costa-rica.firstview.us/en" target="_blank">🏨 Explore Resort (Virtual Tour)</a>
+        <a class="resort-link-btn rlb-secondary" href="https://planet-hollywood-costa-rica.firstview.us/en/lobby" target="_blank">🎬 View Lobby</a>
+        <a class="resort-link-btn rlb-secondary" href="https://planet-hollywood-costa-rica.firstview.us/en/imagenes-multimedia" target="_blank">📸 Resort Photos</a>
+      </div>
+    </div>
+
+    <!-- RESORT MAP PDF -->
+    <div class="resort-pdf-section reveal">
+      <div class="resort-pdf-label">Property Layout</div>
+      <div class="resort-pdf-title">Resort Map — Don't Get Lost</div>
+      <div class="resort-pdf-note">The Star Class pool, restaurant, and butler service are in a separate area from the main resort. Study this before arrival so you know exactly where to go. Your butler will also walk you through on check-in.</div>
+      <div class="pdf-embed-wrap">
+        <iframe src="https://moderndestinationweddings.com/wp-content/uploads/2019/10/Planet-Hollywood-Costa-Rica-Resort-Map.pdf" title="Planet Hollywood Costa Rica Resort Map"></iframe>
+      </div>
     </div>
   </div>
 
@@ -617,48 +671,64 @@ function initMaps(){
   if(mapsInitialized)return;
   mapsInitialized=true;
 
-  // EXPLORE MAP
-  const map=L.map('explore-map',{zoomControl:true,scrollWheelZoom:false}).setView([10.45,-85.85],10);
+  // EXPLORE MAP — full Guanacaste region
+  const map=L.map('explore-map',{zoomControl:true,scrollWheelZoom:false}).setView([10.50,-85.72],10);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:18}).addTo(map);
 
-  function makeIcon(color){
+  function makeIcon(color,size){
+    size=size||14;
     return L.divIcon({
-      html:'<div style="width:14px;height:14px;border-radius:50%;background:'+color+';border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.3)"></div>',
-      className:'',iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-10]
+      html:'<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,.35)"></div>',
+      className:'',iconSize:[size,size],iconAnchor:[size/2,size/2],popupAnchor:[0,-size/2]
     });
   }
 
   const locations=[
-    {lat:10.5816,lng:-85.7118,color:'#c4623a',name:'Planet Hollywood Costa Rica',cat:'Your Resort',desc:'Star Class Junior Suite · Gulf of Papagayo · Your home base for 7 nights'},
-    {lat:10.3493,lng:-85.6568,color:'#5a8a5a',name:'Playa Tamarindo',cat:'Beach · Surfing',desc:'45 min south. CR\'s most famous surf beach — lessons, beach clubs, Langosta for dinner'},
-    {lat:10.5519,lng:-85.6955,color:'#5a8a5a',name:'Playa Hermosa',cat:'Beach · Dining',desc:'15 min away. Home of Ginger Restaurant — must-reserve for dinner'},
-    {lat:10.5651,lng:-85.6890,color:'#5a8a5a',name:'Playa del Coco',cat:'Beach · Dining',desc:'20 min away. El Ancla seafood restaurant — best local lunch of the trip'},
-    {lat:10.6133,lng:-85.4369,color:'#6a4a8a',name:'Liberia Airport (LIR)',cat:'Airport',desc:'~45 min drive to resort. Your arrival and departure point'},
-    {lat:10.4572,lng:-85.6428,color:'#b8960c',name:'Catalina Islands',cat:'Excursion · Diving',desc:'45 min by boat. Best snorkel & scuba in Guanacaste — sea turtles, manta rays, reef sharks'},
-    {lat:10.3487,lng:-85.6482,color:'#2b6b8a',name:'Langosta Beach Club',cat:'Dining',desc:'Tamarindo. Beachfront tables, wood-fired meats, best sunset views in Guanacaste'},
-    {lat:10.4630,lng:-84.7027,color:'#b8960c',name:'Arenal Volcano',cat:'Excursion',desc:'3 hrs away. Active volcano, hot springs, zip-lining. Leave by 6 AM for clear skies'},
-    {lat:10.3350,lng:-85.1820,color:'#b8960c',name:'Rio Tempisque',cat:'Excursion · Wildlife',desc:'Boat safari — crocodiles, howler monkeys, scarlet macaws. Best at dawn'},
+    // Resort — exact Google Maps coords
+    {lat:10.6442945,lng:-85.6485512,color:'#c4623a',size:18,name:'Planet Hollywood Costa Rica',cat:'⭐ Your Resort',desc:'Star Class Junior Suite · Playa Manzanillo, Bahia Culebra · Gulf of Papagayo'},
+    // Airport
+    {lat:10.5933,lng:-85.5444,color:'#6a4a8a',size:14,name:'Liberia Airport (LIR)',cat:'✈ Airport',desc:'~45 min drive to resort. Your arrival and departure point. Pre-arrange transfer or Uber.'},
+    // Beaches & Dining
+    {lat:10.5519,lng:-85.6955,color:'#5a8a5a',size:13,name:'Playa Hermosa',cat:'🏖️ Beach · Dining',desc:'15 min from resort. Home of Ginger Restaurant — must-reserve for a standout dinner.'},
+    {lat:10.5651,lng:-85.6890,color:'#2b6b8a',size:13,name:'Ginger Restaurant',cat:'🍽️ Dining',desc:'One of Guanacaste\'s best. Pan-Asian tapas meets CR ingredients. Reserve 3–5 days ahead.'},
+    {lat:10.5580,lng:-85.7020,color:'#5a8a5a',size:13,name:'Playa del Coco',cat:'🏖️ Beach · Dining',desc:'20 min from resort. El Ancla for the best local seafood lunch of the trip.'},
+    {lat:10.5595,lng:-85.7045,color:'#2b6b8a',size:13,name:'El Ancla',cat:'🍽️ Dining',desc:'Fresh-off-the-boat seafood. Whole fried snapper. Cash only. Sell out by 2 PM — go for lunch.'},
+    {lat:10.3493,lng:-85.6568,color:'#5a8a5a',size:13,name:'Playa Tamarindo',cat:'🏄 Beach · Surfing',desc:'45 min south. CR\'s most famous surf beach. Lessons, beach clubs, Langosta for sunset dinner.'},
+    {lat:10.3487,lng:-85.6482,color:'#2b6b8a',size:13,name:'Langosta Beach Club',cat:'🍽️ Dining',desc:'Tamarindo. Beachfront tables, wood-fired meats, Pacific sunset views. Arrive by 5 PM.'},
+    // Excursions
+    {lat:10.4572,lng:-85.6428,color:'#b8960c',size:13,name:'Catalina Islands',cat:'🤿 Excursion · Diving',desc:'45 min by boat. Best snorkel & scuba in Guanacaste — sea turtles, manta rays, reef sharks. Morning only.'},
+    {lat:10.4630,lng:-84.7027,color:'#b8960c',size:13,name:'Arenal Volcano',cat:'🌋 Excursion',desc:'3 hrs southeast. Active volcano, hot springs, zip-lining. Leave by 6 AM for clear morning views.'},
+    {lat:10.3350,lng:-85.1820,color:'#b8960c',size:13,name:'Rio Tempisque',cat:'🐊 Wildlife Safari',desc:'Boat cruise through mangroves — crocodiles, howler monkeys, scarlet macaws. Dawn is best.'},
   ];
 
   locations.forEach(loc=>{
-    const marker=L.marker([loc.lat,loc.lng],{icon:makeIcon(loc.color)}).addTo(map);
-    marker.bindPopup('<div class="map-popup-name">'+loc.name+'</div><div class="map-popup-cat" style="color:'+loc.color+'">'+loc.cat+'</div><div class="map-popup-desc">'+loc.desc+'</div>',{maxWidth:240});
+    const marker=L.marker([loc.lat,loc.lng],{icon:makeIcon(loc.color,loc.size)}).addTo(map);
+    marker.bindPopup(
+      '<div class="map-popup-name">'+loc.name+'</div>'+
+      '<div class="map-popup-cat" style="color:'+loc.color+';font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">'+loc.cat+'</div>'+
+      '<div class="map-popup-desc">'+loc.desc+'</div>',
+      {maxWidth:260}
+    );
   });
 
-  // RESORT MAP — zoomed in on Planet Hollywood
-  const resortMap=L.map('resort-map',{zoomControl:true,scrollWheelZoom:false}).setView([10.5816,-85.7118],16);
+  // RESORT CLOSE-UP — exact Google Maps coordinates
+  const resortMap=L.map('resort-map',{zoomControl:true,scrollWheelZoom:false}).setView([10.6442945,-85.6485512],17);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(resortMap);
 
   const resortPoints=[
-    {lat:10.5816,lng:-85.7118,color:'#c4623a',name:'Planet Hollywood Costa Rica',desc:'Main entrance and lobby — your first stop on arrival'},
-    {lat:10.5824,lng:-85.7128,color:'#b8960c',name:'Star Class Pool & Restaurant',desc:'Your exclusive Star Class area — separate from the main resort pools'},
-    {lat:10.5808,lng:-85.7110,color:'#2b6b8a',name:'Main Beach',desc:'Direct resort beach access — Gulf of Papagayo'},
-    {lat:10.5820,lng:-85.7105,color:'#5a8a5a',name:'Main Pool Complex',desc:'The central resort pool area and swim-up bar'},
+    {lat:10.6442945,lng:-85.6485512,color:'#c4623a',size:16,name:'Planet Hollywood Costa Rica',desc:'Main entrance — your first stop. Check in here, meet your Star Class butler.'},
+    {lat:10.6451,lng:-85.6490,color:'#b8960c',size:14,name:'Star Class Area',desc:'Your exclusive Star Class pool, restaurant, and butler service — separate from main resort.'},
+    {lat:10.6435,lng:-85.6478,color:'#2b6b8a',size:14,name:'Resort Beach',desc:'Direct Gulf of Papagayo beach access. Best at sunrise and golden hour (5:45 PM).'},
+    {lat:10.6440,lng:-85.6495,color:'#5a8a5a',size:14,name:'Main Pool Complex',desc:'Central resort pool area and swim-up bar. Arrives crowded by 10 AM — get there early.'},
   ];
 
   resortPoints.forEach(p=>{
-    const m=L.marker([p.lat,p.lng],{icon:makeIcon(p.color)}).addTo(resortMap);
-    m.bindPopup('<div class="map-popup-name">'+p.name+'</div><div class="map-popup-desc">'+p.desc+'</div>',{maxWidth:220});
+    const m=L.marker([p.lat,p.lng],{icon:makeIcon(p.color,p.size)}).addTo(resortMap);
+    m.bindPopup(
+      '<div class="map-popup-name">'+p.name+'</div>'+
+      '<div class="map-popup-desc">'+p.desc+'</div>',
+      {maxWidth:220}
+    );
   });
 }
 
