@@ -116,7 +116,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
-          python3 << 'PYEOF'
+          python3 << 'ENDOFPYTHONSCRIPT'
           import os, re
 
           with open('index.html', 'r', encoding='utf-8') as f:
@@ -229,7 +229,7 @@ jobs:
               f.write(html)
 
           print(f"Injected {len(vars)} variables successfully")
-          PYEOF
+          ENDOFPYTHONSCRIPT
 
       - name: Deploy to Netlify
         run: |
