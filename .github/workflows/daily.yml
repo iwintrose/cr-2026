@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: Inject env vars into index.html
         env:
@@ -54,6 +56,63 @@ jobs:
           RESORT_MAP_PDF: ${{ secrets.RESORT_MAP_PDF }}
           DEPARTURE_DATETIME: ${{ secrets.DEPARTURE_DATETIME }}
           TRIP_END_DATE: ${{ secrets.TRIP_END_DATE }}
+          CHECKIN_YEAR: ${{ secrets.CHECKIN_YEAR }}
+          ROOM_CLASS: ${{ secrets.ROOM_CLASS }}
+          RESORT_PERK_1: ${{ secrets.RESORT_PERK_1 }}
+          RESORT_PERK_2: ${{ secrets.RESORT_PERK_2 }}
+          RESORT_REGION: ${{ secrets.RESORT_REGION }}
+          RESORT_COUNTRY: ${{ secrets.RESORT_COUNTRY }}
+          TRIP_NIGHTS: ${{ secrets.TRIP_NIGHTS }}
+          TRIP_DAYS: ${{ secrets.TRIP_DAYS }}
+          TRIP_MONTH: ${{ secrets.TRIP_MONTH }}
+          DESTINATION_LABEL: ${{ secrets.DESTINATION_LABEL }}
+          FLIGHT_OUT_DURATION: ${{ secrets.FLIGHT_OUT_DURATION }}
+          FLIGHT_HOME_DURATION: ${{ secrets.FLIGHT_HOME_DURATION }}
+          FACT_1: ${{ secrets.FACT_1 }}
+          FACT_2: ${{ secrets.FACT_2 }}
+          FACT_3: ${{ secrets.FACT_3 }}
+          FACT_4: ${{ secrets.FACT_4 }}
+          FACT_5: ${{ secrets.FACT_5 }}
+          FACT_6: ${{ secrets.FACT_6 }}
+          REST_1_NAME: ${{ secrets.REST_1_NAME }}
+          REST_1_AREA: ${{ secrets.REST_1_AREA }}
+          REST_1_DESC: ${{ secrets.REST_1_DESC }}
+          REST_2_NAME: ${{ secrets.REST_2_NAME }}
+          REST_2_AREA: ${{ secrets.REST_2_AREA }}
+          REST_2_DESC: ${{ secrets.REST_2_DESC }}
+          REST_3_NAME: ${{ secrets.REST_3_NAME }}
+          REST_3_AREA: ${{ secrets.REST_3_AREA }}
+          REST_3_DESC: ${{ secrets.REST_3_DESC }}
+          ACTIVITY_5_NAME: ${{ secrets.ACTIVITY_5_NAME }}
+          CHECKIN_SHORT: ${{ secrets.CHECKIN_SHORT }}
+          DESTINATION_H1: ${{ secrets.DESTINATION_H1 }}
+          DESTINATION_H2: ${{ secrets.DESTINATION_H2 }}
+          ACT_1_CAT: ${{ secrets.ACT_1_CAT }}
+          ACT_1_NAME: ${{ secrets.ACT_1_NAME }}
+          ACT_1_DESC: ${{ secrets.ACT_1_DESC }}
+          ACT_1_TIP: ${{ secrets.ACT_1_TIP }}
+          ACT_2_CAT: ${{ secrets.ACT_2_CAT }}
+          ACT_2_NAME: ${{ secrets.ACT_2_NAME }}
+          ACT_2_DESC: ${{ secrets.ACT_2_DESC }}
+          ACT_2_TIP: ${{ secrets.ACT_2_TIP }}
+          ACT_3_CAT: ${{ secrets.ACT_3_CAT }}
+          ACT_3_NAME: ${{ secrets.ACT_3_NAME }}
+          ACT_3_DESC: ${{ secrets.ACT_3_DESC }}
+          ACT_3_TIP: ${{ secrets.ACT_3_TIP }}
+          ACT_4_CAT: ${{ secrets.ACT_4_CAT }}
+          ACT_4_NAME: ${{ secrets.ACT_4_NAME }}
+          ACT_4_DESC: ${{ secrets.ACT_4_DESC }}
+          ACT_4_TIP: ${{ secrets.ACT_4_TIP }}
+          ACT_5_CAT: ${{ secrets.ACT_5_CAT }}
+          ACT_5_NAME: ${{ secrets.ACT_5_NAME }}
+          ACT_5_DESC: ${{ secrets.ACT_5_DESC }}
+          ACT_5_TIP: ${{ secrets.ACT_5_TIP }}
+          ACT_6_CAT: ${{ secrets.ACT_6_CAT }}
+          ACT_6_NAME: ${{ secrets.ACT_6_NAME }}
+          ACT_6_DESC: ${{ secrets.ACT_6_DESC }}
+          ACT_6_TIP: ${{ secrets.ACT_6_TIP }}
+          TIMING_1_DESC: ${{ secrets.TIMING_1_DESC }}
+          ROOM_REQUESTS_LABEL: ${{ secrets.ROOM_REQUESTS_LABEL }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
@@ -104,6 +163,63 @@ jobs:
             'RESORT_MAP_PDF': os.environ['RESORT_MAP_PDF'],
             'DEPARTURE_DATETIME': os.environ['DEPARTURE_DATETIME'],
             'TRIP_END_DATE': os.environ['TRIP_END_DATE'],
+            'CHECKIN_YEAR': os.environ['CHECKIN_YEAR'],
+            'ROOM_CLASS': os.environ['ROOM_CLASS'],
+            'RESORT_PERK_1': os.environ['RESORT_PERK_1'],
+            'RESORT_PERK_2': os.environ['RESORT_PERK_2'],
+            'RESORT_REGION': os.environ['RESORT_REGION'],
+            'RESORT_COUNTRY': os.environ['RESORT_COUNTRY'],
+            'TRIP_NIGHTS': os.environ['TRIP_NIGHTS'],
+            'TRIP_DAYS': os.environ['TRIP_DAYS'],
+            'TRIP_MONTH': os.environ['TRIP_MONTH'],
+            'DESTINATION_LABEL': os.environ['DESTINATION_LABEL'],
+            'FLIGHT_OUT_DURATION': os.environ['FLIGHT_OUT_DURATION'],
+            'FLIGHT_HOME_DURATION': os.environ['FLIGHT_HOME_DURATION'],
+            'FACT_1': os.environ['FACT_1'],
+            'FACT_2': os.environ['FACT_2'],
+            'FACT_3': os.environ['FACT_3'],
+            'FACT_4': os.environ['FACT_4'],
+            'FACT_5': os.environ['FACT_5'],
+            'FACT_6': os.environ['FACT_6'],
+            'REST_1_NAME': os.environ['REST_1_NAME'],
+            'REST_1_AREA': os.environ['REST_1_AREA'],
+            'REST_1_DESC': os.environ['REST_1_DESC'],
+            'REST_2_NAME': os.environ['REST_2_NAME'],
+            'REST_2_AREA': os.environ['REST_2_AREA'],
+            'REST_2_DESC': os.environ['REST_2_DESC'],
+            'REST_3_NAME': os.environ['REST_3_NAME'],
+            'REST_3_AREA': os.environ['REST_3_AREA'],
+            'REST_3_DESC': os.environ['REST_3_DESC'],
+            'ACTIVITY_5_NAME': os.environ['ACTIVITY_5_NAME'],
+            'CHECKIN_SHORT': os.environ['CHECKIN_SHORT'],
+            'DESTINATION_H1': os.environ['DESTINATION_H1'],
+            'DESTINATION_H2': os.environ['DESTINATION_H2'],
+            'ACT_1_CAT': os.environ['ACT_1_CAT'],
+            'ACT_1_NAME': os.environ['ACT_1_NAME'],
+            'ACT_1_DESC': os.environ['ACT_1_DESC'],
+            'ACT_1_TIP': os.environ['ACT_1_TIP'],
+            'ACT_2_CAT': os.environ['ACT_2_CAT'],
+            'ACT_2_NAME': os.environ['ACT_2_NAME'],
+            'ACT_2_DESC': os.environ['ACT_2_DESC'],
+            'ACT_2_TIP': os.environ['ACT_2_TIP'],
+            'ACT_3_CAT': os.environ['ACT_3_CAT'],
+            'ACT_3_NAME': os.environ['ACT_3_NAME'],
+            'ACT_3_DESC': os.environ['ACT_3_DESC'],
+            'ACT_3_TIP': os.environ['ACT_3_TIP'],
+            'ACT_4_CAT': os.environ['ACT_4_CAT'],
+            'ACT_4_NAME': os.environ['ACT_4_NAME'],
+            'ACT_4_DESC': os.environ['ACT_4_DESC'],
+            'ACT_4_TIP': os.environ['ACT_4_TIP'],
+            'ACT_5_CAT': os.environ['ACT_5_CAT'],
+            'ACT_5_NAME': os.environ['ACT_5_NAME'],
+            'ACT_5_DESC': os.environ['ACT_5_DESC'],
+            'ACT_5_TIP': os.environ['ACT_5_TIP'],
+            'ACT_6_CAT': os.environ['ACT_6_CAT'],
+            'ACT_6_NAME': os.environ['ACT_6_NAME'],
+            'ACT_6_DESC': os.environ['ACT_6_DESC'],
+            'ACT_6_TIP': os.environ['ACT_6_TIP'],
+            'TIMING_1_DESC': os.environ['TIMING_1_DESC'],
+            'ROOM_REQUESTS_LABEL': os.environ['ROOM_REQUESTS_LABEL'],
           }
 
           for key, val in vars.items():
