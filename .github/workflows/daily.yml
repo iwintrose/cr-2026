@@ -57,46 +57,63 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
-          sed -i "s|{{RESORT}}|${RESORT}|g" index.html
-          sed -i "s|{{ROOM_TYPE}}|${ROOM_TYPE}|g" index.html
-          sed -i "s|{{CHECKIN}}|${CHECKIN}|g" index.html
-          sed -i "s|{{CHECKOUT}}|${CHECKOUT}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_NUM}}|${FLIGHT_OUT_NUM}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_ROUTE}}|${FLIGHT_OUT_ROUTE}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_DEP}}|${FLIGHT_OUT_DEP}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_ARR}}|${FLIGHT_OUT_ARR}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_DATE}}|${FLIGHT_OUT_DATE}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_DEP_AIRPORT}}|${FLIGHT_OUT_DEP_AIRPORT}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_ARR_AIRPORT}}|${FLIGHT_OUT_ARR_AIRPORT}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_DEP_CITY}}|${FLIGHT_OUT_DEP_CITY}|g" index.html
-          sed -i "s|{{FLIGHT_OUT_ARR_CITY}}|${FLIGHT_OUT_ARR_CITY}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_NUM}}|${FLIGHT_HOME_NUM}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_ROUTE}}|${FLIGHT_HOME_ROUTE}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_DEP}}|${FLIGHT_HOME_DEP}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_ARR}}|${FLIGHT_HOME_ARR}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_DATE}}|${FLIGHT_HOME_DATE}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_DEP_AIRPORT}}|${FLIGHT_HOME_DEP_AIRPORT}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_ARR_AIRPORT}}|${FLIGHT_HOME_ARR_AIRPORT}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_DEP_CITY}}|${FLIGHT_HOME_DEP_CITY}|g" index.html
-          sed -i "s|{{FLIGHT_HOME_ARR_CITY}}|${FLIGHT_HOME_ARR_CITY}|g" index.html
-          sed -i "s|{{CHECKIN_LINK}}|${CHECKIN_LINK}|g" index.html
-          sed -i "s|{{INSURANCE_PRIMARY}}|${INSURANCE_PRIMARY}|g" index.html
-          sed -i "s|{{INSURANCE_SECONDARY}}|${INSURANCE_SECONDARY}|g" index.html
-          sed -i "s|{{INSURANCE_PHONE}}|${INSURANCE_PHONE}|g" index.html
-          sed -i "s|{{AEROPLAN_POINTS}}|${AEROPLAN_POINTS}|g" index.html
-          sed -i "s|{{ROOM_REQUESTS}}|${ROOM_REQUESTS}|g" index.html
-          sed -i "s|{{RESORT_PHONE}}|${RESORT_PHONE}|g" index.html
-          sed -i "s|{{RESORT_EMAIL}}|${RESORT_EMAIL}|g" index.html
-          sed -i "s|{{RESORT_ADDRESS}}|${RESORT_ADDRESS}|g" index.html
-          sed -i "s|{{RESORT_LAT}}|${RESORT_LAT}|g" index.html
-          sed -i "s|{{RESORT_LNG}}|${RESORT_LNG}|g" index.html
-          sed -i "s|{{RESORT_MAPS_URL}}|${RESORT_MAPS_URL}|g" index.html
-          sed -i "s|{{RESORT_VIRTUAL_TOUR}}|${RESORT_VIRTUAL_TOUR}|g" index.html
-          sed -i "s|{{RESORT_LOBBY_TOUR}}|${RESORT_LOBBY_TOUR}|g" index.html
-          sed -i "s|{{RESORT_PHOTOS}}|${RESORT_PHOTOS}|g" index.html
-          sed -i "s|{{RESORT_MAP_PDF}}|${RESORT_MAP_PDF}|g" index.html
-          sed -i "s|{{DEPARTURE_DATETIME}}|${DEPARTURE_DATETIME}|g" index.html
-          sed -i "s|{{TRIP_END_DATE}}|${TRIP_END_DATE}|g" index.html
+          python3 << 'PYEOF'
+          import os, re
+
+          with open('index.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+
+          vars = {
+            'RESORT': os.environ['RESORT'],
+            'ROOM_TYPE': os.environ['ROOM_TYPE'],
+            'CHECKIN': os.environ['CHECKIN'],
+            'CHECKOUT': os.environ['CHECKOUT'],
+            'FLIGHT_OUT_NUM': os.environ['FLIGHT_OUT_NUM'],
+            'FLIGHT_OUT_ROUTE': os.environ['FLIGHT_OUT_ROUTE'],
+            'FLIGHT_OUT_DEP': os.environ['FLIGHT_OUT_DEP'],
+            'FLIGHT_OUT_ARR': os.environ['FLIGHT_OUT_ARR'],
+            'FLIGHT_OUT_DATE': os.environ['FLIGHT_OUT_DATE'],
+            'FLIGHT_OUT_DEP_AIRPORT': os.environ['FLIGHT_OUT_DEP_AIRPORT'],
+            'FLIGHT_OUT_ARR_AIRPORT': os.environ['FLIGHT_OUT_ARR_AIRPORT'],
+            'FLIGHT_OUT_DEP_CITY': os.environ['FLIGHT_OUT_DEP_CITY'],
+            'FLIGHT_OUT_ARR_CITY': os.environ['FLIGHT_OUT_ARR_CITY'],
+            'FLIGHT_HOME_NUM': os.environ['FLIGHT_HOME_NUM'],
+            'FLIGHT_HOME_ROUTE': os.environ['FLIGHT_HOME_ROUTE'],
+            'FLIGHT_HOME_DEP': os.environ['FLIGHT_HOME_DEP'],
+            'FLIGHT_HOME_ARR': os.environ['FLIGHT_HOME_ARR'],
+            'FLIGHT_HOME_DATE': os.environ['FLIGHT_HOME_DATE'],
+            'FLIGHT_HOME_DEP_AIRPORT': os.environ['FLIGHT_HOME_DEP_AIRPORT'],
+            'FLIGHT_HOME_ARR_AIRPORT': os.environ['FLIGHT_HOME_ARR_AIRPORT'],
+            'FLIGHT_HOME_DEP_CITY': os.environ['FLIGHT_HOME_DEP_CITY'],
+            'FLIGHT_HOME_ARR_CITY': os.environ['FLIGHT_HOME_ARR_CITY'],
+            'CHECKIN_LINK': os.environ['CHECKIN_LINK'],
+            'INSURANCE_PRIMARY': os.environ['INSURANCE_PRIMARY'],
+            'INSURANCE_SECONDARY': os.environ['INSURANCE_SECONDARY'],
+            'INSURANCE_PHONE': os.environ['INSURANCE_PHONE'],
+            'AEROPLAN_POINTS': os.environ['AEROPLAN_POINTS'],
+            'ROOM_REQUESTS': os.environ['ROOM_REQUESTS'],
+            'RESORT_PHONE': os.environ['RESORT_PHONE'],
+            'RESORT_EMAIL': os.environ['RESORT_EMAIL'],
+            'RESORT_ADDRESS': os.environ['RESORT_ADDRESS'],
+            'RESORT_LAT': os.environ['RESORT_LAT'],
+            'RESORT_LNG': os.environ['RESORT_LNG'],
+            'RESORT_MAPS_URL': os.environ['RESORT_MAPS_URL'],
+            'RESORT_VIRTUAL_TOUR': os.environ['RESORT_VIRTUAL_TOUR'],
+            'RESORT_LOBBY_TOUR': os.environ['RESORT_LOBBY_TOUR'],
+            'RESORT_PHOTOS': os.environ['RESORT_PHOTOS'],
+            'RESORT_MAP_PDF': os.environ['RESORT_MAP_PDF'],
+            'DEPARTURE_DATETIME': os.environ['DEPARTURE_DATETIME'],
+            'TRIP_END_DATE': os.environ['TRIP_END_DATE'],
+          }
+
+          for key, val in vars.items():
+              html = html.replace('{{' + key + '}}', val)
+
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+
+          print(f"Injected {len(vars)} variables successfully")
+          PYEOF
 
       - name: Deploy to Netlify
         run: |
