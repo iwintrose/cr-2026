@@ -5,265 +5,374 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pura Vida · {{CHECKIN_YEAR}}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant:ital,wght@0,300;0,600;1,300;1,600&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Tenor+Sans&family=Cormorant:ital,wght@0,300;0,600;1,300;1,600&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --paper:#faf7f2;--paper2:#f4efe6;--paper3:#ede6d9;
-  --ink:#0f0e0c;--ink2:#2a2824;--ink3:#5a5650;--ink4:#9a9590;
-  --sand:#c8b89a;--terracotta:#c4623a;--terracotta2:#e8845f;
-  --ocean:#2b6b8a;--ocean2:#4a8fad;--gold:#b8960c;--gold2:#d4ae3a;--white:#fff;
+  --dusk:#1a0e08;
+  --dusk2:#261508;
+  --dusk3:#321b0a;
+  --ember:#c45a1a;
+  --ember2:#e07030;
+  --amber:#d4940a;
+  --amber2:#f0b830;
+  --champagne:#f5e6c8;
+  --champagne2:#faf3e4;
+  --warm-white:#fdf8f0;
+  --mahogany:#4a1e0a;
+  --sand:#c8a878;
+  --sand2:#e8d4b0;
+  --muted:#8a7060;
+  --dim:#5a4030;
+  --text:#f0e4d0;
+  --ocean:#3a7a9a;
+  --ocean2:#5a9ab8;
 }
 html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-weight:400;overflow-x:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans',sans-serif;font-weight:400;overflow-x:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 
 /* ── COVER ── */
-.cover{background:var(--ink);position:relative;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;min-height:100vh}
-.cover-texture{position:absolute;inset:0;background:radial-gradient(ellipse 100% 70% at 60% 0%,rgba(196,98,58,.25) 0%,transparent 55%),radial-gradient(ellipse 80% 60% at 10% 80%,rgba(43,107,138,.2) 0%,transparent 50%),radial-gradient(ellipse 60% 40% at 90% 70%,rgba(184,150,12,.1) 0%,transparent 45%)}
-.cover-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:1}
-.cover-nav{position:relative;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:28px 40px}
-.cover-nav-logo{font-family:'Cormorant',serif;font-style:italic;font-weight:300;font-size:1.1rem;color:rgba(255,255,255,.5);letter-spacing:.1em}
-.cover-nav-date{font-size:.65rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.35)}
-.cover-body{position:relative;z-index:5;display:flex;flex-direction:column;justify-content:center;padding:0 40px}
-.cover-issue{font-size:.65rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--terracotta2);margin-bottom:24px;opacity:0;animation:fadeUp .7s ease forwards .3s}
-.cover-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,18vw,14rem);line-height:.88;color:var(--white);letter-spacing:.02em;opacity:0;animation:fadeUp .9s ease forwards .5s}
-.cover-headline .hl-accent{display:block;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35)}
-.cover-deck{font-family:'Cormorant',serif;font-style:italic;font-weight:300;font-size:clamp(1.1rem,2.5vw,1.6rem);color:rgba(255,255,255,.55);margin-top:28px;max-width:520px;line-height:1.5;opacity:0;animation:fadeUp .8s ease forwards .8s}
+.cover{min-height:100vh;background:var(--dusk);position:relative;display:grid;grid-template-rows:auto 1fr auto auto;overflow:hidden}
 
-/* ── COUNTDOWN STRIP — BOLD ORANGE, ABOVE FOLD ── */
-.countdown-strip{position:relative;z-index:5;display:flex;align-items:stretch;overflow:hidden;opacity:0;animation:fadeUp .8s ease forwards 1s;margin-top:40px}
-.cd-label-block{background:rgba(0,0,0,.4);padding:20px 28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-right:1px solid rgba(255,255,255,.08)}
-.cd-label-text{font-size:.58rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);writing-mode:vertical-rl;transform:rotate(180deg)}
-.cd-units{display:flex;flex:1;background:var(--terracotta)}
-.cd-unit{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 12px;border-right:1px solid rgba(255,255,255,.15)}
+.cover-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 120% 60% at 100% 0%,rgba(196,90,26,.5) 0%,transparent 55%),
+    radial-gradient(ellipse 80% 80% at 0% 100%,rgba(74,30,10,.8) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 50%,rgba(212,148,10,.08) 0%,transparent 60%),
+    linear-gradient(160deg,#120a04 0%,#1a0e08 45%,#1e1008 100%);
+}
+
+/* Sunset light rays */
+.cover-rays{
+  position:absolute;inset:0;
+  background:repeating-conic-gradient(from 280deg at 110% -10%,
+    rgba(196,90,26,.04) 0deg,
+    transparent 3deg,
+    transparent 10deg,
+    rgba(212,148,10,.03) 13deg,
+    transparent 16deg
+  );
+  animation:rays 20s linear infinite;
+}
+@keyframes rays{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.cover-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");pointer-events:none;z-index:1}
+
+.cover-nav{position:relative;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:28px 44px}
+.nav-logo{font-family:'Cormorant',serif;font-style:italic;font-weight:300;font-size:1.1rem;color:rgba(245,230,200,.5);letter-spacing:.12em}
+.nav-phase{font-size:.6rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);opacity:.8}
+
+.cover-body{position:relative;z-index:5;display:flex;flex-direction:column;justify-content:flex-end;padding:0 44px 0}
+
+.cover-overline{font-family:'Tenor Sans',sans-serif;font-size:.65rem;letter-spacing:.5em;text-transform:uppercase;color:var(--amber2);margin-bottom:20px;opacity:0;animation:fadeUp .7s ease forwards .3s}
+
+.cover-headline{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:clamp(4.5rem,15vw,12rem);
+  line-height:.85;
+  letter-spacing:-.02em;
+  opacity:0;
+  animation:fadeUp 1s ease forwards .5s;
+}
+.cover-headline .hl1{display:block;color:var(--champagne)}
+.cover-headline .hl2{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--ember);
+  font-style:italic;
+}
+
+.cover-sub{
+  font-family:'Cormorant',serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1rem,2.5vw,1.5rem);
+  color:rgba(245,230,200,.45);
+  margin-top:20px;
+  max-width:500px;
+  line-height:1.55;
+  opacity:0;
+  animation:fadeUp .8s ease forwards .8s;
+}
+
+/* ── COUNTDOWN ── */
+.countdown-strip{
+  position:relative;z-index:5;
+  display:flex;align-items:stretch;overflow:hidden;
+  margin-top:44px;
+  opacity:0;animation:fadeUp .8s ease forwards 1s;
+}
+.cd-label-block{
+  background:rgba(196,90,26,.2);
+  border-right:1px solid rgba(196,90,26,.2);
+  padding:18px 24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.cd-label-text{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--ember2);writing-mode:vertical-rl;transform:rotate(180deg)}
+.cd-units{display:flex;flex:1;background:linear-gradient(to right,rgba(196,90,26,.15),rgba(212,148,10,.1))}
+.cd-unit{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 10px;border-right:1px solid rgba(255,255,255,.06)}
 .cd-unit:last-child{border-right:none}
-.cd-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,3.5rem);color:var(--white);line-height:1;letter-spacing:.05em}
-.cd-lbl{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:4px}
+.cd-num{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.8rem,5vw,3rem);color:var(--champagne);line-height:1;letter-spacing:.03em}
+.cd-lbl{font-size:.52rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:rgba(245,230,200,.35);margin-top:4px}
 
-.cover-meta-strip{position:relative;z-index:5;display:flex;gap:0;border-top:1px solid rgba(255,255,255,.1);margin-top:40px;opacity:0;animation:fadeIn .8s ease forwards 1.2s}
-.cover-meta-item{flex:1;padding:24px 28px;border-right:1px solid rgba(255,255,255,.08)}
-.cover-meta-item:last-child{border-right:none}
-.cmi-label{font-size:.58rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px}
-.cmi-value{font-family:'Cormorant',serif;font-size:1.1rem;font-weight:600;color:rgba(255,255,255,.85)}
+/* ── META STRIP ── */
+.cover-meta{
+  position:relative;z-index:5;
+  display:flex;border-top:1px solid rgba(245,230,200,.08);
+  margin-top:0;
+  opacity:0;animation:fadeIn .8s ease forwards 1.2s;
+}
+.cmi{flex:1;padding:22px 28px;border-right:1px solid rgba(245,230,200,.06)}
+.cmi:last-child{border-right:none}
+.cmi-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,230,200,.25);margin-bottom:6px}
+.cmi-value{font-family:'Cormorant',serif;font-size:1rem;font-weight:600;color:rgba(245,230,200,.8)}
 
-/* ── APP SHELL ── */
-.app{max-width:900px;margin:0 auto;padding:0 0 80px}
+/* ── APP ── */
+.app{max-width:920px;margin:0 auto;padding:0 0 100px}
 
-.tab-nav-wrap{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:1px solid var(--paper3);box-shadow:0 4px 24px rgba(0,0,0,.05);display:flex;align-items:stretch}
-.tab-nav-chevron{flex-shrink:0;width:36px;display:flex;align-items:center;justify-content:center;background:var(--paper);border:none;cursor:pointer;color:var(--ink4);transition:all .15s;z-index:3}
-.tab-nav-chevron:hover{color:var(--terracotta);background:var(--paper2)}
+/* ── TAB NAV ── */
+.tab-nav-wrap{position:sticky;top:0;z-index:100;background:var(--warm-white);border-bottom:1px solid var(--sand2);box-shadow:0 4px 24px rgba(26,14,8,.07);display:flex;align-items:stretch}
+.tab-nav-chevron{flex-shrink:0;width:36px;display:flex;align-items:center;justify-content:center;background:var(--warm-white);border:none;cursor:pointer;color:var(--muted);transition:all .15s;z-index:3}
+.tab-nav-chevron:hover{color:var(--ember);background:var(--champagne2)}
 .tab-nav-chevron:disabled{opacity:.2;cursor:default}
-.tab-nav-chevron svg{pointer-events:none}
-.tab-nav-chevron.left{border-right:1px solid var(--paper3)}
-.tab-nav-chevron.right{border-left:1px solid var(--paper3)}
+.tab-nav-chevron.left{border-right:1px solid var(--sand2)}
+.tab-nav-chevron.right{border-left:1px solid var(--sand2)}
 .tab-nav-inner{flex:1;position:relative;overflow:hidden}
 .tab-nav-scroll{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 16px;gap:4px;align-items:center;min-height:52px;cursor:grab;user-select:none}
 .tab-nav-scroll::-webkit-scrollbar{display:none}
 .tab-nav-scroll.dragging{cursor:grabbing}
-.tab-nav-fade-right{position:absolute;right:0;top:0;bottom:0;width:32px;background:linear-gradient(to right,transparent,var(--paper) 80%);pointer-events:none;z-index:2;transition:opacity .2s}
-.tab-nav-fade-left{position:absolute;left:0;top:0;bottom:0;width:32px;background:linear-gradient(to left,transparent,var(--paper) 80%);pointer-events:none;z-index:2;opacity:0;transition:opacity .2s}
-.tab-btn{padding:7px 14px;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);background:none;border:1px solid transparent;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0;line-height:1}
-.tab-btn:hover{color:var(--ink2);background:var(--paper2);border-color:var(--paper3)}
-.tab-btn.active{color:var(--terracotta);background:rgba(196,98,58,.08);border-color:rgba(196,98,58,.25)}
-.tab-scroll-hint{display:none}
+.tab-nav-fade-right{position:absolute;right:0;top:0;bottom:0;width:32px;background:linear-gradient(to right,transparent,var(--warm-white) 80%);pointer-events:none;z-index:2;transition:opacity .2s}
+.tab-nav-fade-left{position:absolute;left:0;top:0;bottom:0;width:32px;background:linear-gradient(to left,transparent,var(--warm-white) 80%);pointer-events:none;z-index:2;opacity:0;transition:opacity .2s}
+.tab-btn{padding:7px 14px;font-size:.63rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid transparent;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0;line-height:1}
+.tab-btn:hover{color:var(--dusk2);background:var(--champagne2);border-color:var(--sand2)}
+.tab-btn.active{color:var(--ember);background:rgba(196,90,26,.08);border-color:rgba(196,90,26,.25)}
 
-.panel{display:none;padding:48px 32px 0}
+/* ── PANELS ── */
+.panel{display:none;padding:52px 36px 0}
 .panel.active{display:block}
 
-.section-label{font-size:.6rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px}
-.section-headline{font-family:'Cormorant',serif;font-weight:600;font-size:clamp(2rem,5vw,3rem);color:var(--ink);line-height:1.1;margin-bottom:32px;letter-spacing:-.02em}
-.section-headline em{font-style:italic;font-weight:300}
+/* ── SECTION HEADERS ── */
+.sec-label{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember);margin-bottom:10px}
+.sec-headline{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;color:var(--dusk);line-height:1.1;margin-bottom:8px;letter-spacing:-.01em}
+.sec-headline em{font-style:italic;font-weight:400;color:var(--ember)}
+.sec-intro{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:36px;padding-left:16px;border-left:2px solid var(--sand2)}
 
 /* ── OVERVIEW ── */
-.overview-hero{background:var(--ink);padding:40px;margin-bottom:3px;position:relative;overflow:hidden}
-.overview-hero::after{content:'COSTA RICA';position:absolute;right:-20px;bottom:-30px;font-family:'Bebas Neue',sans-serif;font-size:8rem;color:rgba(255,255,255,.03);white-space:nowrap}
-.oh-eyebrow{font-size:.6rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--terracotta2);margin-bottom:16px}
-.oh-resort{font-family:'Cormorant',serif;font-size:clamp(1.4rem,3.5vw,2rem);font-weight:600;color:var(--white);margin-bottom:8px;line-height:1.2}
-.oh-room{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:rgba(255,255,255,.5);margin-bottom:28px}
-.oh-tags{display:flex;gap:8px;flex-wrap:wrap}
-.tag{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:2px}
-.tag-terra{background:rgba(196,98,58,.2);color:var(--terracotta2);border:1px solid rgba(196,98,58,.3)}
-.tag-ocean{background:rgba(43,107,138,.2);color:var(--ocean2);border:1px solid rgba(43,107,138,.3)}
-.tag-gold{background:rgba(184,150,12,.15);color:var(--gold2);border:1px solid rgba(184,150,12,.25)}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:3px}
-.stat-card{background:var(--paper2);padding:24px}
-.stat-label{font-size:.58rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--ink4);margin-bottom:8px}
-.stat-value{font-family:'Cormorant',serif;font-size:1.4rem;font-weight:600;color:var(--ink);line-height:1.2}
-.stat-sub{font-size:.72rem;color:var(--ink3);margin-top:4px}
-.requests-card{background:var(--paper2);padding:24px}
-.req-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.overview-hero{background:var(--dusk);padding:44px;margin-bottom:3px;position:relative;overflow:hidden}
+.overview-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 100% 0%,rgba(196,90,26,.3) 0%,transparent 60%)}
+.oh-eyebrow{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);margin-bottom:16px;position:relative;z-index:2}
+.oh-resort{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:700;color:var(--champagne);margin-bottom:8px;line-height:1.2;position:relative;z-index:2}
+.oh-room{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:rgba(245,230,200,.5);margin-bottom:28px;position:relative;z-index:2}
+.oh-tags{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:2}
+.tag{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:2px}
+.tag-ember{background:rgba(196,90,26,.2);color:var(--ember2);border:1px solid rgba(196,90,26,.3)}
+.tag-amber{background:rgba(212,148,10,.15);color:var(--amber2);border:1px solid rgba(212,148,10,.25)}
+.tag-ocean{background:rgba(58,122,154,.2);color:var(--ocean2);border:1px solid rgba(58,122,154,.3)}
+
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px}
+.stat-card{background:var(--champagne2);padding:22px 20px}
+.stat-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stat-value{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--dusk);line-height:1.2}
+.stat-sub{font-size:.7rem;color:var(--muted);margin-top:4px}
+.requests-card{background:var(--champagne2);padding:22px 24px}
+.req-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+
+/* ── STAR CLASS PERKS ── */
+.perks-intro-card{
+  background:linear-gradient(135deg,var(--dusk) 0%,var(--dusk3) 100%);
+  padding:40px 44px;margin-bottom:3px;position:relative;overflow:hidden;
+}
+.perks-intro-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 100% 50%,rgba(196,90,26,.2) 0%,transparent 60%)}
+.pic-label{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);margin-bottom:16px;position:relative;z-index:2}
+.pic-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:var(--champagne);line-height:1.2;margin-bottom:12px;position:relative;z-index:2}
+.pic-title em{font-style:italic;font-weight:400;color:var(--amber2)}
+.pic-desc{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:rgba(245,230,200,.6);line-height:1.65;max-width:560px;position:relative;z-index:2}
+
+.perks-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+.perk-card{background:var(--champagne2);padding:28px;border:1px solid var(--sand2);transition:box-shadow .2s,transform .2s;break-inside:avoid}
+.perk-card:hover{box-shadow:0 8px 32px rgba(26,14,8,.1);transform:translateY(-1px)}
+.perk-card.full{grid-column:1/-1}
+.perk-icon{font-size:1.8rem;margin-bottom:14px;display:block}
+.perk-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dusk);margin-bottom:8px}
+.perk-desc{font-size:.83rem;color:var(--muted);line-height:1.7}
+.perk-highlight{margin-top:12px;padding:10px 14px;background:rgba(196,90,26,.06);border-left:2px solid var(--ember);font-size:.78rem;color:var(--dusk2);line-height:1.6;font-style:italic}
+
+/* ── BUTLER SECTION ── */
+.butler-card{
+  background:var(--dusk);
+  padding:44px;margin-bottom:3px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;
+  align-items:center;position:relative;overflow:hidden;
+}
+.butler-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(196,90,26,.15) 0%,transparent 60%)}
+.bc-label{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);margin-bottom:14px;position:relative;z-index:2}
+.bc-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:var(--champagne);line-height:1.2;margin-bottom:16px;position:relative;z-index:2}
+.bc-desc{font-size:.85rem;color:rgba(245,230,200,.6);line-height:1.75;position:relative;z-index:2}
+.bc-tips{display:flex;flex-direction:column;gap:2px;position:relative;z-index:2}
+.bc-tip{background:rgba(245,230,200,.04);border:1px solid rgba(245,230,200,.08);padding:16px 20px}
+.bc-tip-title{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber2);margin-bottom:6px}
+.bc-tip-text{font-size:.8rem;color:rgba(245,230,200,.6);line-height:1.6}
 
 /* ── FLIGHTS ── */
-.flight-card{background:var(--white);border:1px solid var(--paper3);padding:32px 36px;margin-bottom:3px;position:relative;overflow:hidden;transition:box-shadow .2s}
-.flight-card:hover{box-shadow:0 8px 40px rgba(0,0,0,.08)}
-.flight-direction-badge{display:inline-flex;align-items:center;gap:8px;font-size:.62rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--terracotta);margin-bottom:24px}
-.flight-direction-badge::before{content:'';width:20px;height:1px;background:var(--terracotta)}
-.fc-num{position:absolute;top:32px;right:36px;font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--paper3);letter-spacing:.1em}
+.flight-card{background:var(--champagne2);border:1px solid var(--sand2);padding:32px 36px;margin-bottom:3px;position:relative;overflow:hidden;transition:box-shadow .2s}
+.flight-card:hover{box-shadow:0 8px 32px rgba(26,14,8,.08)}
+.flight-dir-badge{display:inline-flex;align-items:center;gap:8px;font-size:.6rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--ember);margin-bottom:24px}
+.flight-dir-badge::before{content:'';width:20px;height:1px;background:var(--ember)}
+.fc-num{position:absolute;top:32px;right:36px;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--sand2);letter-spacing:.05em}
 .flight-route{display:flex;align-items:center;gap:24px}
-.airport-code{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,5rem);color:var(--ink);line-height:1;letter-spacing:.05em}
-.airport-city{font-size:.72rem;color:var(--ink4);margin-top:4px;font-weight:500}
+.airport-code{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,7vw,4.5rem);font-weight:900;color:var(--dusk);line-height:1;letter-spacing:.02em}
+.airport-city{font-size:.7rem;color:var(--muted);margin-top:4px;font-weight:500}
 .route-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
-.route-line{width:100%;display:flex;align-items:center;gap:10px}
-.rline{flex:1;height:1px;background:var(--paper3)}
-.rplane{font-size:1rem;color:var(--ink3)}
-.route-dur{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4)}
-.flight-footer{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--paper3)}
-.ft-time{font-size:.9rem;font-weight:500;color:var(--ink2)}
-.ft-label{font-size:.6rem;color:var(--ink4);margin-bottom:2px;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.route-line-wrap{width:100%;display:flex;align-items:center;gap:8px}
+.rline{flex:1;height:1px;background:linear-gradient(to right,var(--ember),rgba(196,90,26,.15))}
+.rplane{color:var(--ember);font-size:1rem}
+.route-dur{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.flight-footer{display:flex;justify-content:space-between;margin-top:20px;padding-top:18px;border-top:1px solid var(--sand2)}
+.ft-label{font-size:.58rem;color:var(--muted);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.ft-time{font-size:.9rem;font-weight:600;color:var(--dusk2)}
 
 /* ── ACTIVITIES ── */
-.activities-intro{font-family:'Cormorant',serif;font-style:italic;font-size:1.15rem;font-weight:300;color:var(--ink3);line-height:1.7;margin-bottom:40px;max-width:600px;padding-left:16px;border-left:2px solid var(--sand)}
-.activity-item{display:grid;grid-template-columns:80px 1fr;gap:0;margin-bottom:3px;background:var(--white);border:1px solid var(--paper3);overflow:hidden;transition:box-shadow .2s,transform .2s}
-.activity-item:hover{box-shadow:0 8px 32px rgba(0,0,0,.1);transform:translateY(-1px)}
-.ai-number{background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:rgba(255,255,255,.15);letter-spacing:.05em;flex-shrink:0}
-.ai-body{padding:28px 32px}
-.ai-category{font-size:.58rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px}
-.ai-title{font-family:'Cormorant',serif;font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.2}
-.ai-desc{font-size:.85rem;color:var(--ink3);line-height:1.75;margin-bottom:14px}
-.ai-tip{display:flex;gap:10px;align-items:flex-start;background:var(--paper2);padding:12px 16px;font-size:.78rem;color:var(--ink2);line-height:1.6}
-.ai-tip-icon{color:var(--terracotta);flex-shrink:0;font-weight:700;font-size:.9rem}
+.activity-item{display:grid;grid-template-columns:72px 1fr;gap:0;margin-bottom:3px;background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s,transform .2s}
+.activity-item:hover{box-shadow:0 8px 32px rgba(26,14,8,.1);transform:translateY(-1px)}
+.ai-number{background:var(--dusk);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:rgba(245,230,200,.1);flex-shrink:0}
+.ai-body{padding:26px 30px}
+.ai-category{font-size:.55rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--ember);margin-bottom:8px}
+.ai-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--dusk);margin-bottom:8px;line-height:1.2}
+.ai-desc{font-size:.83rem;color:var(--muted);line-height:1.75;margin-bottom:12px}
+.ai-tip{display:flex;gap:10px;align-items:flex-start;background:rgba(196,90,26,.05);border-left:2px solid var(--ember);padding:10px 14px;font-size:.77rem;color:var(--dusk2);line-height:1.6}
 
 /* ── DINING ── */
 .dining-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.dining-card{background:var(--white);border:1px solid var(--paper3);overflow:hidden;transition:box-shadow .2s}
-.dining-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.dining-card{background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s}
+.dining-card:hover{box-shadow:0 8px 32px rgba(26,14,8,.1)}
 .dining-card.featured{grid-column:1/-1}
-.dc-header{padding:28px 28px 0}
-.dc-tags{display:flex;gap:6px;margin-bottom:12px}
-.dc-name{font-family:'Cormorant',serif;font-size:1.4rem;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:6px}
-.dc-location{font-size:.7rem;color:var(--ink4);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.dc-location::before{content:'→';color:var(--terracotta)}
-.dc-divider{height:1px;background:var(--paper3);margin:0 28px}
-.dc-body{padding:20px 28px 28px}
-.dc-desc{font-size:.83rem;color:var(--ink3);line-height:1.7;margin-bottom:12px}
-.dc-pro{font-size:.78rem;color:var(--ocean);font-style:italic;padding-top:10px;border-top:1px solid var(--paper3)}
+.dc-header{padding:26px 26px 0}
+.dc-tags{display:flex;gap:6px;margin-bottom:10px}
+.dc-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--dusk);line-height:1.2;margin-bottom:5px}
+.dc-location{font-size:.65rem;color:var(--muted);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.dc-location::before{content:'→';color:var(--ember)}
+.dc-divider{height:1px;background:var(--sand2);margin:0 26px}
+.dc-body{padding:18px 26px 26px}
+.dc-desc{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.dc-pro{font-size:.77rem;color:var(--ocean);font-style:italic;padding-top:10px;border-top:1px solid var(--sand2)}
 
-/* ── TIMING ── */
+/* ── BEST TIMES ── */
 .timing-list{display:flex;flex-direction:column;gap:3px}
-.timing-item{display:grid;grid-template-columns:200px 1fr;background:var(--white);border:1px solid var(--paper3);overflow:hidden;transition:box-shadow .2s}
-.timing-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.07)}
-.ti-left{background:var(--paper2);padding:24px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--paper3)}
-.ti-place{font-family:'Cormorant',serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:6px}
-.ti-time{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--terracotta);letter-spacing:.05em;line-height:1.2}
-.ti-right{padding:24px 28px}
-.ti-desc{font-size:.83rem;color:var(--ink3);line-height:1.7}
+.timing-item{display:grid;grid-template-columns:180px 1fr;background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s}
+.timing-item:hover{box-shadow:0 4px 20px rgba(26,14,8,.07)}
+.ti-left{background:rgba(196,90,26,.06);padding:22px;border-right:1px solid var(--sand2);display:flex;flex-direction:column;justify-content:center}
+.ti-place{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--dusk);margin-bottom:5px}
+.ti-time{font-size:.8rem;font-weight:600;color:var(--ember);letter-spacing:.05em;line-height:1.3}
+.ti-right{padding:22px 26px}
+.ti-desc{font-size:.82rem;color:var(--muted);line-height:1.7}
 
 /* ── MAP ── */
-.map-intro{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:var(--ink3);line-height:1.7;margin-bottom:28px;padding-left:16px;border-left:2px solid var(--sand)}
+.map-intro{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:28px;padding-left:16px;border-left:2px solid var(--sand2)}
 .map-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:var(--ink3);letter-spacing:.05em}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:.7rem;font-weight:600;color:var(--muted)}
 .legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-#explore-map{height:480px;border:1px solid var(--paper3);border-radius:4px;margin-bottom:32px}
-.resort-map-section{margin-top:48px}
-.resort-map-label{font-size:.6rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px}
-.resort-map-title{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:600;color:var(--ink);margin-bottom:8px}
-.resort-map-note{font-size:.8rem;color:var(--ink4);margin-bottom:20px;line-height:1.6}
-#resort-map{height:420px;border:1px solid var(--paper3);border-radius:4px;margin-bottom:20px}
+#explore-map{height:480px;border:1px solid var(--sand2);border-radius:4px;margin-bottom:32px}
+.resort-map-section{margin-top:44px}
+.resort-map-label{font-size:.58rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--ember);margin-bottom:10px}
+.resort-map-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--dusk);margin-bottom:8px}
+.resort-map-note{font-size:.8rem;color:var(--muted);margin-bottom:16px;line-height:1.6}
+#resort-map{height:400px;border:1px solid var(--sand2);border-radius:4px;margin-bottom:20px}
 .resort-info-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:20px}
-.resort-info-card{background:var(--paper2);border:1px solid var(--paper3);padding:18px 20px}
-.ric-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--ink4);margin-bottom:6px}
-.ric-value{font-size:.82rem;color:var(--ink2);line-height:1.5}
-.ric-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(43,107,138,.25)}
+.resort-info-card{background:var(--champagne2);border:1px solid var(--sand2);padding:18px 20px}
+.ric-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ric-value{font-size:.82rem;color:var(--dusk2);line-height:1.5}
+.ric-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(58,122,154,.25)}
 .resort-links-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
-.resort-link-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s;cursor:pointer;border:none}
-.rlb-primary{background:var(--terracotta);color:var(--white)}
-.rlb-primary:hover{background:#a8542f}
-.rlb-secondary{background:var(--paper2);color:var(--ink2);border:1px solid var(--paper3)}
-.rlb-secondary:hover{background:var(--paper3)}
-.resort-pdf-section{margin-top:40px}
-.resort-pdf-label{font-size:.6rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px}
-.resort-pdf-title{font-family:'Cormorant',serif;font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:8px}
-.resort-pdf-note{font-size:.8rem;color:var(--ink4);margin-bottom:16px;line-height:1.6}
-.pdf-embed-wrap{border:1px solid var(--paper3);background:var(--paper2);overflow:hidden}
-.pdf-embed-wrap iframe{width:100%;height:600px;border:none;display:block}
-.map-popup-name{font-family:'Cormorant',serif;font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px}
-.map-popup-cat{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
-.map-popup-desc{font-size:.78rem;color:var(--ink3);line-height:1.5}
+.resort-link-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s;cursor:pointer;border:none}
+.rlb-primary{background:var(--ember);color:var(--warm-white)}
+.rlb-primary:hover{background:#a84a12}
+.rlb-secondary{background:var(--champagne2);color:var(--dusk2);border:1px solid var(--sand2)}
+.rlb-secondary:hover{background:var(--sand2)}
+.pdf-embed-wrap{border:1px solid var(--sand2);overflow:hidden}
+.pdf-embed-wrap iframe{width:100%;height:580px;border:none;display:block}
+.map-popup-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--dusk);margin-bottom:4px}
+.map-popup-cat{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.map-popup-desc{font-size:.77rem;color:var(--muted);line-height:1.5}
+
+/* ── PACKING ── */
+.progress-bar-wrap{background:var(--sand2);height:3px;margin-bottom:32px;border-radius:2px;overflow:hidden}
+.progress-bar{height:100%;background:var(--ember);border-radius:2px;transition:width .4s ease;width:0%}
+.cl-group{margin-bottom:28px}
+.cl-group-label{font-size:.58rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--sand2)}
+.cl-item{display:flex;align-items:center;gap:16px;padding:13px 0;border-bottom:1px solid var(--sand2);cursor:pointer;transition:all .15s;user-select:none}
+.cl-item:last-child{border-bottom:none}
+.cl-item:hover .cl-box{border-color:var(--ember)}
+.cl-box{width:20px;height:20px;flex-shrink:0;border:1.5px solid var(--sand);border-radius:3px;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:.75rem;color:transparent}
+.cl-item.done .cl-box{background:var(--ember);border-color:var(--ember);color:var(--warm-white)}
+.cl-text{font-size:.88rem;color:var(--dusk);flex:1;line-height:1.4}
+.cl-item.done .cl-text{color:var(--muted);text-decoration:line-through}
+.cl-badge{font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:2px;flex-shrink:0}
+.pack-recs{margin-top:48px}
+.pack-recs-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--dusk);margin-bottom:8px}
+.pack-recs-sub{font-size:.82rem;color:var(--muted);margin-bottom:32px;line-height:1.6}
+.rec-category{margin-bottom:36px}
+.rec-cat-label{font-size:.58rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--ember);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--sand2)}
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.rec-card{background:var(--champagne2);border:1px solid var(--sand2);padding:22px 24px;transition:box-shadow .2s}
+.rec-card:hover{box-shadow:0 4px 20px rgba(26,14,8,.08)}
+.rec-card.full{grid-column:1/-1}
+.rc-essential{display:inline-block;font-size:.56rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ember2);background:rgba(196,90,26,.08);border:1px solid rgba(196,90,26,.2);padding:3px 10px;border-radius:2px;margin-bottom:8px}
+.rc-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--dusk);margin-bottom:6px}
+.rc-why{font-size:.8rem;color:var(--muted);line-height:1.65;margin-bottom:8px}
+.rc-tip{font-size:.75rem;color:var(--ocean);font-style:italic}
 
 /* ── CHECKLIST ── */
-.progress-bar-wrap{background:var(--paper3);height:3px;margin-bottom:32px;border-radius:2px;overflow:hidden}
-.progress-bar{height:100%;background:var(--terracotta);border-radius:2px;transition:width .4s ease;width:0%}
-.cl-group{margin-bottom:28px}
-.cl-group-label{font-size:.6rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--ink4);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--paper3)}
-.cl-item{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--paper3);cursor:pointer;transition:all .15s;user-select:none}
-.cl-item:last-child{border-bottom:none}
-.cl-item:hover .cl-box{border-color:var(--terracotta)}
-.cl-box{width:20px;height:20px;flex-shrink:0;border:1.5px solid var(--sand);border-radius:3px;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:.75rem;color:transparent}
-.cl-item.done .cl-box{background:var(--terracotta);border-color:var(--terracotta);color:var(--white)}
-.cl-text{font-size:.88rem;color:var(--ink);flex:1;line-height:1.4}
-.cl-item.done .cl-text{color:var(--ink4);text-decoration:line-through}
-.cl-badge{font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 10px;border-radius:2px;flex-shrink:0}
-
-/* ── PACKING RECS ── */
-.pack-recs{margin-top:48px}
-.pack-recs-title{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:600;color:var(--ink);margin-bottom:8px}
-.pack-recs-sub{font-size:.82rem;color:var(--ink4);margin-bottom:32px;line-height:1.6}
-.rec-category{margin-bottom:36px}
-.rec-cat-label{font-size:.6rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--paper3)}
-.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.rec-card{background:var(--white);border:1px solid var(--paper3);padding:22px 24px;transition:box-shadow .2s}
-.rec-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
-.rec-card.full{grid-column:1/-1}
-.rc-name{font-family:'Cormorant',serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:6px}
-.rc-why{font-size:.8rem;color:var(--ink3);line-height:1.65;margin-bottom:8px}
-.rc-tip{font-size:.75rem;color:var(--ocean);font-style:italic}
-.rc-essential{display:inline-block;font-size:.58rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--terracotta2);background:rgba(196,98,58,.08);border:1px solid rgba(196,98,58,.2);padding:3px 10px;border-radius:2px;margin-bottom:8px}
+/* reuses .cl-* from packing */
 
 /* ── INFO ── */
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.info-card{background:var(--white);border:1px solid var(--paper3);padding:28px}
+.info-card{background:var(--champagne2);border:1px solid var(--sand2);padding:26px}
 .info-card.full{grid-column:1/-1}
-.info-card.emergency{background:var(--ink);border-color:var(--ink)}
-.ic-label{font-size:.58rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--ink4);margin-bottom:12px}
-.info-card.emergency .ic-label{color:rgba(255,255,255,.35)}
-.ic-value{font-size:.88rem;color:var(--ink2);line-height:1.7}
-.ic-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(43,107,138,.3);transition:border-color .2s}
-.ic-value a:hover{border-color:var(--ocean)}
-.emergency-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--terracotta2);letter-spacing:.08em;margin-top:8px}
-.emergency-label{font-size:.65rem;color:rgba(255,255,255,.35);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.info-card.emergency{background:var(--dusk);border-color:var(--dusk)}
+.ic-label{font-size:.56rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.info-card.emergency .ic-label{color:rgba(245,230,200,.3)}
+.ic-value{font-size:.88rem;color:var(--dusk2);line-height:1.7}
+.ic-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(58,122,154,.25)}
+.emergency-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--ember2);margin-top:8px;letter-spacing:.03em}
+.emergency-label{font-size:.62rem;color:rgba(245,230,200,.3);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
 
 /* ── FACTS ── */
-.fact-feature{background:var(--ink);padding:48px 40px;position:relative;overflow:hidden;margin-bottom:3px}
-.fact-feature::before{content:'"';font-family:'Bebas Neue',sans-serif;font-size:20rem;color:rgba(255,255,255,.03);position:absolute;top:-60px;left:-20px;line-height:1}
-.fact-nav{display:flex;gap:3px;margin-bottom:32px}
-.fact-nav-btn{padding:8px 16px;font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s}
-.fact-nav-btn.active,.fact-nav-btn:hover{background:var(--terracotta);border-color:var(--terracotta);color:var(--white)}
-.fact-text{font-family:'Cormorant',serif;font-style:italic;font-size:clamp(1.2rem,3vw,1.8rem);font-weight:300;color:var(--white);line-height:1.6;max-width:640px;transition:opacity .4s ease,transform .4s ease;position:relative;z-index:2}
-.fact-attr{margin-top:24px;font-size:.62rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);position:relative;z-index:2}
+.fact-feature{background:var(--dusk);padding:48px 44px;position:relative;overflow:hidden;margin-bottom:3px}
+.fact-feature::before{content:'"';font-family:'Playfair Display',serif;font-size:18rem;color:rgba(245,230,200,.03);position:absolute;top:-40px;left:20px;line-height:1}
+.fact-nav{display:flex;gap:3px;margin-bottom:28px}
+.fact-nav-btn{padding:7px 14px;font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:rgba(245,230,200,.05);border:1px solid rgba(245,230,200,.1);color:rgba(245,230,200,.35);cursor:pointer;transition:all .2s;border-radius:2px}
+.fact-nav-btn.active,.fact-nav-btn:hover{background:var(--ember);border-color:var(--ember);color:var(--warm-white)}
+.fact-text{font-family:'Cormorant',serif;font-style:italic;font-size:clamp(1.2rem,3vw,1.75rem);font-weight:300;color:var(--champagne);line-height:1.65;max-width:640px;transition:opacity .4s ease,transform .4s ease;position:relative;z-index:2}
+.fact-attr{margin-top:22px;font-size:.6rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,230,200,.2);position:relative;z-index:2}
 
 /* ── ROADMAP ── */
-.roadmap-intro{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:var(--ink3);line-height:1.7;margin-bottom:40px;padding-left:16px;border-left:2px solid var(--sand)}
+.roadmap-intro{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:40px;padding-left:16px;border-left:2px solid var(--sand2)}
 .roadmap-list{display:flex;flex-direction:column;gap:3px}
-.roadmap-item{display:grid;grid-template-columns:180px 1fr;background:var(--white);border:1px solid var(--paper3);overflow:hidden;transition:box-shadow .2s;break-inside:avoid}
-.roadmap-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
-.roadmap-item.active-phase{border-color:var(--terracotta);box-shadow:0 0 0 2px rgba(196,98,58,.15)}
-.roadmap-item.completed{opacity:.55}
-.ri-left{padding:24px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--paper3);background:var(--paper2)}
-.ri-left.active-bg{background:linear-gradient(135deg,rgba(196,98,58,.1),rgba(196,98,58,.04))}
-.ri-date{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--terracotta);letter-spacing:.05em;line-height:1.1;margin-bottom:4px}
-.ri-days{font-size:.65rem;font-weight:600;color:var(--ink4);letter-spacing:.1em}
-.ri-status{display:inline-block;margin-top:8px;font-size:.55rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
-.status-now{background:rgba(196,98,58,.15);color:var(--terracotta)}
-.status-upcoming{background:rgba(43,107,138,.1);color:var(--ocean2)}
-.status-done{background:rgba(90,86,80,.1);color:var(--ink4)}
-.ri-right{padding:24px 28px}
-.ri-phase{font-size:.58rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--terracotta);margin-bottom:6px}
-.ri-title{font-family:'Cormorant',serif;font-size:1.2rem;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2}
-.ri-desc{font-size:.82rem;color:var(--ink3);line-height:1.65;margin-bottom:12px}
+.roadmap-item{display:grid;grid-template-columns:160px 1fr;background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s;break-inside:avoid}
+.roadmap-item:hover{box-shadow:0 4px 20px rgba(26,14,8,.08)}
+.roadmap-item.active-phase{border-color:var(--ember);box-shadow:0 0 0 2px rgba(196,90,26,.15)}
+.roadmap-item.completed{opacity:.5}
+.ri-left{padding:22px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--sand2);background:rgba(196,90,26,.04)}
+.ri-left.active-bg{background:linear-gradient(135deg,rgba(196,90,26,.12),rgba(196,90,26,.04))}
+.ri-date{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ember);line-height:1.1;margin-bottom:4px}
+.ri-days{font-size:.62rem;font-weight:600;color:var(--muted);letter-spacing:.08em}
+.ri-status{display:inline-block;margin-top:8px;font-size:.52rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.status-now{background:rgba(196,90,26,.15);color:var(--ember)}
+.status-upcoming{background:rgba(58,122,154,.1);color:var(--ocean2)}
+.status-done{background:rgba(90,64,48,.1);color:var(--muted)}
+.ri-right{padding:22px 26px}
+.ri-phase{font-size:.56rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--ember);margin-bottom:5px}
+.ri-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dusk);margin-bottom:7px;line-height:1.2}
+.ri-desc{font-size:.8rem;color:var(--muted);line-height:1.65;margin-bottom:10px}
 .ri-updates{display:flex;flex-direction:column;gap:4px}
-.ri-update{display:flex;align-items:flex-start;gap:10px;font-size:.78rem;color:var(--ink2);line-height:1.5}
-.ri-update-icon{color:var(--terracotta);flex-shrink:0;font-size:.8rem;margin-top:1px}
-.ri-action{margin-top:12px}
-.ri-action-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--terracotta);color:var(--white);border:none;border-radius:2px;cursor:pointer;text-decoration:none;transition:background .2s}
-.ri-action-btn:hover{background:#a8542f}
-.ri-action-btn.secondary{background:var(--paper2);color:var(--ink2);border:1px solid var(--paper3)}
-.ri-action-btn.secondary:hover{background:var(--paper3)}
-.roadmap-now-banner{background:var(--terracotta);color:var(--white);padding:20px 28px;margin-bottom:3px;display:flex;align-items:center;gap:16px}
-.rnb-icon{font-size:1.8rem;flex-shrink:0}
-.rnb-body{}
-.rnb-title{font-family:'Cormorant',serif;font-size:1.2rem;font-weight:600;margin-bottom:4px}
+.ri-update{display:flex;align-items:flex-start;gap:10px;font-size:.76rem;color:var(--dusk2);line-height:1.5}
+.ri-update-icon{color:var(--ember);flex-shrink:0;margin-top:1px}
+.roadmap-now-banner{background:var(--ember);color:var(--warm-white);padding:20px 28px;margin-bottom:3px;display:flex;align-items:center;gap:16px}
+.rnb-icon{font-size:1.6rem;flex-shrink:0}
+.rnb-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:4px}
 .rnb-desc{font-size:.8rem;opacity:.85;line-height:1.5}
 
 /* ── REVEAL ── */
@@ -272,29 +381,32 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ── LEAFLET OVERRIDES ── */
-.leaflet-popup-content-wrapper{border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,.15);border:1px solid var(--paper3)}
-.leaflet-popup-content{margin:16px 18px;min-width:180px}
+/* ── LEAFLET ── */
+.leaflet-popup-content-wrapper{border-radius:3px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.leaflet-popup-content{margin:14px 16px;min-width:180px}
 
 /* ── PRINT ── */
-@media print{@page{size:auto;margin:10mm}body{background:var(--paper)!important}.tab-nav{display:none}.panel{display:block!important}.reveal{opacity:1!important;transform:none!important}}
+@media print{@page{size:auto;margin:10mm}body{background:var(--warm-white)!important}.tab-nav-wrap{display:none}.panel{display:block!important}.reveal{opacity:1!important;transform:none!important}}
 
 /* ── MOBILE ── */
 @media(max-width:640px){
-  .cover-body{padding:0 24px}.cover-nav{padding:20px 24px}
+  .cover-nav{padding:18px 22px}.cover-body{padding:0 22px}
   .cd-label-block{display:none}
-  .cover-meta-strip{flex-wrap:wrap}.cover-meta-item{min-width:50%}
-  .stats-row{grid-template-columns:1fr 1fr}.dining-grid{grid-template-columns:1fr}
-  .dining-card.featured{grid-column:1}.timing-item{grid-template-columns:1fr}
-  .ti-left{border-right:none;border-bottom:1px solid var(--paper3)}
-  .info-grid{grid-column:1}.info-card.full{grid-column:1}
-  .activity-item{grid-template-columns:60px 1fr}.tab-nav-scroll{padding:0 10px;gap:3px}.tab-btn{padding:6px 12px;font-size:.6rem}.tab-nav-chevron{width:30px}
-  .panel{padding:32px 20px 0}.flight-card{padding:24px}
-  .rec-grid{grid-template-columns:1fr}.rec-card.full{grid-column:1}
-  #explore-map{height:320px}#resort-map{height:280px}
+  .cover-meta{flex-wrap:wrap}.cmi{min-width:50%}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .perks-grid{grid-template-columns:1fr}
+  .dining-grid{grid-template-columns:1fr}.dining-card.featured{grid-column:1}
+  .timing-item{grid-template-columns:1fr}.ti-left{border-right:none;border-bottom:1px solid var(--sand2)}
+  .info-grid{grid-template-columns:1fr}.info-card.full{grid-column:1}
+  .activity-item{grid-template-columns:56px 1fr}
+  .butler-card{grid-template-columns:1fr}
   .resort-info-row{grid-template-columns:1fr}
-  .pdf-embed-wrap iframe{height:400px}
-  .map-legend{gap:10px}
+  .rec-grid{grid-template-columns:1fr}.rec-card.full{grid-column:1}
+  .roadmap-item{grid-template-columns:1fr}
+  .ri-left{border-right:none;border-bottom:1px solid var(--sand2)}
+  .panel{padding:36px 20px 0}
+  #explore-map{height:300px}#resort-map{height:260px}
+  .tab-nav-chevron{width:28px}
 }
 </style>
 </head>
@@ -302,19 +414,24 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
 
 <!-- ══ COVER ══ -->
 <header class="cover">
-  <div class="cover-texture"></div>
+  <div class="cover-bg"></div>
+  <div class="cover-rays"></div>
   <div class="cover-grain"></div>
+
   <nav class="cover-nav">
-    <div class="cover-nav-logo">Pura Vida</div>
-    <div class="cover-nav-date">{{CHECKIN}} – {{CHECKOUT}}</div>
+    <div class="nav-logo">Pura Vida</div>
+    <div class="nav-phase">Phase 2 · The Anticipation Builds</div>
   </nav>
+
   <div class="cover-body">
-    <div class="cover-issue">Trip of the Year &nbsp;·&nbsp; {{ROOM_CLASS}} Edition</div>
-    <h1 class="cover-headline">{{DESTINATION_H1}}<span class="hl-accent">{{DESTINATION_H2}}</span></h1>
-    <p class="cover-deck">{{TRIP_NIGHTS}} nights. One unforgettable week away.</p>
+    <div class="cover-overline">{{RESORT}} · {{ROOM_TYPE}}</div>
+    <h1 class="cover-headline">
+      <span class="hl1">{{DESTINATION_H1}}</span>
+      <span class="hl2">{{DESTINATION_H2}}</span>
+    </h1>
+    <p class="cover-sub">It's getting real. {{TRIP_NIGHTS}} nights, {{ROOM_CLASS}} service, and everything you've been waiting for.</p>
   </div>
 
-  <!-- COUNTDOWN — bold orange strip, above fold -->
   <div class="countdown-strip">
     <div class="cd-label-block"><div class="cd-label-text">Departure</div></div>
     <div class="cd-units">
@@ -325,11 +442,11 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
     </div>
   </div>
 
-  <div class="cover-meta-strip">
-    <div class="cover-meta-item"><div class="cmi-label">Resort</div><div class="cmi-value">{{RESORT}}</div></div>
-    <div class="cover-meta-item"><div class="cmi-label">Room</div><div class="cmi-value">{{ROOM_TYPE}}</div></div>
-    <div class="cover-meta-item"><div class="cmi-label">Departure</div><div class="cmi-value">{{CHECKIN}}</div></div>
-    <div class="cover-meta-item"><div class="cmi-label">Nights</div><div class="cmi-value">{{TRIP_NIGHTS}} Nights</div></div>
+  <div class="cover-meta">
+    <div class="cmi"><div class="cmi-label">Resort</div><div class="cmi-value">{{RESORT}}</div></div>
+    <div class="cmi"><div class="cmi-label">Room</div><div class="cmi-value">{{ROOM_TYPE}}</div></div>
+    <div class="cmi"><div class="cmi-label">Departure</div><div class="cmi-value">{{CHECKIN}}</div></div>
+    <div class="cmi"><div class="cmi-label">Nights</div><div class="cmi-value">{{TRIP_NIGHTS}} Nights</div></div>
   </div>
 </header>
 
@@ -343,6 +460,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
       <div class="tab-nav-fade-left" id="fade-left"></div>
       <div class="tab-nav-scroll" id="tab-nav">
         <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+        <button class="tab-btn" onclick="switchTab('starclass',this)">{{ROOM_CLASS}}</button>
         <button class="tab-btn" onclick="switchTab('flights',this)">Flights</button>
         <button class="tab-btn" onclick="switchTab('activities',this)">Activities</button>
         <button class="tab-btn" onclick="switchTab('dining',this)">Dining</button>
@@ -365,31 +483,107 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
   <div class="panel active" id="panel-overview">
     <div class="reveal">
       <div class="overview-hero">
-        <div class="oh-eyebrow">{{RESORT}} · {{ROOM_TYPE}}</div>
+        <div class="oh-eyebrow">{{ROOM_CLASS}} · {{RESORT_REGION}}</div>
         <div class="oh-resort">{{RESORT}}</div>
         <div class="oh-room">{{ROOM_TYPE}}</div>
-        <div class="oh-tags"><span class="tag tag-terra">{{ROOM_CLASS}}</span><span class="tag tag-ocean">{{RESORT_PERK_1}}</span><span class="tag tag-gold">{{RESORT_PERK_2}}</span><span class="tag tag-ocean">{{RESORT_REGION}}</span></div>
+        <div class="oh-tags">
+          <span class="tag tag-ember">{{ROOM_CLASS}}</span>
+          <span class="tag tag-ocean">{{RESORT_PERK_1}}</span>
+          <span class="tag tag-amber">{{RESORT_PERK_2}}</span>
+          <span class="tag tag-ocean">{{RESORT_REGION}}</span>
+        </div>
       </div>
     </div>
     <div class="stats-row reveal">
       <div class="stat-card"><div class="stat-label">Check-In</div><div class="stat-value">{{CHECKIN}}</div></div>
       <div class="stat-card"><div class="stat-label">Check-Out</div><div class="stat-value">{{CHECKOUT}}</div></div>
       <div class="stat-card"><div class="stat-label">Duration</div><div class="stat-value">{{TRIP_NIGHTS}} Nights</div><div class="stat-sub">{{TRIP_DAYS}} days total</div></div>
-      <div class="stat-card"><div class="stat-label">Aeroplan Savings</div><div class="stat-value">{{AEROPLAN_POINTS}}</div><div class="stat-sub">{{INSURANCE_PRIMARY}}</div></div>
+      <div class="stat-card"><div class="stat-label">Savings</div><div class="stat-value">{{AEROPLAN_POINTS}}</div><div class="stat-sub">{{INSURANCE_PRIMARY}}</div></div>
     </div>
     <div class="requests-card reveal"><div class="stat-label">Special Requests Confirmed</div><div class="req-pills" id="req-pills"></div></div>
   </div>
 
+  <!-- STAR CLASS TAB — NEW IN PHASE 2 -->
+  <div class="panel" id="panel-starclass">
+    <div class="perks-intro-card reveal">
+      <div class="pic-label">What You Actually Get</div>
+      <div class="pic-title">{{ROOM_CLASS}} — <em>this changes everything.</em></div>
+      <div class="pic-desc">Most people stay at all-inclusive resorts and spend the whole trip navigating lines, waiting for tables, and planning around the crowd. {{ROOM_CLASS}} removes all of that. Here's exactly what that means for your trip.</div>
+    </div>
+
+    <div class="perks-grid reveal">
+      <div class="perk-card">
+        <span class="perk-icon">🤵</span>
+        <div class="perk-title">Dedicated Butler</div>
+        <div class="perk-desc">Your butler is assigned before arrival. They handle restaurant reservations, excursion bookings, special requests, and anything else you need — without you having to ask twice.</div>
+        <div class="perk-highlight">Contact your butler before you arrive. Pre-arrange your first night's dinner, morning excursion, and any surprises. They can set everything up so day one feels effortless.</div>
+      </div>
+      <div class="perk-card">
+        <span class="perk-icon">🍽️</span>
+        <div class="perk-title">À La Carte Every Night</div>
+        <div class="perk-desc">Exclusive access to the {{ROOM_CLASS}} restaurant — no buffet lines, no reservations needed, no time limits. Steaks, fresh ceviche, tableside service. Use it every night if you want.</div>
+        <div class="perk-highlight">Ask for a table by the water for your first evening. It sets the tone for the entire trip.</div>
+      </div>
+      <div class="perk-card">
+        <span class="perk-icon">🏊</span>
+        <div class="perk-title">Private Pool Area</div>
+        <div class="perk-desc">Separate {{ROOM_CLASS}} pool — no day-trippers, no chaos, no fighting for loungers. Reserved seating, dedicated pool server, the whole service experience without the crowd.</div>
+        <div class="perk-highlight">Get there early morning before the heat peaks. 7–9 AM at the {{ROOM_CLASS}} pool is a completely different experience to midday.</div>
+      </div>
+      <div class="perk-card">
+        <span class="perk-icon">🛁</span>
+        <div class="perk-title">Premium Suite Amenities</div>
+        <div class="perk-desc">Stocked minibar refreshed daily, premium room service, pillow menu, in-room amenities that go beyond the standard. Your butler can customise the setup before you arrive.</div>
+        <div class="perk-highlight">Request your preferences before arrival — preferred drinks, room temperature, pillow type. It costs nothing and makes the first moment in the room feel exceptional.</div>
+      </div>
+      <div class="perk-card">
+        <span class="perk-icon">🎭</span>
+        <div class="perk-title">Exclusive Events & Experiences</div>
+        <div class="perk-desc">{{ROOM_CLASS}} guests get access to exclusive events, private beach setups, sunset experiences, and curated evenings that aren't available to the general resort.</div>
+        <div class="perk-highlight">Ask your butler on arrival what's scheduled during your stay. Some events book up — get on the list on day one.</div>
+      </div>
+      <div class="perk-card">
+        <span class="perk-icon">✈️</span>
+        <div class="perk-title">Priority Everything</div>
+        <div class="perk-desc">Priority check-in, priority boarding for excursions, priority seating at shows. You're not waiting in lines — your butler handles the logistics so you can focus on the experience.</div>
+        <div class="perk-highlight">Mention your {{ROOM_CLASS}} status at every booking point. Most operators and the resort staff give priority treatment the moment you mention it.</div>
+      </div>
+    </div>
+
+    <!-- BUTLER TIPS -->
+    <div class="butler-card reveal">
+      <div>
+        <div class="bc-label">Before You Arrive</div>
+        <div class="bc-title">How to get the most from your butler</div>
+        <div class="bc-desc">The difference between a good {{ROOM_CLASS}} experience and an unforgettable one is almost entirely about how you use your butler. Most guests don't contact them before arrival. The ones who do have a completely different trip.</div>
+      </div>
+      <div class="bc-tips">
+        <div class="bc-tip">
+          <div class="bc-tip-title">Email Before You Arrive</div>
+          <div class="bc-tip-text">Contact the resort 2–3 weeks out and introduce yourself. Give your butler your preferences, dietary requirements, and anything you want pre-arranged.</div>
+        </div>
+        <div class="bc-tip">
+          <div class="bc-tip-title">Book Excursions Through Them</div>
+          <div class="bc-tip-text">Your butler can arrange private or priority versions of excursions. Whale watching on a private boat instead of a group tour is a completely different experience.</div>
+        </div>
+        <div class="bc-tip">
+          <div class="bc-tip-title">Don't Be Shy</div>
+          <div class="bc-tip-text">This is what they're there for. Special dinner setup, birthday surprise, specific wine preference, late checkout — ask. The answer is almost always yes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FLIGHTS -->
   <div class="panel" id="panel-flights">
-    <div class="section-label reveal">Your Flights</div>
-    <h2 class="section-headline reveal">Both direct. <em>No connections.</em></h2>
+    <div class="sec-label reveal">Your Flights</div>
+    <h2 class="sec-headline reveal">Both direct. <em>No connections.</em></h2>
     <div class="flight-card reveal">
-      <div class="flight-direction-badge">Outbound · {{FLIGHT_OUT_DATE}}</div>
+      <div class="flight-dir-badge">Outbound · {{FLIGHT_OUT_DATE}}</div>
       <div class="fc-num">{{FLIGHT_OUT_NUM}}</div>
       <div class="flight-route">
         <div><div class="airport-code">{{FLIGHT_OUT_DEP_AIRPORT}}</div><div class="airport-city">{{FLIGHT_OUT_DEP_CITY}}</div></div>
-        <div class="route-mid"><div class="route-line"><div class="rline"></div><div class="rplane">✈</div><div class="rline"></div></div><div class="route-dur">Direct · ~{{FLIGHT_OUT_DURATION}}</div></div>
+        <div class="route-mid"><div class="route-line-wrap"><div class="rline"></div><div class="rplane">✈</div><div class="rline"></div></div><div class="route-dur">Direct · ~{{FLIGHT_OUT_DURATION}}</div></div>
         <div style="text-align:right"><div class="airport-code">{{FLIGHT_OUT_ARR_AIRPORT}}</div><div class="airport-city">{{FLIGHT_OUT_ARR_CITY}}</div></div>
       </div>
       <div class="flight-footer">
@@ -398,11 +592,11 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
       </div>
     </div>
     <div class="flight-card reveal">
-      <div class="flight-direction-badge">Return · {{FLIGHT_HOME_DATE}}</div>
+      <div class="flight-dir-badge">Return · {{FLIGHT_HOME_DATE}}</div>
       <div class="fc-num">{{FLIGHT_HOME_NUM}}</div>
       <div class="flight-route">
         <div><div class="airport-code">{{FLIGHT_HOME_DEP_AIRPORT}}</div><div class="airport-city">{{FLIGHT_HOME_DEP_CITY}}</div></div>
-        <div class="route-mid"><div class="route-line"><div class="rline"></div><div class="rplane">✈</div><div class="rline"></div></div><div class="route-dur">Direct · ~{{FLIGHT_HOME_DURATION}}</div></div>
+        <div class="route-mid"><div class="route-line-wrap"><div class="rline"></div><div class="rplane">✈</div><div class="rline"></div></div><div class="route-dur">Direct · ~{{FLIGHT_HOME_DURATION}}</div></div>
         <div style="text-align:right"><div class="airport-code">{{FLIGHT_HOME_ARR_AIRPORT}}</div><div class="airport-city">{{FLIGHT_HOME_ARR_CITY}}</div></div>
       </div>
       <div class="flight-footer">
@@ -414,220 +608,125 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
 
   <!-- ACTIVITIES -->
   <div class="panel" id="panel-activities">
-    <div class="section-label reveal">What to Do</div>
-    <h2 class="section-headline reveal">Seven days. <em>Make every one count.</em></h2>
-    <p class="activities-intro reveal">{{RESORT_REGION}} in {{TRIP_MONTH}} is peak season for wildlife, warm Pacific water, and adventure. Here's what not to miss — with insider timing for each.</p>
-    <div class="activity-item reveal"><div class="ai-number">01</div><div class="ai-body"><div class="ai-category">{{ACT_1_CAT}}</div><div class="ai-title">{{ACT_1_NAME}}</div><div class="ai-desc">{{ACT_1_DESC}}</div><div class="ai-tip"><span class="ai-tip-icon">→</span> {{ACT_1_TIP}}</div></div></div>
-    <div class="activity-item reveal"><div class="ai-number">02</div><div class="ai-body"><div class="ai-category">{{ACT_2_CAT}}</div><div class="ai-title">{{ACT_2_NAME}}</div><div class="ai-desc">{{ACT_2_DESC}}</div><div class="ai-tip"><span class="ai-tip-icon">→</span> {{ACT_2_TIP}}</div></div></div>
-    <div class="activity-item reveal"><div class="ai-number">03</div><div class="ai-body"><div class="ai-category">{{ACT_3_CAT}}</div><div class="ai-title">{{ACT_3_NAME}}</div><div class="ai-desc">{{ACT_3_DESC}}</div><div class="ai-tip"><span class="ai-tip-icon">→</span> {{ACT_3_TIP}}</div></div></div>
-    <div class="activity-item reveal"><div class="ai-number">04</div><div class="ai-body"><div class="ai-category">{{ACT_4_CAT}}</div><div class="ai-title">{{ACT_4_NAME}}</div><div class="ai-desc">{{ACT_4_DESC}}</div><div class="ai-tip"><span class="ai-tip-icon">→</span> {{ACT_4_TIP}}</div></div></div>
-    <div class="activity-item reveal"><div class="ai-number">05</div><div class="ai-body"><div class="ai-category">{{ACT_5_CAT}}</div><div class="ai-title">{{ACT_5_NAME}}</div><div class="ai-desc">{{ACT_5_DESC}}</div><div class="ai-tip"><span class="ai-tip-icon">→</span> {{ACT_5_TIP}}</div></div></div>
-    <div class="activity-item reveal"><div class="ai-number">06</div><div class="ai-body"><div class="ai-category">{{ACT_6_CAT}}</div><div class="ai-title">{{ACT_6_NAME}}</div><div class="ai-desc">{{ACT_6_DESC}}</div><div class="ai-tip"><span class="ai-tip-icon">→</span> {{ACT_6_TIP}}</div></div></div>
+    <div class="sec-label reveal">What to Do</div>
+    <h2 class="sec-headline reveal">Seven days. <em>Make every one count.</em></h2>
+    <p class="sec-intro reveal">{{RESORT_REGION}} in {{TRIP_MONTH}} is peak season for wildlife, warm water, and adventure. Here's what not to miss — with insider timing for each.</p>
+    <div class="activity-item reveal"><div class="ai-number">01</div><div class="ai-body"><div class="ai-category">{{ACT_1_CAT}}</div><div class="ai-title">{{ACT_1_NAME}}</div><div class="ai-desc">{{ACT_1_DESC}}</div><div class="ai-tip"><span>→</span>{{ACT_1_TIP}}</div></div></div>
+    <div class="activity-item reveal"><div class="ai-number">02</div><div class="ai-body"><div class="ai-category">{{ACT_2_CAT}}</div><div class="ai-title">{{ACT_2_NAME}}</div><div class="ai-desc">{{ACT_2_DESC}}</div><div class="ai-tip"><span>→</span>{{ACT_2_TIP}}</div></div></div>
+    <div class="activity-item reveal"><div class="ai-number">03</div><div class="ai-body"><div class="ai-category">{{ACT_3_CAT}}</div><div class="ai-title">{{ACT_3_NAME}}</div><div class="ai-desc">{{ACT_3_DESC}}</div><div class="ai-tip"><span>→</span>{{ACT_3_TIP}}</div></div></div>
+    <div class="activity-item reveal"><div class="ai-number">04</div><div class="ai-body"><div class="ai-category">{{ACT_4_CAT}}</div><div class="ai-title">{{ACT_4_NAME}}</div><div class="ai-desc">{{ACT_4_DESC}}</div><div class="ai-tip"><span>→</span>{{ACT_4_TIP}}</div></div></div>
+    <div class="activity-item reveal"><div class="ai-number">05</div><div class="ai-body"><div class="ai-category">{{ACT_5_CAT}}</div><div class="ai-title">{{ACT_5_NAME}}</div><div class="ai-desc">{{ACT_5_DESC}}</div><div class="ai-tip"><span>→</span>{{ACT_5_TIP}}</div></div></div>
+    <div class="activity-item reveal"><div class="ai-number">06</div><div class="ai-body"><div class="ai-category">{{ACT_6_CAT}}</div><div class="ai-title">{{ACT_6_NAME}}</div><div class="ai-desc">{{ACT_6_DESC}}</div><div class="ai-tip"><span>→</span>{{ACT_6_TIP}}</div></div></div>
   </div>
 
   <!-- DINING -->
   <div class="panel" id="panel-dining">
-    <div class="section-label reveal">Where to Eat</div>
-    <h2 class="section-headline reveal">On-resort and <em>the best of {{RESORT_REGION}}.</em></h2>
+    <div class="sec-label reveal">Where to Eat</div>
+    <h2 class="sec-headline reveal">On-resort and <em>the best nearby.</em></h2>
     <div class="dining-grid">
-      <div class="dining-card featured reveal"><div class="dc-header"><div class="dc-tags"><span class="tag tag-gold">{{ROOM_CLASS}} Exclusive</span><span class="tag tag-terra">On Resort</span></div><div class="dc-name">{{ROOM_CLASS}} À La Carte Restaurant</div><div class="dc-location">{{RESORT}}</div></div><div class="dc-divider"></div><div class="dc-body"><div class="dc-desc">Exclusive access — no buffet lines, no reservations required. Butler handles your table. Steaks, fresh ceviche, grilled seafood, tableside service every night. This is what you paid for — use it every single night if you want.</div><div class="dc-pro">💡 Ask your butler on arrival to pre-book a table by the water for your first night. Set the tone immediately.</div></div></div>
+      <div class="dining-card featured reveal"><div class="dc-header"><div class="dc-tags"><span class="tag tag-amber">{{ROOM_CLASS}} Exclusive</span><span class="tag tag-ember">On Resort</span></div><div class="dc-name">{{ROOM_CLASS}} À La Carte Restaurant</div><div class="dc-location">{{RESORT}}</div></div><div class="dc-divider"></div><div class="dc-body"><div class="dc-desc">Exclusive access — no buffet lines, no reservations required. Butler handles your table. Steaks, fresh ceviche, grilled seafood, tableside service every night. This is what you paid for — use it every single night if you want.</div><div class="dc-pro">💡 Ask your butler on arrival to pre-book a table by the water for your first night. Set the tone immediately.</div></div></div>
       <div class="dining-card reveal"><div class="dc-header"><div class="dc-tags"><span class="tag tag-ocean">15 min</span></div><div class="dc-name">{{REST_1_NAME}}</div><div class="dc-location">{{REST_1_AREA}} · {{RESORT_REGION}}</div></div><div class="dc-divider"></div><div class="dc-body"><div class="dc-desc">{{REST_1_DESC}}</div><div class="dc-pro">💡 Reserve 3–5 days ahead. Request garden seating. Must-do.</div></div></div>
-      <div class="dining-card reveal"><div class="dc-header"><div class="dc-tags"><span class="tag tag-ocean">20 min</span></div><div class="dc-name">{{REST_2_NAME}}</div><div class="dc-location">{{REST_2_AREA}} · {{RESORT_REGION}}</div></div><div class="dc-divider"></div><div class="dc-body"><div class="dc-desc">{{REST_2_DESC}}</div><div class="dc-pro">💡 Lunch only — they sell out by 2 PM. Bring USD cash or colones.</div></div></div>
+      <div class="dining-card reveal"><div class="dc-header"><div class="dc-tags"><span class="tag tag-ocean">20 min</span></div><div class="dc-name">{{REST_2_NAME}}</div><div class="dc-location">{{REST_2_AREA}} · {{RESORT_REGION}}</div></div><div class="dc-divider"></div><div class="dc-body"><div class="dc-desc">{{REST_2_DESC}}</div><div class="dc-pro">💡 Lunch only — sell out by 2 PM. Bring USD cash or local currency.</div></div></div>
       <div class="dining-card reveal"><div class="dc-header"><div class="dc-tags"><span class="tag tag-ocean">45 min</span></div><div class="dc-name">{{REST_3_NAME}}</div><div class="dc-location">{{REST_3_AREA}} · {{RESORT_REGION}}</div></div><div class="dc-divider"></div><div class="dc-body"><div class="dc-desc">{{REST_3_DESC}}</div><div class="dc-pro">💡 Arrive by 5 PM for a table before sunset. Golden hour here is extraordinary.</div></div></div>
     </div>
   </div>
 
   <!-- BEST TIMES -->
   <div class="panel" id="panel-timing">
-    <div class="section-label reveal">August Intel</div>
-    <h2 class="section-headline reveal">Right place. <em>Right time.</em></h2>
+    <div class="sec-label reveal">{{TRIP_MONTH}} Intel</div>
+    <h2 class="sec-headline reveal">Right place. <em>Right time.</em></h2>
     <div class="timing-list">
-      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Pool & Beach</div><div class="ti-time">7–10 AM<br>4–6 PM</div></div><div class="ti-right"><div class="ti-desc">{{RESORT_REGION}} heat builds fast. Best early morning and again late afternoon in golden light. {{TRIP_MONTH}} afternoons bring brief 20–30 min tropical showers — the light after rain is spectacular.</div></div></div>
+      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Pool & Beach</div><div class="ti-time">7–10 AM · 4–6 PM</div></div><div class="ti-right"><div class="ti-desc">{{RESORT_REGION}} heat builds fast. Best early morning and late afternoon in golden light. {{TRIP_MONTH}} afternoons bring brief 20–30 min tropical showers — the light after rain is spectacular.</div></div></div>
       <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">{{ACT_1_NAME}}</div><div class="ti-time">6–10 AM</div></div><div class="ti-right"><div class="ti-desc">{{TIMING_1_DESC}}</div></div></div>
-      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Day Excursions</div><div class="ti-time">Leave by<br>6–7 AM</div></div><div class="ti-right"><div class="ti-desc">For day excursions — start early. Beat the heat and other tour groups. You'll be back by early afternoon with the whole evening still ahead.</div></div></div>
-      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Dining Out</div><div class="ti-time">7–9 PM</div></div><div class="ti-right"><div class="ti-desc">Restaurants hit their stride at 7:30 PM when the day cools. Book off-resort at 7 PM — you'll get settled before the room fills and catch the last of the evening light.</div></div></div>
-      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Sunset Photos</div><div class="ti-time">5:45–6:30 PM</div></div><div class="ti-right"><div class="ti-desc">Sunsets in {{TRIP_MONTH}} are exceptional. Green season moisture creates deep orange and purple sky colour. Set an alarm for 5:45 PM every single day — don't miss one.</div></div></div>
+      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Day Excursions</div><div class="ti-time">Leave by 6–7 AM</div></div><div class="ti-right"><div class="ti-desc">For day excursions — start early. Beat the heat and other tour groups. You'll be back by early afternoon with the whole evening still ahead.</div></div></div>
+      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Dining Out</div><div class="ti-time">7–9 PM</div></div><div class="ti-right"><div class="ti-desc">Restaurants hit their stride at 7:30 PM when the day cools. Book off-resort at 7 PM — settled before the room fills and catch the last of the evening light.</div></div></div>
+      <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Sunset Photos</div><div class="ti-time">5:45–6:30 PM</div></div><div class="ti-right"><div class="ti-desc">Sunsets in {{TRIP_MONTH}} are exceptional. Green season moisture creates deep orange and purple sky colour. Set an alarm for 5:45 PM every day — don't miss one.</div></div></div>
       <div class="timing-item reveal"><div class="ti-left"><div class="ti-place">Nights Out</div><div class="ti-time">10 PM – Late</div></div><div class="ti-right"><div class="ti-desc">Local beaches come alive after 10. The resort has evening entertainment — ask your butler on arrival for the weekly calendar and book ahead for shows.</div></div></div>
     </div>
   </div>
 
   <!-- MAP -->
   <div class="panel" id="panel-map">
-    <div class="section-label reveal">Explore</div>
-    <h2 class="section-headline reveal">Everything within <em>reach.</em></h2>
+    <div class="sec-label reveal">Explore</div>
+    <h2 class="sec-headline reveal">Everything within <em>reach.</em></h2>
     <p class="map-intro reveal">Your resort sits in {{RESORT_REGION}} — one of the most strategically located spots on this coast. Everything on your list is within 45 minutes.</p>
     <div class="map-legend reveal">
-      <div class="legend-item"><div class="legend-dot" style="background:#c4623a"></div>Resort</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#2b6b8a"></div>Dining</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c45a1a"></div>Resort</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3a7a9a"></div>Dining</div>
       <div class="legend-item"><div class="legend-dot" style="background:#b8960c"></div>Excursions</div>
       <div class="legend-item"><div class="legend-dot" style="background:#5a8a5a"></div>Beaches</div>
       <div class="legend-item"><div class="legend-dot" style="background:#6a4a8a"></div>Airport</div>
     </div>
     <div id="explore-map" class="reveal"></div>
-
-    <!-- RESORT CLOSE-UP + INFO -->
     <div class="resort-map-section reveal">
       <div class="resort-map-label">Your Resort</div>
       <div class="resort-map-title">{{RESORT}} — Exact Location</div>
-      <div class="resort-map-note">{{RESORT_ADDRESS}}. Pinned to the exact coordinates from Google Maps. ~45 min drive from {{FLIGHT_OUT_ARR_AIRPORT}} airport.</div>
+      <div class="resort-map-note">{{RESORT_ADDRESS}}. Pinned to exact coordinates. ~45 min drive from {{FLIGHT_OUT_ARR_AIRPORT}} airport.</div>
       <div id="resort-map"></div>
-
-      <!-- RESORT INFO CARDS -->
       <div class="resort-info-row">
-        <div class="resort-info-card">
-          <div class="ric-label">Address</div>
-          <div class="ric-value">{{RESORT_ADDRESS}}</div>
-        </div>
-        <div class="resort-info-card">
-          <div class="ric-label">Resort Phone</div>
-          <div class="ric-value"><a href="tel:{{RESORT_PHONE}}">{{RESORT_PHONE}}</a><br><span style="font-size:.75rem;color:var(--ink4)">Call direct for concierge requests</span></div>
-        </div>
-        <div class="resort-info-card">
-          <div class="ric-label">Resort Email</div>
-          <div class="ric-value"><a href="mailto:{{RESORT_EMAIL}}">{{RESORT_EMAIL}}</a></div>
-        </div>
+        <div class="resort-info-card"><div class="ric-label">Address</div><div class="ric-value">{{RESORT_ADDRESS}}</div></div>
+        <div class="resort-info-card"><div class="ric-label">Resort Phone</div><div class="ric-value"><a href="tel:{{RESORT_PHONE}}">{{RESORT_PHONE}}</a></div></div>
+        <div class="resort-info-card"><div class="ric-label">Resort Email</div><div class="ric-value"><a href="mailto:{{RESORT_EMAIL}}">{{RESORT_EMAIL}}</a></div></div>
       </div>
-
-      <!-- QUICK LINKS -->
       <div class="resort-links-row">
         <a class="resort-link-btn rlb-primary" href="{{RESORT_MAPS_URL}}" target="_blank">📍 Open in Google Maps</a>
-        <a class="resort-link-btn rlb-secondary" href="{{RESORT_VIRTUAL_TOUR}}" target="_blank">🏨 Explore Resort (Virtual Tour)</a>
-        <a class="resort-link-btn rlb-secondary" href="{{RESORT_LOBBY_TOUR}}" target="_blank">🎬 View Lobby</a>
-        <a class="resort-link-btn rlb-secondary" href="{{RESORT_PHOTOS}}" target="_blank">📸 Resort Photos</a>
+        <a class="resort-link-btn rlb-secondary" href="{{RESORT_VIRTUAL_TOUR}}" target="_blank">🏨 Virtual Tour</a>
+        <a class="resort-link-btn rlb-secondary" href="{{RESORT_LOBBY_TOUR}}" target="_blank">🎬 Lobby</a>
+        <a class="resort-link-btn rlb-secondary" href="{{RESORT_PHOTOS}}" target="_blank">📸 Photos</a>
       </div>
     </div>
-
-    <!-- RESORT MAP PDF -->
-    <div class="resort-pdf-section reveal">
-      <div class="resort-pdf-label">Property Layout</div>
-      <div class="resort-pdf-title">Resort Map — Don't Get Lost</div>
-      <div class="resort-pdf-note">The {{ROOM_CLASS}} pool, restaurant, and butler service are in a separate area from the main resort. Study this before arrival so you know exactly where to go. Your butler will also walk you through on check-in.</div>
-      <div class="pdf-embed-wrap">
-        <iframe src="{{RESORT_MAP_PDF}}" title="Planet Hollywood Costa Rica Resort Map"></iframe>
-      </div>
+    <div class="resort-map-section reveal">
+      <div class="resort-map-label">Property Layout</div>
+      <div class="resort-map-title">Resort Map — Don't Get Lost</div>
+      <div class="resort-map-note">The {{ROOM_CLASS}} pool, restaurant, and butler service are in a separate area. Study this before arrival.</div>
+      <div class="pdf-embed-wrap"><iframe src="{{RESORT_MAP_PDF}}" title="Resort Map"></iframe></div>
     </div>
   </div>
 
   <!-- PACKING -->
   <div class="panel" id="panel-packing">
-    <div class="section-label reveal">Packing</div>
-    <h2 class="section-headline reveal">What to bring. <em>What to leave behind.</em></h2>
-
+    <div class="sec-label reveal">Packing</div>
+    <h2 class="sec-headline reveal">What to bring. <em>What to leave behind.</em></h2>
     <div class="progress-bar-wrap reveal"><div class="progress-bar" id="pack-progress"></div></div>
-
-    <div class="cl-group reveal">
-      <div class="cl-group-label">Essentials — Don't Leave Without These</div>
-      <ul id="pl-essential">
-        <li class="cl-item" onclick="togglePack(this,'essential',0)"><div class="cl-box">✓</div><span class="cl-text">Passport — valid at least 6 months beyond Aug 15</span><span class="cl-badge tag tag-terra">Non-Negotiable</span></li>
-        <li class="cl-item" onclick="togglePack(this,'essential',1)"><div class="cl-box">✓</div><span class="cl-text">{{INSURANCE_PRIMARY}} card — your travel insurance lives here</span><span class="cl-badge tag tag-terra">Non-Negotiable</span></li>
-        <li class="cl-item" onclick="togglePack(this,'essential',2)"><div class="cl-box">✓</div><span class="cl-text">USD cash — $200–300 for local restaurants and markets</span><span class="cl-badge tag tag-terra">Non-Negotiable</span></li>
-        <li class="cl-item" onclick="togglePack(this,'essential',3)"><div class="cl-box">✓</div><span class="cl-text">Phone + charging cable + portable charger</span><span class="cl-badge tag tag-terra">Non-Negotiable</span></li>
-        <li class="cl-item" onclick="togglePack(this,'essential',4)"><div class="cl-box">✓</div><span class="cl-text">Reef-safe sunscreen SPF 50+ — legally required at destination</span><span class="cl-badge tag tag-terra">Non-Negotiable</span></li>
-      </ul>
-    </div>
-
-    <div class="cl-group reveal">
-      <div class="cl-group-label">Clothing</div>
-      <ul id="pl-clothing">
-        <li class="cl-item" onclick="togglePack(this,'clothing',0)"><div class="cl-box">✓</div><span class="cl-text">3–4 swimsuits — you'll be in them more than anything else</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'clothing',1)"><div class="cl-box">✓</div><span class="cl-text">Linen shirts or breathable button-downs — evenings at the resort</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'clothing',2)"><div class="cl-box">✓</div><span class="cl-text">Light shorts and one smart casual outfit for Ginger restaurant</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'clothing',3)"><div class="cl-box">✓</div><span class="cl-text">Sandals + one pair of closed-toe shoes for excursions</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'clothing',4)"><div class="cl-box">✓</div><span class="cl-text">Light rain jacket — August showers are brief but real</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'clothing',5)"><div class="cl-box">✓</div><span class="cl-text">Leave the jeans. Seriously. You won't touch them.</span><span class="cl-badge tag tag-ocean">Skip</span></li>
-      </ul>
-    </div>
-
-    <div class="cl-group reveal">
-      <div class="cl-group-label">Health & Comfort</div>
-      <ul id="pl-health">
-        <li class="cl-item" onclick="togglePack(this,'health',0)"><div class="cl-box">✓</div><span class="cl-text">DEET insect repellent — jungle excursions especially</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'health',1)"><div class="cl-box">✓</div><span class="cl-text">After-sun lotion or aloe — you will burn faster than you expect</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'health',2)"><div class="cl-box">✓</div><span class="cl-text">Motion sickness tablets — boat tours in August can be choppy</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'health',3)"><div class="cl-box">✓</div><span class="cl-text">Electrolyte packets — heat and humidity dehydrate you fast</span><span class="cl-badge tag tag-gold">Pack</span></li>
-        <li class="cl-item" onclick="togglePack(this,'health',4)"><div class="cl-box">✓</div><span class="cl-text">Prescription medications + copies of prescriptions</span><span class="cl-badge tag tag-gold">Pack</span></li>
-      </ul>
-    </div>
-
-    <div class="cl-group reveal">
-      <div class="cl-group-label">Tech & Gear</div>
-      <ul id="pl-tech">
-        <li class="cl-item" onclick="togglePack(this,'tech',0)"><div class="cl-box">✓</div><span class="cl-text">Waterproof phone case or dry bag for boat activities</span><span class="cl-badge tag tag-ocean">Gear</span></li>
-        <li class="cl-item" onclick="togglePack(this,'tech',1)"><div class="cl-box">✓</div><span class="cl-text">GoPro or underwater camera if you have one — snorkelling is exceptional</span><span class="cl-badge tag tag-ocean">Gear</span></li>
-        <li class="cl-item" onclick="togglePack(this,'tech',2)"><div class="cl-box">✓</div><span class="cl-text">Universal adapter — confirm plug type for {{RESORT_COUNTRY}}</span><span class="cl-badge tag tag-gold">Info</span></li>
-        <li class="cl-item" onclick="togglePack(this,'tech',3)"><div class="cl-box">✓</div><span class="cl-text">Download offline maps for {{RESORT_REGION}} in Google Maps before departure</span><span class="cl-badge tag tag-ocean">Gear</span></li>
-      </ul>
-    </div>
-
-    <!-- CURATED RECS -->
+    <div class="cl-group reveal"><div class="cl-group-label">Essentials</div><ul id="pl-essential">
+      <li class="cl-item" onclick="togglePack(this,'essential',0)"><div class="cl-box">✓</div><span class="cl-text">Passport — valid at least 6 months beyond {{CHECKOUT}}</span><span class="cl-badge tag tag-ember">Must Have</span></li>
+      <li class="cl-item" onclick="togglePack(this,'essential',1)"><div class="cl-box">✓</div><span class="cl-text">{{INSURANCE_PRIMARY}} card — your travel insurance lives here</span><span class="cl-badge tag tag-ember">Must Have</span></li>
+      <li class="cl-item" onclick="togglePack(this,'essential',2)"><div class="cl-box">✓</div><span class="cl-text">USD cash — $200–300 for local restaurants and markets</span><span class="cl-badge tag tag-ember">Must Have</span></li>
+      <li class="cl-item" onclick="togglePack(this,'essential',3)"><div class="cl-box">✓</div><span class="cl-text">Phone + charging cable + portable charger</span><span class="cl-badge tag tag-ember">Must Have</span></li>
+      <li class="cl-item" onclick="togglePack(this,'essential',4)"><div class="cl-box">✓</div><span class="cl-text">Reef-safe sunscreen SPF 50+ — legally required at destination</span><span class="cl-badge tag tag-ember">Must Have</span></li>
+    </ul></div>
+    <div class="cl-group reveal"><div class="cl-group-label">Clothing</div><ul id="pl-clothing">
+      <li class="cl-item" onclick="togglePack(this,'clothing',0)"><div class="cl-box">✓</div><span class="cl-text">3–4 swimsuits — you'll be in them more than anything else</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'clothing',1)"><div class="cl-box">✓</div><span class="cl-text">Linen shirts or breathable button-downs for evenings</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'clothing',2)"><div class="cl-box">✓</div><span class="cl-text">Light shorts and one smart casual outfit for the {{ROOM_CLASS}} restaurant</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'clothing',3)"><div class="cl-box">✓</div><span class="cl-text">Sandals + one pair of closed-toe shoes for excursions</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'clothing',4)"><div class="cl-box">✓</div><span class="cl-text">Light rain jacket — {{TRIP_MONTH}} showers are brief but real</span><span class="cl-badge tag tag-amber">Pack</span></li>
+    </ul></div>
+    <div class="cl-group reveal"><div class="cl-group-label">Health & Gear</div><ul id="pl-health">
+      <li class="cl-item" onclick="togglePack(this,'health',0)"><div class="cl-box">✓</div><span class="cl-text">DEET insect repellent for jungle excursions</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'health',1)"><div class="cl-box">✓</div><span class="cl-text">After-sun lotion or aloe — you will burn faster than you expect</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'health',2)"><div class="cl-box">✓</div><span class="cl-text">Motion sickness tablets — boat tours can be choppy</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'health',3)"><div class="cl-box">✓</div><span class="cl-text">Electrolyte packets — heat and humidity dehydrate you fast</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="togglePack(this,'health',4)"><div class="cl-box">✓</div><span class="cl-text">Waterproof phone case or dry bag for water excursions</span><span class="cl-badge tag tag-ocean">Gear</span></li>
+      <li class="cl-item" onclick="togglePack(this,'health',5)"><div class="cl-box">✓</div><span class="cl-text">Download offline maps for {{RESORT_REGION}} before departure</span><span class="cl-badge tag tag-ocean">Gear</span></li>
+    </ul></div>
     <div class="pack-recs reveal">
-      <div class="pack-recs-title">Curated Recommendations</div>
-      <div class="pack-recs-sub">Things worth buying or researching before you go — based on where you're going and what you're doing.</div>
-
+      <div class="pack-recs-title">What's Worth Buying</div>
+      <div class="pack-recs-sub">Specific recommendations based on where you're going and what you'll be doing.</div>
       <div class="rec-category">
         <div class="rec-cat-label">Sun & Water</div>
         <div class="rec-grid">
-          <div class="rec-card">
-            <div class="rc-essential">Essential</div>
-            <div class="rc-name">Raw Elements Reef-Safe SPF 50</div>
-            <div class="rc-why">Mineral-based, certified reef-safe, and actually effective in tropical sun. Your destination legally prohibits oxybenzone and octinoxate sunscreens. This is the gold standard.</div>
-            <div class="rc-tip">Available at MEC, Well.ca, or Amazon Canada. Get the tin — it lasts all week.</div>
-          </div>
-          <div class="rec-card">
-            <div class="rc-essential">Essential</div>
-            <div class="rc-name">Sea to Summit Lightweight Dry Bag</div>
-            <div class="rc-why">For water excursions and boat tours. Your phone, wallet, and camera need protection.</div>
-            <div class="rc-tip">8L size is perfect — big enough for phone, wallet, small camera. Under $30 at MEC.</div>
-          </div>
-          <div class="rec-card">
-            <div class="rc-name">Garmin Descent Mk2 or GoPro Hero</div>
-            <div class="rc-why">If you're doing any snorkel or scuba excursion, the underwater visibility is extraordinary. You'll regret not capturing it.</div>
-            <div class="rc-tip">GoPro Hero rental also available through most dive operators on-site if you don't want to buy.</div>
-          </div>
-          <div class="rec-card">
-            <div class="rc-name">Speedo UV50+ Rash Guard</div>
-            <div class="rc-why">UV index at your destination averages 11–12 in {{TRIP_MONTH}}. A rash guard for snorkelling and boat tours is more practical than re-applying sunscreen every hour in the water.</div>
-            <div class="rc-tip">Also useful for the zip-line — keeps you from getting scratched by the harness.</div>
-          </div>
+          <div class="rec-card"><div class="rc-essential">Essential</div><div class="rc-name">Raw Elements Reef-Safe SPF 50</div><div class="rc-why">Mineral-based, certified reef-safe, effective in tropical sun. Destination law prohibits chemical-based sunscreens. This is the gold standard.</div><div class="rc-tip">Available at MEC, Well.ca, or Amazon. Get the tin — lasts all week.</div></div>
+          <div class="rec-card"><div class="rc-essential">Essential</div><div class="rc-name">Sea to Summit Dry Bag 8L</div><div class="rc-why">For boat excursions and water activities. Your phone, wallet, and camera need protection — the water is not gentle.</div><div class="rc-tip">Under $30 at MEC. Get the 8L — big enough for phone, wallet, small camera.</div></div>
+          <div class="rec-card"><div class="rc-name">GoPro Hero or Waterproof Camera</div><div class="rc-why">If you're doing any snorkel excursion, the underwater visibility is extraordinary. You'll regret not capturing it.</div><div class="rc-tip">Rental also available through most dive operators on-site.</div></div>
+          <div class="rec-card"><div class="rc-name">UV50+ Rash Guard</div><div class="rc-why">UV index averages 11–12 in {{TRIP_MONTH}}. A rash guard for snorkelling and boat tours is more practical than reapplying sunscreen every hour in the water.</div><div class="rc-tip">Also useful for zip-lining — keeps harness from scratching.</div></div>
         </div>
       </div>
-
       <div class="rec-category">
-        <div class="rec-cat-label">Clothing Worth Packing</div>
+        <div class="rec-cat-label">Health & Comfort</div>
         <div class="rec-grid">
-          <div class="rec-card">
-            <div class="rc-essential">Recommended</div>
-            <div class="rc-name">Vuori or Patagonia Linen Shorts</div>
-            <div class="rc-why">The resort has a smart-casual dress code at the {{ROOM_CLASS}} restaurant. Linen shorts with a clean shirt hits the mark without needing to pack dress pants. Pack 2–3 pairs and you're covered for every scenario.</div>
-            <div class="rc-tip">Vuori Ripstop or Patagonia Stretch Wavefarer are both excellent. Quick-dry, look sharp.</div>
-          </div>
-          <div class="rec-card">
-            <div class="rc-name">Birkenstock Arizona Sandals</div>
-            <div class="rc-why">You need one sandal that can go from pool deck to dinner. The Arizona works for both. Comfortable for walking in town, presentable enough for a beach club dinner. Don't bring flip-flops as your only option.</div>
-            <div class="rc-tip">Break them in before you leave — new Birkenstocks on day one is a classic travel mistake.</div>
-          </div>
-          <div class="rec-card full">
-            <div class="rc-name">Lightweight Rain Jacket — Arc'teryx Squamish or similar</div>
-            <div class="rc-why">August is green season. You will get rained on at some point — a 20-minute tropical downpour, then sunshine. A packable rain jacket that fits in your daypack means you never have to cut an excursion short or get soaked on a sunset walk. This is not optional for the jungle days.</div>
-            <div class="rc-tip">The Arc'teryx Squamish packs down to nothing. Columbia also makes excellent budget alternatives. Get something that compresses to fist-size.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rec-category">
-        <div class="rec-cat-label">Health & Wellness</div>
-        <div class="rec-grid">
-          <div class="rec-card">
-            <div class="rc-essential">Strongly Recommended</div>
-            <div class="rc-name">LMNT Electrolyte Packets</div>
-            <div class="rc-why">Your destination averages 33°C with high humidity in {{TRIP_MONTH}}. You'll be in the sun all day, likely drinking at the resort. Electrolyte packets taken every morning prevent the kind of headaches and fatigue that waste a vacation day.</div>
-            <div class="rc-tip">Bring 10–12 packets. Citrus or watermelon flavour works well. Available at most health food stores or Amazon.</div>
-          </div>
-          <div class="rec-card">
-            <div class="rc-name">Stugeron (Cinnarizine) Motion Tablets</div>
-            <div class="rc-why">For boat excursions and ocean tours. Seas can be choppy in the afternoon. Stugeron is the preferred motion sickness medication for serious sailors — far more effective than Gravol.</div>
-            <div class="rc-tip">Available OTC at most pharmacies in Canada. Take one hour before boarding. Non-drowsy formula available.</div>
-          </div>
+          <div class="rec-card"><div class="rc-essential">Recommended</div><div class="rc-name">LMNT Electrolyte Packets</div><div class="rc-why">Your destination averages 33°C with high humidity in {{TRIP_MONTH}}. Electrolyte packets taken every morning prevent headaches and fatigue that waste a vacation day.</div><div class="rc-tip">Bring 10–12 packets. Available at most health stores or Amazon.</div></div>
+          <div class="rec-card"><div class="rc-name">Stugeron Motion Tablets</div><div class="rc-why">For boat excursions. Seas can be choppy in the afternoon. Stugeron is far more effective than Gravol for serious motion sickness.</div><div class="rc-tip">Available OTC at most pharmacies. Take one hour before boarding.</div></div>
         </div>
       </div>
     </div>
@@ -635,47 +734,47 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
 
   <!-- CHECKLIST -->
   <div class="panel" id="panel-checklist">
-    <div class="section-label reveal">Pre-Trip</div>
-    <h2 class="section-headline reveal">Everything you need <em>to do before you go.</em></h2>
+    <div class="sec-label reveal">Pre-Trip</div>
+    <h2 class="sec-headline reveal">Everything to do <em>before you go.</em></h2>
     <div class="progress-bar-wrap reveal"><div class="progress-bar" id="progress-bar"></div></div>
-    <div class="cl-group reveal"><div class="cl-group-label">Priority</div><ul id="cl-priority">
-      <li class="cl-item" onclick="toggleCl(this,'priority',0)"><div class="cl-box">✓</div><span class="cl-text">Complete hotel pre-check-in online</span><span class="cl-badge tag tag-terra">Do Now</span></li>
-      <li class="cl-item" onclick="toggleCl(this,'priority',1)"><div class="cl-box">✓</div><span class="cl-text">Room requests confirmed — {{ROOM_REQUESTS_LABEL}}</span><span class="cl-badge tag tag-gold">Done ✓</span></li>
+    <div class="cl-group reveal"><div class="cl-group-label">Priority Now</div><ul id="cl-priority">
+      <li class="cl-item" onclick="toggleCl(this,'priority',0)"><div class="cl-box">✓</div><span class="cl-text">Complete hotel pre-check-in online</span><span class="cl-badge tag tag-ember">Do Now</span></li>
+      <li class="cl-item" onclick="toggleCl(this,'priority',1)"><div class="cl-box">✓</div><span class="cl-text">Room requests confirmed — {{ROOM_REQUESTS_LABEL}}</span><span class="cl-badge tag tag-amber">Done ✓</span></li>
       <li class="cl-item" onclick="toggleCl(this,'priority',2)"><div class="cl-box">✓</div><span class="cl-text">Contact {{ROOM_CLASS}} butler before arrival to pre-arrange experiences</span><span class="cl-badge tag tag-ocean">Before Trip</span></li>
     </ul></div>
     <div class="cl-group reveal"><div class="cl-group-label">Book Early</div><ul id="cl-book">
-      <li class="cl-item" onclick="toggleCl(this,'book',0)"><div class="cl-box">✓</div><span class="cl-text">Book whale watching — August fills fast, private boat preferred</span><span class="cl-badge tag tag-terra">Book Early</span></li>
-      <li class="cl-item" onclick="toggleCl(this,'book',1)"><div class="cl-box">✓</div><span class="cl-text">Book {{ACT_2_NAME}} if interested</span><span class="cl-badge tag tag-terra">Book Early</span></li>
+      <li class="cl-item" onclick="toggleCl(this,'book',0)"><div class="cl-box">✓</div><span class="cl-text">Book {{ACT_1_NAME}} — {{TRIP_MONTH}} fills fast, private boat preferred</span><span class="cl-badge tag tag-ember">Book Early</span></li>
+      <li class="cl-item" onclick="toggleCl(this,'book',1)"><div class="cl-box">✓</div><span class="cl-text">Book {{ACT_2_NAME}} if interested</span><span class="cl-badge tag tag-ember">Book Early</span></li>
       <li class="cl-item" onclick="toggleCl(this,'book',2)"><div class="cl-box">✓</div><span class="cl-text">Reserve top restaurant picks — 3–5 days ahead</span><span class="cl-badge tag tag-ocean">Dining</span></li>
     </ul></div>
     <div class="cl-group reveal"><div class="cl-group-label">Travel Day</div><ul id="cl-travel">
-      <li class="cl-item" onclick="toggleCl(this,'travel',0)"><div class="cl-box">✓</div><span class="cl-text">Online check-in for {{FLIGHT_OUT_NUM}} — opens 24 hrs before {{CHECKIN}}</span><span class="cl-badge tag tag-ocean">Aug 7</span></li>
-      <li class="cl-item" onclick="toggleCl(this,'travel',1)"><div class="cl-box">✓</div><span class="cl-text">Download Air Canada app · Save boarding passes to Wallet</span><span class="cl-badge tag tag-gold">Pack</span></li>
-      <li class="cl-item" onclick="toggleCl(this,'travel',2)"><div class="cl-box">✓</div><span class="cl-text">Pre-arrange resort transfer from {{FLIGHT_OUT_ARR_AIRPORT}} — ~45 min drive</span><span class="cl-badge tag tag-gold">Arrange</span></li>
+      <li class="cl-item" onclick="toggleCl(this,'travel',0)"><div class="cl-box">✓</div><span class="cl-text">Online check-in for {{FLIGHT_OUT_NUM}} — opens 24 hrs before {{CHECKIN}}</span><span class="cl-badge tag tag-ocean">{{CHECKIN}}</span></li>
+      <li class="cl-item" onclick="toggleCl(this,'travel',1)"><div class="cl-box">✓</div><span class="cl-text">Download airline app · Save boarding passes to Wallet</span><span class="cl-badge tag tag-amber">Pack</span></li>
+      <li class="cl-item" onclick="toggleCl(this,'travel',2)"><div class="cl-box">✓</div><span class="cl-text">Pre-arrange resort transfer from {{FLIGHT_OUT_ARR_AIRPORT}} — ~45 min drive</span><span class="cl-badge tag tag-amber">Arrange</span></li>
     </ul></div>
     <div class="cl-group reveal"><div class="cl-group-label">Finance & Insurance</div><ul id="cl-finance">
       <li class="cl-item" onclick="toggleCl(this,'finance',0)"><div class="cl-box">✓</div><span class="cl-text">Notify bank of travel dates to prevent card blocks</span><span class="cl-badge tag tag-ocean">Finance</span></li>
       <li class="cl-item" onclick="toggleCl(this,'finance',1)"><div class="cl-box">✓</div><span class="cl-text">Review {{INSURANCE_PRIMARY}} travel insurance documents</span><span class="cl-badge tag tag-ocean">Insurance</span></li>
-      <li class="cl-item" onclick="toggleCl(this,'finance',2)"><div class="cl-box">✓</div><span class="cl-text">Save TD emergency line: {{INSURANCE_PHONE}}</span><span class="cl-badge tag tag-terra">Emergency</span></li>
+      <li class="cl-item" onclick="toggleCl(this,'finance',2)"><div class="cl-box">✓</div><span class="cl-text">Save emergency line: {{INSURANCE_PHONE}}</span><span class="cl-badge tag tag-ember">Emergency</span></li>
       <li class="cl-item" onclick="toggleCl(this,'finance',3)"><div class="cl-box">✓</div><span class="cl-text">Exchange or load CAD → USD (resort pricing in USD)</span><span class="cl-badge tag tag-ocean">Finance</span></li>
     </ul></div>
   </div>
 
   <!-- KEY INFO -->
   <div class="panel" id="panel-info">
-    <div class="section-label reveal">Essential Info</div>
-    <h2 class="section-headline reveal">Everything you need, <em>all in one place.</em></h2>
+    <div class="sec-label reveal">Essential Info</div>
+    <h2 class="sec-headline reveal">Everything you need, <em>all in one place.</em></h2>
     <div class="info-grid">
-      <div class="info-card full reveal"><div class="ic-label">Hotel Pre-Check-In</div><div class="ic-value"><a href="{{CHECKIN_LINK}}" target="_blank">Complete your pre-arrival check-in →</a><br><span style="color:var(--ink4);font-size:.8rem">Confirm room preferences · Upload ID · Set arrival time · Request early check-in</span></div></div>
-      <div class="info-card emergency reveal"><div class="ic-label">Emergency Insurance</div><div class="ic-value" style="color:rgba(255,255,255,.55);font-size:.8rem">{{INSURANCE_PRIMARY}} (primary)<br>{{INSURANCE_SECONDARY}} (secondary)</div><div class="emergency-num">{{INSURANCE_PHONE}}</div><div class="emergency-label">TD Emergency Line · Available 24/7</div></div>
-      <div class="info-card reveal"><div class="ic-label">Arrival Airport</div><div class="ic-value"><strong>{{FLIGHT_OUT_ARR_AIRPORT}}</strong> — {{FLIGHT_OUT_ARR_CITY}}<br>~45 min drive to resort<br><span style="color:var(--ink4);font-size:.8rem">Pre-arrange transfer or Uber — both reliable from {{FLIGHT_OUT_ARR_AIRPORT}}</span></div></div>
+      <div class="info-card full reveal"><div class="ic-label">Hotel Pre-Check-In</div><div class="ic-value"><a href="{{CHECKIN_LINK}}" target="_blank">Complete your pre-arrival check-in →</a><br><span style="color:var(--muted);font-size:.8rem">Confirm room preferences · Upload ID · Set arrival time · Request early check-in</span></div></div>
+      <div class="info-card emergency reveal"><div class="ic-label">Emergency Insurance</div><div class="ic-value" style="color:rgba(245,230,200,.55);font-size:.8rem">{{INSURANCE_PRIMARY}} (primary)<br>{{INSURANCE_SECONDARY}} (secondary)</div><div class="emergency-num">{{INSURANCE_PHONE}}</div><div class="emergency-label">Emergency Line · Available 24/7</div></div>
+      <div class="info-card reveal"><div class="ic-label">Arrival Airport</div><div class="ic-value"><strong>{{FLIGHT_OUT_ARR_AIRPORT}}</strong> — {{FLIGHT_OUT_ARR_CITY}}<br>~45 min drive to resort<br><span style="color:var(--muted);font-size:.8rem">Pre-arrange transfer or Uber — both reliable from {{FLIGHT_OUT_ARR_AIRPORT}}</span></div></div>
     </div>
   </div>
 
   <!-- FACTS -->
   <div class="panel" id="panel-facts">
-    <div class="section-label reveal">{{DESTINATION_LABEL}}</div>
-    <h2 class="section-headline reveal">Six things that'll make you <em>want to go even more.</em></h2>
+    <div class="sec-label reveal">{{DESTINATION_LABEL}}</div>
+    <h2 class="sec-headline reveal">Six things that'll make you <em>want to go even more.</em></h2>
     <div class="fact-feature reveal">
       <div class="fact-nav" id="fact-nav"></div>
       <div class="fact-text" id="fact-text">{{FACT_1}}</div>
@@ -685,18 +784,13 @@ body{background:var(--paper);color:var(--ink);font-family:'Instrument Sans',sans
 
   <!-- ROADMAP -->
   <div class="panel" id="panel-roadmap">
-    <div class="section-label reveal">Living Roadmap</div>
-    <h2 class="section-headline reveal">What to update, <em>and when.</em></h2>
-    <p class="roadmap-intro reveal">This page evolves automatically every day — but a few times between now and {{CHECKIN}}, come back here and ask Claude for a phase update. Each phase is a complete redesign with new content, new energy, and new things to act on.</p>
-
+    <div class="sec-label reveal">Living Roadmap</div>
+    <h2 class="sec-headline reveal">What to update, <em>and when.</em></h2>
+    <p class="roadmap-intro reveal">This page evolves automatically every day. A few times between now and {{CHECKIN}}, come back here and ask Claude for a phase update. Each phase is a complete redesign with new content, new energy, and new things to act on.</p>
     <div class="roadmap-now-banner reveal" id="roadmap-banner">
-      <div class="rnb-icon">🌱</div>
-      <div class="rnb-body">
-        <div class="rnb-title" id="banner-title">Loading current phase...</div>
-        <div class="rnb-desc" id="banner-desc">Calculating your trip timeline.</div>
-      </div>
+      <div class="rnb-icon">🌅</div>
+      <div><div class="rnb-title" id="banner-title">Loading current phase...</div><div class="rnb-desc" id="banner-desc">Calculating your trip timeline.</div></div>
     </div>
-
     <div class="roadmap-list reveal" id="roadmap-list"></div>
   </div>
 
@@ -717,7 +811,7 @@ tick();setInterval(tick,1000);
 // ── BADGES ──
 const rm={KING:'King Bed',OCVW:'Ocean View',HIGH:'High Floor',NSMK:'Non-Smoking'};
 '{{ROOM_REQUESTS}}'.split(',').map(r=>r.trim()).forEach(r=>{
-  const b=document.createElement('span');b.className='tag tag-gold';b.textContent=rm[r]||r;
+  const b=document.createElement('span');b.className='tag tag-amber';b.textContent=rm[r]||r;
   document.getElementById('req-pills').appendChild(b);
 });
 
@@ -727,473 +821,119 @@ function switchTab(id,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   btn.classList.add('active');
-  // Scroll active tab into view within the nav
   btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-  // Scroll page to top of content
   document.getElementById('tab-nav-wrap').scrollIntoView({behavior:'smooth',block:'nearest'});
   setTimeout(()=>{triggerReveals();if(id==='map')initMaps();},80);
 }
 
-// Tab nav — chevrons + drag-to-scroll + fades
-function scrollTabNav(dir){
-  const nav = document.getElementById('tab-nav');
-  nav.scrollBy({left: dir * 180, behavior:'smooth'});
-}
-
+// ── CHEVRONS + DRAG ──
+function scrollTabNav(dir){document.getElementById('tab-nav').scrollBy({left:dir*180,behavior:'smooth'})}
 function initTabNav(){
-  const nav = document.getElementById('tab-nav');
-  const fadeLeft = document.getElementById('fade-left');
-  const fadeRight = document.getElementById('fade-right');
-  const chevLeft = document.getElementById('chev-left');
-  const chevRight = document.getElementById('chev-right');
-
-  function updateFades(){
-    const atStart = nav.scrollLeft < 8;
-    const atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 8;
-    fadeLeft.style.opacity = atStart ? '0' : '1';
-    fadeRight.style.opacity = atEnd ? '0' : '1';
-    if(chevLeft) chevLeft.disabled = atStart;
-    if(chevRight) chevRight.disabled = atEnd;
-  }
-
-  nav.addEventListener('scroll', updateFades);
-  window.addEventListener('resize', updateFades);
-  updateFades();
-
-  // Mouse drag-to-scroll
-  let isDragging = false, startX = 0, scrollStart = 0;
-  nav.addEventListener('mousedown', e => {
-    isDragging = true;
-    startX = e.pageX;
-    scrollStart = nav.scrollLeft;
-    nav.classList.add('dragging');
-    e.preventDefault();
-  });
-  window.addEventListener('mousemove', e => {
-    if(!isDragging) return;
-    nav.scrollLeft = scrollStart - (e.pageX - startX);
-  });
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-    nav.classList.remove('dragging');
-  });
+  const nav=document.getElementById('tab-nav');
+  const fl=document.getElementById('fade-left');
+  const fr=document.getElementById('fade-right');
+  const cl=document.getElementById('chev-left');
+  const cr=document.getElementById('chev-right');
+  function upd(){const s=nav.scrollLeft,e=s+nav.clientWidth>=nav.scrollWidth-8;fl.style.opacity=s<8?'0':'1';fr.style.opacity=e?'0':'1';if(cl)cl.disabled=s<8;if(cr)cr.disabled=e}
+  nav.addEventListener('scroll',upd);window.addEventListener('resize',upd);upd();
+  let drag=false,sx=0,ss=0;
+  nav.addEventListener('mousedown',e=>{drag=true;sx=e.pageX;ss=nav.scrollLeft;nav.classList.add('dragging');e.preventDefault()});
+  window.addEventListener('mousemove',e=>{if(!drag)return;nav.scrollLeft=ss-(e.pageX-sx)});
+  window.addEventListener('mouseup',()=>{drag=false;nav.classList.remove('dragging')});
 }
 initTabNav();
 
 // ── REVEAL ──
 function triggerReveals(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);obs.unobserve(e.target);}});
-  },{threshold:.05});
+  const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*60);obs.unobserve(e.target);}});},{threshold:.05});
   document.querySelectorAll('.reveal:not(.in)').forEach(r=>obs.observe(r));
 }
 triggerReveals();
 
-// ── MAPS ──
-let mapsInitialized=false;
-function initMaps(){
-  if(mapsInitialized)return;
-  mapsInitialized=true;
+// ── PACKING ──
+function togglePack(el,g,i){el.classList.toggle('done');saveP();updP()}
+function updP(){const a=document.querySelectorAll('[id^="pl-"] .cl-item'),d=document.querySelectorAll('[id^="pl-"] .cl-item.done'),b=document.getElementById('pack-progress');if(b)b.style.width=(a.length?d.length/a.length*100:0)+'%'}
+function saveP(){try{const s={};['essential','clothing','health'].forEach(g=>{s[g]=[...document.querySelectorAll('#pl-'+g+' .cl-item')].map(i=>i.classList.contains('done'))});localStorage.setItem('cr26p2pack',JSON.stringify(s))}catch(e){}}
+try{const s=JSON.parse(localStorage.getItem('cr26p2pack')||'{}');['essential','clothing','health'].forEach(g=>{if(!s[g])return;document.querySelectorAll('#pl-'+g+' .cl-item').forEach((l,i)=>{if(s[g][i])l.classList.add('done')})});updP()}catch(e){}
 
-  // EXPLORE MAP — full Guanacaste region
+// ── CHECKLIST ──
+function toggleCl(el,g,i){el.classList.toggle('done');saveCl();updCl()}
+function updCl(){const a=document.querySelectorAll('[id^="cl-"] .cl-item'),d=document.querySelectorAll('[id^="cl-"] .cl-item.done'),b=document.getElementById('progress-bar');if(b)b.style.width=(a.length?d.length/a.length*100:0)+'%'}
+function saveCl(){try{const s={};['priority','book','travel','finance'].forEach(g=>{s[g]=[...document.querySelectorAll('#cl-'+g+' .cl-item')].map(i=>i.classList.contains('done'))});localStorage.setItem('cr26p2cl',JSON.stringify(s))}catch(e){}}
+try{const s=JSON.parse(localStorage.getItem('cr26p2cl')||'{}');['priority','book','travel','finance'].forEach(g=>{if(!s[g])return;document.querySelectorAll('#cl-'+g+' .cl-item').forEach((l,i)=>{if(s[g][i])l.classList.add('done')})});updCl()}catch(e){}
+
+// ── MAPS ──
+let mapsInit=false;
+function initMaps(){
+  if(mapsInit)return;mapsInit=true;
   const map=L.map('explore-map',{zoomControl:true,scrollWheelZoom:false}).setView([10.50,-85.72],10);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:18}).addTo(map);
-
-  function makeIcon(color,size){
-    size=size||14;
-    return L.divIcon({
-      html:'<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,.35)"></div>',
-      className:'',iconSize:[size,size],iconAnchor:[size/2,size/2],popupAnchor:[0,-size/2]
-    });
-  }
-
-  const locations=[
-    // Resort — exact Google Maps coords
-    {lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),color:'#c4623a',size:18,name:'{{RESORT}}',cat:'⭐ Your Resort',desc:'{{ROOM_TYPE}} · {{RESORT_ADDRESS}}'},
-    // Airport
-    {lat:10.5933,lng:-85.5444,color:'#6a4a8a',size:14,name:'{{FLIGHT_OUT_ARR_CITY}} ({{FLIGHT_OUT_ARR_AIRPORT}})',cat:'✈ Airport',desc:'~45 min drive to resort. Your arrival and departure point. Pre-arrange transfer or Uber.'},
-    // Beaches & Dining
-    {lat:10.5519,lng:-85.6955,color:'#5a8a5a',size:13,name:'{{REST_1_AREA}}',cat:'🏖️ Beach · Dining',desc:'15 min from resort. Must-reserve restaurant nearby — book 3–5 days ahead.'},
-    {lat:10.5651,lng:-85.6890,color:'#2b6b8a',size:13,name:'Ginger Restaurant',cat:'🍽️ Dining',desc:'One of the region\'s best restaurants. Pan-Asian tapas meets local ingredients. Reserve 3–5 days ahead.'},
-    {lat:10.5580,lng:-85.7020,color:'#5a8a5a',size:13,name:'{{REST_2_AREA}}',cat:'🏖️ Beach · Dining',desc:'20 min from resort. Best local seafood lunch nearby.'},
-    {lat:10.5595,lng:-85.7045,color:'#2b6b8a',size:13,name:'El Ancla',cat:'🍽️ Dining',desc:'Fresh-off-the-boat seafood. Whole fried snapper. Cash only. Sell out by 2 PM — go for lunch.'},
-    {lat:10.3493,lng:-85.6568,color:'#5a8a5a',size:13,name:'{{ACTIVITY_5_NAME}}',cat:'🏄 Beach · Surfing',desc:'45 min south. Famous surf beach. Lessons available, beach clubs for sunset dinner.'},
-    {lat:10.3487,lng:-85.6482,color:'#2b6b8a',size:13,name:'{{REST_3_NAME}}',cat:'🍽️ Dining',desc:'Beachfront tables, wood-fired meats, exceptional sunset views. Arrive by 5 PM.'},
-    // Excursions
-    {lat:10.4572,lng:-85.6428,color:'#b8960c',size:13,name:'{{ACT_3_NAME}}',cat:'🤿 Excursion',desc:'45 min by boat. Best snorkel and scuba nearby — morning only.'},
-    {lat:10.4630,lng:-84.7027,color:'#b8960c',size:13,name:'{{ACT_2_NAME}}',cat:'🌋 Excursion',desc:'3 hrs away. Leave by 6 AM for clear morning views.'},
-    {lat:10.3350,lng:-85.1820,color:'#b8960c',size:13,name:'{{ACT_6_NAME}}',cat:'🐊 Wildlife',desc:'Boat cruise through mangroves. Dawn is best.'},
+  function mkIcon(c,s){s=s||14;return L.divIcon({html:'<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:'+c+';border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,.35)"></div>',className:'',iconSize:[s,s],iconAnchor:[s/2,s/2],popupAnchor:[0,-s/2]})}
+  const locs=[
+    {lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),c:'#c45a1a',s:18,n:'{{RESORT}}',cat:'⭐ Your Resort',d:'{{ROOM_TYPE}} · {{RESORT_ADDRESS}}'},
+    {lat:10.5933,lng:-85.5444,c:'#6a4a8a',s:14,n:'{{FLIGHT_OUT_ARR_CITY}} ({{FLIGHT_OUT_ARR_AIRPORT}})',cat:'✈ Airport',d:'~45 min drive to resort.'},
+    {lat:10.5519,lng:-85.6955,c:'#5a8a5a',s:13,n:'{{REST_1_AREA}}',cat:'🏖️ Beach · Dining',d:'15 min from resort. Must-reserve restaurant nearby.'},
+    {lat:10.5651,lng:-85.6890,c:'#3a7a9a',s:13,n:'{{REST_1_NAME}}',cat:'🍽️ Dining',d:"One of the region's best. Reserve 3–5 days ahead."},
+    {lat:10.5580,lng:-85.7020,c:'#5a8a5a',s:13,n:'{{REST_2_AREA}}',cat:'🏖️ Beach · Dining',d:'20 min from resort. Best local seafood nearby.'},
+    {lat:10.5595,lng:-85.7045,c:'#3a7a9a',s:13,n:'{{REST_2_NAME}}',cat:'🍽️ Dining',d:'Fresh local seafood. Cash only. Sell out by 2 PM.'},
+    {lat:10.3493,lng:-85.6568,c:'#5a8a5a',s:13,n:'{{ACT_5_NAME}}',cat:'🏄 Beach',d:'45 min south. Famous surf beach.'},
+    {lat:10.3487,lng:-85.6482,c:'#3a7a9a',s:13,n:'{{REST_3_NAME}}',cat:'🍽️ Dining',d:'Beachfront tables, exceptional sunset views.'},
+    {lat:10.4572,lng:-85.6428,c:'#b8960c',s:13,n:'{{ACT_3_NAME}}',cat:'🤿 Excursion',d:'45 min by boat. Morning only.'},
+    {lat:10.4630,lng:-84.7027,c:'#b8960c',s:13,n:'{{ACT_2_NAME}}',cat:'🌋 Excursion',d:'3 hrs away. Leave by 6 AM.'},
+    {lat:10.3350,lng:-85.1820,c:'#b8960c',s:13,n:'{{ACT_6_NAME}}',cat:'🐊 Wildlife',d:'Boat cruise through mangroves. Dawn is best.'},
   ];
-
-  locations.forEach(loc=>{
-    const marker=L.marker([loc.lat,loc.lng],{icon:makeIcon(loc.color,loc.size)}).addTo(map);
-    marker.bindPopup(
-      '<div class="map-popup-name">'+loc.name+'</div>'+
-      '<div class="map-popup-cat" style="color:'+loc.color+';font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">'+loc.cat+'</div>'+
-      '<div class="map-popup-desc">'+loc.desc+'</div>',
-      {maxWidth:260}
-    );
-  });
-
-  // RESORT CLOSE-UP — exact Google Maps coordinates
-  const resortMap=L.map('resort-map',{zoomControl:true,scrollWheelZoom:false}).setView([parseFloat('{{RESORT_LAT}}'),parseFloat('{{RESORT_LNG}}')],17);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(resortMap);
-
-  const resortPoints=[
-    {lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),color:'#c4623a',size:16,name:'{{RESORT}}',desc:'Main entrance — your first stop. Check in here, meet your Star Class butler.'},
-    {lat:10.6451,lng:-85.6490,color:'#b8960c',size:14,name:'{{ROOM_CLASS}} Area',desc:'Your exclusive {{ROOM_CLASS}} pool, restaurant, and butler service — separate from main resort.'},
-    {lat:10.6435,lng:-85.6478,color:'#2b6b8a',size:14,name:'Resort Beach',desc:'Direct beach access. Best at sunrise and golden hour.'},
-    {lat:10.6440,lng:-85.6495,color:'#5a8a5a',size:14,name:'Main Pool Complex',desc:'Central resort pool area and swim-up bar. Arrives crowded by 10 AM — get there early.'},
-  ];
-
-  resortPoints.forEach(p=>{
-    const m=L.marker([p.lat,p.lng],{icon:makeIcon(p.color,p.size)}).addTo(resortMap);
-    m.bindPopup(
-      '<div class="map-popup-name">'+p.name+'</div>'+
-      '<div class="map-popup-desc">'+p.desc+'</div>',
-      {maxWidth:220}
-    );
-  });
+  locs.forEach(l=>{const m=L.marker([l.lat,l.lng],{icon:mkIcon(l.c,l.s)}).addTo(map);m.bindPopup('<div class="map-popup-name">'+l.n+'</div><div class="map-popup-cat" style="color:'+l.c+'">'+l.cat+'</div><div class="map-popup-desc">'+l.d+'</div>',{maxWidth:260})});
+  const rm=L.map('resort-map',{zoomControl:true,scrollWheelZoom:false}).setView([parseFloat('{{RESORT_LAT}}'),parseFloat('{{RESORT_LNG}}')],17);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(rm);
+  [{lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),c:'#c45a1a',s:16,n:'{{RESORT}}',d:'Main entrance — check in here, meet your {{ROOM_CLASS}} butler.'},
+   {lat:parseFloat('{{RESORT_LAT}}')+0.0009,lng:parseFloat('{{RESORT_LNG}}')-0.001,c:'#d4940a',s:14,n:'{{ROOM_CLASS}} Area',d:'Your exclusive {{ROOM_CLASS}} pool, restaurant, and butler service.'},
+   {lat:parseFloat('{{RESORT_LAT}}')-0.0007,lng:parseFloat('{{RESORT_LNG}}')+0.0007,c:'#3a7a9a',s:14,n:'Resort Beach',d:'Direct beach access. Best at sunrise and golden hour.'},
+   {lat:parseFloat('{{RESORT_LAT}}')-0.0004,lng:parseFloat('{{RESORT_LNG}}')-0.0005,c:'#5a8a5a',s:14,n:'Main Pool',d:'Central resort pool and swim-up bar.'}
+  ].forEach(p=>{const m=L.marker([p.lat,p.lng],{icon:mkIcon(p.c,p.s)}).addTo(rm);m.bindPopup('<div class="map-popup-name">'+p.n+'</div><div class="map-popup-desc">'+p.d+'</div>',{maxWidth:220})});
 }
 
-// ── PACKING CHECKLIST ──
-function togglePack(el,group,idx){
-  el.classList.toggle('done');
-  savePacklist();updatePackProgress();
-}
-function updatePackProgress(){
-  const all=document.querySelectorAll('[id^="pl-"] .cl-item');
-  const done=document.querySelectorAll('[id^="pl-"] .cl-item.done');
-  const bar=document.getElementById('pack-progress');
-  if(bar)bar.style.width=(all.length?done.length/all.length*100:0)+'%';
-}
-function savePacklist(){
-  try{
-    const s={};
-    ['essential','clothing','health','tech'].forEach(g=>{
-      s[g]=[...document.querySelectorAll('#pl-'+g+' .cl-item')].map(i=>i.classList.contains('done'));
-    });
-    localStorage.setItem('cr26pack',JSON.stringify(s));
-  }catch(e){}
-}
-function loadPacklist(){
-  try{
-    const s=JSON.parse(localStorage.getItem('cr26pack')||'{}');
-    ['essential','clothing','health','tech'].forEach(g=>{
-      if(!s[g])return;
-      document.querySelectorAll('#pl-'+g+' .cl-item').forEach((item,i)=>{if(s[g][i])item.classList.add('done');});
-    });
-    updatePackProgress();
-  }catch(e){}
-}
-loadPacklist();
-
-// ── PRE-TRIP CHECKLIST ──
-function toggleCl(el,group,idx){
-  el.classList.toggle('done');saveCl();updateClProgress();
-}
-function updateClProgress(){
-  const all=document.querySelectorAll('[id^="cl-"] .cl-item');
-  const done=document.querySelectorAll('[id^="cl-"] .cl-item.done');
-  const bar=document.getElementById('progress-bar');
-  if(bar)bar.style.width=(all.length?done.length/all.length*100:0)+'%';
-}
-function saveCl(){
-  try{
-    const s={};
-    ['priority','book','travel','finance'].forEach(g=>{
-      s[g]=[...document.querySelectorAll('#cl-'+g+' .cl-item')].map(i=>i.classList.contains('done'));
-    });
-    localStorage.setItem('cr26cl',JSON.stringify(s));
-  }catch(e){}
-}
-function loadCl(){
-  try{
-    const s=JSON.parse(localStorage.getItem('cr26cl')||'{}');
-    ['priority','book','travel','finance'].forEach(g=>{
-      if(!s[g])return;
-      document.querySelectorAll('#cl-'+g+' .cl-item').forEach((item,i)=>{if(s[g][i])item.classList.add('done');});
-    });
-    updateClProgress();
-  }catch(e){}
-}
-loadCl();
-
-// ── ROADMAP ──
-const DEPARTURE = new Date('{{DEPARTURE_DATETIME}}');
-const NOW = new Date();
-const TRIP_END = new Date('{{TRIP_END_DATE}}');
-const DAYS_OUT = Math.ceil((DEPARTURE - NOW) / 86400000);
-
-const phases = [
-  {
-    id:'seed',
-    triggerDays:9999, untilDays:120,
-    phase:'Phase 1',
-    icon:'🌱',
-    title:'The Seed Is Planted',
-    date:'Now → 120 days out',
-    dateShort:'Now',
-    vibe:'Moody, aspirational. You just booked something that\'s going to change you.',
-    desc:'The page is live. Countdown is ticking. This is the dreaming phase — moody editorial design, destination facts that make you want to go, pure anticipation.',
-    updates:[
-      'Page is already in this phase — you\'re looking at it',
-      'Make sure the GitHub Action is running daily (Actions tab → Daily Deploy)',
-      'Share the link with your travel crew',
-      'Start thinking about which excursions to book early (whale watching fills fast in August)',
-    ],
-    action:'Currently Active',
-    actionType:'now'
-  },
-  {
-    id:'anticipation',
-    triggerDays:120, untilDays:90,
-    phase:'Phase 2',
-    icon:'🌅',
-    title:'The Anticipation Builds',
-    date:'~120 days out — approx April 2026',
-    dateShort:'~Apr 2026',
-    vibe:'Warmer palette, sunset oranges. What {{ROOM_CLASS}} actually means. Butler tips, restaurant previews.',
-    desc:'Come back to Claude and say "give me the Phase 2 update." The page gets a full redesign — warmer sunset palette, deep dive into {{ROOM_CLASS}} perks, what to expect from your butler, restaurant preview cards.',
-    updates:[
-      'New design: warm sunset oranges and golds replace the current palette',
-      'New section: {{ROOM_CLASS}} perks breakdown — what\'s included, how to use your butler',
-      'New content: restaurant preview cards with photos and booking links',
-      'New content: hidden beach recommendations near the resort',
-      'Action item: book whale watching if you haven\'t already',
-    ],
-    action:'Ask Claude: "Give me the Phase 2 redesign"',
-    actionType:'upcoming'
-  },
-  {
-    id:'planner',
-    triggerDays:90, untilDays:60,
-    phase:'Phase 3',
-    icon:'📋',
-    title:'The Planner Awakens',
-    date:'~90 days out — approx May 2026',
-    dateShort:'~May 2026',
-    vibe:'Bold and organised. Excursion countdown. Checklist goes urgent. Act now or regret it.',
-    desc:'Bold, high-contrast design. The page pivots to action mode — every section has urgency. Have you booked your key excursions yet? The checklist gets a red "overdue" state for anything not done.',
-    updates:[
-      'New design: bold black and white with terracotta urgency accents',
-      'Checklist items get urgency states — overdue, upcoming, done',
-      'New section: excursion booking status tracker',
-      'New content: {{TRIP_MONTH}} weather intel for {{RESORT_REGION}} — what to actually expect',
-      'Action item: book all major excursions now before August peak season fills up',
-    ],
-    action:'Ask Claude: "Give me the Phase 3 redesign"',
-    actionType:'upcoming'
-  },
-  {
-    id:'puravida',
-    triggerDays:60, untilDays:30,
-    phase:'Phase 4',
-    icon:'🌺',
-    title:'30 Days of Pura Vida',
-    date:'~60 days out — approx June 2026',
-    dateShort:'~Jun 2026',
-    vibe:'High energy. One fun CR fact per visit. Spanish phrase of the day. Resort insider tip.',
-    desc:'The page gets fun and playful. Daily rotating local phrases with pronunciation guides, a destination fun fact carousel, {{ROOM_CLASS}} insider tips that load fresh each day, countdown feels electric.',
-    updates:[
-      'New design: vibrant, high-energy, full of colour and movement',
-      'New feature: Spanish phrase of the day (rotates daily)',
-      'New feature: {{ROOM_CLASS}} insider tip of the day',
-      'New section: what to do on each day of the trip — suggested daily itinerary',
-      'Action item: finalise all restaurant reservations',
-    ],
-    action:'Ask Claude: "Give me the Phase 4 redesign"',
-    actionType:'upcoming'
-  },
-  {
-    id:'preview',
-    triggerDays:30, untilDays:14,
-    phase:'Phase 5',
-    icon:'🏨',
-    title:'Two Weeks Out',
-    date:'~30 days out — approx July 2026',
-    dateShort:'~Jul 2026',
-    vibe:'Full resort preview mode. Purple carpet moment. Which restaurants to book first.',
-    desc:'Deep resort knowledge mode. What to expect on arrival, the {{ROOM_CLASS}} welcome experience, pool layout, which bar to hit first, what to order, how to maximise every hour of 7 nights.',
-    updates:[
-      'New design: resort photography editorial — feels like a hotel magazine',
-      'New section: hour-by-hour arrival day guide',
-      'New section: {{ROOM_CLASS}} pool and restaurant layout with insider notes',
-      'New section: what to pack in your carry-on for the flight',
-      'Action item: online check-in for {{FLIGHT_OUT_NUM}} opens 24hrs before {{CHECKIN}}',
-    ],
-    action:'Ask Claude: "Give me the Phase 5 redesign"',
-    actionType:'upcoming'
-  },
-  {
-    id:'finalweek',
-    triggerDays:14, untilDays:7,
-    phase:'Phase 6',
-    icon:'⚡',
-    title:'The Final Week',
-    date:'~14 days out — approx Aug 1, 2026',
-    dateShort:'~Aug 1',
-    vibe:'Explosive energy. Packing list. Flight check-in. Daily hype. Weather forecast.',
-    desc:'The page goes full launch mode. Real-time weather forecast for {{RESORT_REGION}}. Daily hype message. Packing list with red urgency states. Flight check-in reminder with exact timing. The energy is: let\'s go.',
-    updates:[
-      'New design: dark, electric, launch-mode energy',
-      'New feature: live weather forecast for {{RESORT_REGION}}',
-      'New feature: daily hype message that changes every morning',
-      'Packing list goes urgent — anything unchecked turns red',
-      'Flight check-in reminder prominently displayed ({{FLIGHT_OUT_NUM}} opens 24hrs before {{CHECKIN}})',
-    ],
-    action:'Ask Claude: "Give me the Phase 6 redesign"',
-    actionType:'upcoming'
-  },
-  {
-    id:'dayone',
-    triggerDays:7, untilDays:0,
-    phase:'Phase 7',
-    icon:'🛫',
-    title:'It\'s Time',
-    date:'{{CHECKIN}} — Departure Day',
-    dateShort:'{{FLIGHT_OUT_DATE}}',
-    vibe:'Full screen takeover. One message. Pure emotion. "Pura Vida, Isiah."',
-    desc:'The page transforms completely. Full-screen cinematic moment. One image, one message. Everything else falls away. This is the moment you\'ve been counting down to.',
-    updates:[
-      'Full-screen cinematic takeover — nothing else on the page',
-      'One image of {{RESORT_REGION}} at sunrise',
-      'One message: "Pura Vida, Isiah."',
-      'Final checklist confirmation — passport, boarding pass, USD cash',
-    ],
-    action:'Ask Claude: "Give me the departure day page"',
-    actionType:'upcoming'
-  },
-  {
-    id:'there',
-    triggerDays:-1, untilDays:-7,
-    phase:'Phase 8',
-    icon:'🌊',
-    title:'You\'re There',
-    date:'{{CHECKIN}} – {{CHECKOUT}} — The Trip',
-    dateShort:'{{CHECKIN_SHORT}}',
-    vibe:'Travel journal mode. Daily temperature, sunrise time, one suggestion per day.',
-    desc:'The page flips to a travel companion. Daily sunrise time for {{RESORT_REGION}}. Temperature and UV index. One suggested activity per day. A live journal feel — the page supports you while you\'re there.',
-    updates:[
-      'Daily sunrise and sunset times for {{RESORT_REGION}}',
-      'Daily activity suggestion based on the day of the trip',
-      'Live weather conditions for {{RESORT_REGION}}',
-      'Reminder to photograph everything — you\'ll want the memories',
-    ],
-    action:'Ask Claude: "Give me the during-trip page"',
-    actionType:'upcoming'
-  },
-  {
-    id:'afterglow',
-    triggerDays:-7, untilDays:-9999,
-    phase:'Phase 9',
-    icon:'✨',
-    title:'The Afterglow',
-    date:'After Aug 15, 2026',
-    dateShort:'After',
-    vibe:'Soft, warm, nostalgic. Memory mode. A quote about travel. You already miss it.',
-    desc:'The page becomes a memory. Soft warm tones, a photo gallery placeholder, a quote about travel and what it does to you. The countdown becomes "X days since Pura Vida." Keep it forever.',
-    updates:[
-      'New design: warm, nostalgic, soft film-grain aesthetic',
-      'Countdown flips to "days since your trip"',
-      'Photo gallery placeholder — add your favourite shots',
-      'A quote about travel that hits different after the fact',
-    ],
-    action:'Ask Claude: "Give me the afterglow page"',
-    actionType:'upcoming'
-  }
-];
-
-function buildRoadmap(){
-  const list = document.getElementById('roadmap-list');
-  const banner = document.getElementById('roadmap-banner');
-  const bannerTitle = document.getElementById('banner-title');
-  const bannerDesc = document.getElementById('banner-desc');
-  let currentPhase = null;
-
-  phases.forEach(p => {
-    // Determine if current, completed or upcoming
-    let status, statusLabel;
-    if(DAYS_OUT <= p.triggerDays && DAYS_OUT > p.untilDays){
-      status = 'current'; statusLabel = '● You Are Here';
-      currentPhase = p;
-    } else if(DAYS_OUT <= p.untilDays){
-      status = 'completed'; statusLabel = '✓ Passed';
-    } else {
-      status = 'upcoming'; statusLabel = 'Upcoming';
-    }
-
-    const item = document.createElement('div');
-    item.className = 'roadmap-item' +
-      (status==='current' ? ' active-phase' : '') +
-      (status==='completed' ? ' completed' : '');
-
-    const leftBg = status==='current' ? ' active-bg' : '';
-
-    item.innerHTML = `
-      <div class="ri-left${leftBg}">
-        <div class="ri-date">${p.dateShort}</div>
-        <div class="ri-days">${getDaysLabel(p)}</div>
-        <span class="ri-status ${status==='current'?'status-now':status==='completed'?'status-done':'status-upcoming'}">${statusLabel}</span>
-      </div>
-      <div class="ri-right">
-        <div class="ri-phase">${p.icon} ${p.phase}</div>
-        <div class="ri-title">${p.title}</div>
-        <div class="ri-desc"><em style="color:var(--ink4)">"${p.vibe}"</em><br><br>${p.desc}</div>
-        <div class="ri-updates">
-          ${p.updates.map(u=>`<div class="ri-update"><span class="ri-update-icon">→</span>${u}</div>`).join('')}
-        </div>
-        ${status!=='completed'?`<div class="ri-action"><span class="ri-action-btn ${status==='current'?'':'secondary'}">${status==='current'?'● Currently Active':p.action}</span></div>`:''}
-      </div>`;
-    list.appendChild(item);
-  });
-
-  // Update banner
-  if(currentPhase){
-    bannerTitle.textContent = currentPhase.icon + ' ' + currentPhase.phase + ': ' + currentPhase.title;
-    bannerDesc.textContent = DAYS_OUT > 0
-      ? `You're ${DAYS_OUT} days out. ${currentPhase.vibe}`
-      : `Trip is happening now or has passed. ${currentPhase.vibe}`;
-    banner.style.background = 'var(--terracotta)';
-  }
-}
-
-function getDaysLabel(p){
-  if(DAYS_OUT <= p.triggerDays && DAYS_OUT > p.untilDays){
-    return DAYS_OUT + ' days to go';
-  }
-  if(p.triggerDays === 9999) return 'Phase active now';
-  if(p.triggerDays < 0) return 'After trip';
-  return p.triggerDays + ' days out';
-}
-
-buildRoadmap();
-const facts=[
-  "{{FACT_1}}",
-  "{{FACT_2}}",
-  "{{FACT_3}}",
-  "{{FACT_4}}",
-  "{{FACT_5}}",
-  "{{FACT_6}}"
-];
+// ── FACTS ──
+const facts=['{{FACT_1}}','{{FACT_2}}','{{FACT_3}}','{{FACT_4}}','{{FACT_5}}','{{FACT_6}}'];
 let fi=0;
 const fn=document.getElementById('fact-nav');
-facts.forEach((_,i)=>{
-  const b=document.createElement('button');b.className='fact-nav-btn'+(i===0?' active':'');
-  b.textContent=String(i+1).padStart(2,'0');b.onclick=()=>gf(i);fn.appendChild(b);
-});
-function gf(i){
-  const el=document.getElementById('fact-text');
-  el.style.opacity='0';el.style.transform='translateY(10px)';
-  setTimeout(()=>{
-    fi=i;el.textContent=facts[i];
-    document.getElementById('fact-count').textContent=(i+1)+' of '+facts.length;
-    document.querySelectorAll('.fact-nav-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
-    el.style.transition='opacity .5s ease,transform .5s ease';el.style.opacity='1';el.style.transform='none';
-  },300);
-}
+facts.forEach((_,i)=>{const b=document.createElement('button');b.className='fact-nav-btn'+(i===0?' active':'');b.textContent=String(i+1).padStart(2,'0');b.onclick=()=>gf(i);fn.appendChild(b)});
+function gf(i){const el=document.getElementById('fact-text');el.style.opacity='0';el.style.transform='translateY(10px)';setTimeout(()=>{fi=i;el.textContent=facts[i];document.getElementById('fact-count').textContent=(i+1)+' of '+facts.length;document.querySelectorAll('.fact-nav-btn').forEach((b,j)=>b.classList.toggle('active',j===i));el.style.transition='opacity .5s ease,transform .5s ease';el.style.opacity='1';el.style.transform='none'},300)}
 document.getElementById('fact-text').style.transition='opacity .3s ease,transform .3s ease';
 setInterval(()=>gf((fi+1)%facts.length),8000);
+
+// ── ROADMAP ──
+const DEPARTURE=new Date('{{DEPARTURE_DATETIME}}');
+const NOW=new Date();
+const TRIP_END=new Date('{{TRIP_END_DATE}}');
+const DAYS_OUT=Math.ceil((DEPARTURE-NOW)/86400000);
+const phases=[
+  {id:'seed',trigger:9999,until:120,phase:'Phase 1',icon:'🌱',title:'The Seed Is Planted',dateShort:'Done',vibe:'Moody, aspirational. You just booked something that\'s going to change you.',desc:'The initial launch phase. Countdown live, all trip details in place.',updates:['Page launched successfully','All variables and secrets configured','Daily auto-deploy running'],action:'Completed',type:'done'},
+  {id:'anticipation',trigger:120,until:90,phase:'Phase 2',icon:'🌅',title:'The Anticipation Builds',dateShort:'Now',vibe:'Warmer palette, sunset oranges. What {{ROOM_CLASS}} actually means.',desc:'Current phase — you\'re looking at it. Warm sunset design, {{ROOM_CLASS}} deep dive, butler tips.',updates:['New {{ROOM_CLASS}} perks breakdown tab','Butler pre-arrival strategy guide','Warmer sunset palette throughout'],action:'Currently Active',type:'now'},
+  {id:'planner',trigger:90,until:60,phase:'Phase 3',icon:'📋',title:'The Planner Awakens',dateShort:'~May 2026',vibe:'Bold and organised. Act now or regret it.',desc:'Bold high-contrast design. Urgency mode — every section pushes action. Excursion booking tracker.',updates:['Checklist items get urgency states','Excursion booking status tracker','August weather intel added','Action: book all major excursions now'],action:'Ask Claude: "Give me the Phase 3 redesign"',type:'upcoming'},
+  {id:'puravida',trigger:60,until:30,phase:'Phase 4',icon:'🌺',title:'30 Days of Pura Vida',dateShort:'~Jun 2026',vibe:'High energy. Spanish phrase of the day. Resort insider tips.',desc:'Playful and vibrant. Daily rotating local phrases, {{ROOM_CLASS}} insider tips, daily itinerary suggestions.',updates:['Spanish/local phrase of the day','{{ROOM_CLASS}} insider tip rotates daily','Suggested daily itinerary added','Action: finalise all restaurant reservations'],action:'Ask Claude: "Give me the Phase 4 redesign"',type:'upcoming'},
+  {id:'preview',trigger:30,until:14,phase:'Phase 5',icon:'🏨',title:'Two Weeks Out',dateShort:'~Jul 2026',vibe:'Full resort preview. Arrival guide. Purple carpet moment.',desc:'Resort knowledge mode. Hour-by-hour arrival guide, {{ROOM_CLASS}} welcome experience, what to order first.',updates:['Arrival day hour-by-hour guide','{{ROOM_CLASS}} pool and restaurant layout','Carry-on packing list for the flight','Action: online check-in opens 24hrs before'],action:'Ask Claude: "Give me the Phase 5 redesign"',type:'upcoming'},
+  {id:'finalweek',trigger:14,until:7,phase:'Phase 6',icon:'⚡',title:'The Final Week',dateShort:'~Aug 1',vibe:'Explosive energy. Packing urgency. Weather forecast.',desc:'Launch mode. Live weather forecast for the region. Daily hype. Packing list goes urgent.',updates:['Live weather forecast added','Daily hype message rotates','Packing list items turn red if unchecked','Flight check-in reminder prominently displayed'],action:'Ask Claude: "Give me the Phase 6 redesign"',type:'upcoming'},
+  {id:'dayone',trigger:7,until:0,phase:'Phase 7',icon:'🛫',title:"It's Time",dateShort:'{{FLIGHT_OUT_DATE}}',vibe:'Full screen takeover. One message. Pure emotion.',desc:'Cinematic full-screen moment. One image, one message. Everything else falls away.',updates:['Full-screen cinematic takeover','One image, one message','Final checklist confirmation'],action:'Ask Claude: "Give me the departure day page"',type:'upcoming'},
+  {id:'there',trigger:-1,until:-7,phase:'Phase 8',icon:'🌊',title:"You're There",dateShort:'{{CHECKIN_SHORT}}',vibe:'Travel journal mode. Daily temperature. One suggestion per day.',desc:'Travel companion mode. Daily sunrise times, activity suggestions, live weather.',updates:['Daily sunrise/sunset times','Activity suggestion per day','Live weather conditions'],action:'Ask Claude: "Give me the during-trip page"',type:'upcoming'},
+  {id:'afterglow',trigger:-7,until:-9999,phase:'Phase 9',icon:'✨',title:'The Afterglow',dateShort:'After',vibe:'Soft, warm, nostalgic. Memory mode.',desc:'The page becomes a memory. Countdown flips to days since the trip. Photo gallery placeholder.',updates:['Warm nostalgic design','Countdown flips to days since trip','Photo gallery placeholder'],action:'Ask Claude: "Give me the afterglow page"',type:'upcoming'},
+];
+function buildRoadmap(){
+  const list=document.getElementById('roadmap-list');
+  const bt=document.getElementById('banner-title');
+  const bd=document.getElementById('banner-desc');
+  let current=null;
+  phases.forEach(p=>{
+    let status=p.type;
+    if(DAYS_OUT<=p.trigger&&DAYS_OUT>p.until&&p.type!=='done'){status='now';current=p}
+    const item=document.createElement('div');
+    item.className='roadmap-item'+(status==='now'?' active-phase':status==='done'?' completed':'');
+    const leftBg=status==='now'?' active-bg':'';
+    item.innerHTML=`<div class="ri-left${leftBg}"><div class="ri-date">${p.dateShort}</div><div class="ri-days">${DAYS_OUT>0&&status==='now'?DAYS_OUT+' days out':p.phase}</div><span class="ri-status ${status==='now'?'status-now':status==='done'?'status-done':'status-upcoming'}">${status==='now'?'● You Are Here':status==='done'?'✓ Done':'Upcoming'}</span></div><div class="ri-right"><div class="ri-phase">${p.icon} ${p.phase}</div><div class="ri-title">${p.title}</div><div class="ri-desc"><em style="color:var(--muted)">"${p.vibe}"</em><br><br>${p.desc}</div><div class="ri-updates">${p.updates.map(u=>`<div class="ri-update"><span class="ri-update-icon">→</span>${u}</div>`).join('')}</div>${status!=='done'?`<div style="margin-top:10px"><span class="tag ${status==='now'?'tag-ember':'tag-ocean'}" style="font-size:.6rem">${p.action}</span></div>`:''}</div>`;
+    list.appendChild(item);
+  });
+  if(current){bt.textContent=current.icon+' '+current.phase+': '+current.title;bd.textContent=DAYS_OUT+' days out. '+current.vibe}
+}
+buildRoadmap();
 </script>
 </body>
 </html>
