@@ -1,0 +1,107 @@
+name: Daily Deploy to Netlify
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Inject env vars into index.html
+        env:
+          RESORT: ${{ secrets.RESORT }}
+          ROOM_TYPE: ${{ secrets.ROOM_TYPE }}
+          CHECKIN: ${{ secrets.CHECKIN }}
+          CHECKOUT: ${{ secrets.CHECKOUT }}
+          FLIGHT_OUT_NUM: ${{ secrets.FLIGHT_OUT_NUM }}
+          FLIGHT_OUT_ROUTE: ${{ secrets.FLIGHT_OUT_ROUTE }}
+          FLIGHT_OUT_DEP: ${{ secrets.FLIGHT_OUT_DEP }}
+          FLIGHT_OUT_ARR: ${{ secrets.FLIGHT_OUT_ARR }}
+          FLIGHT_OUT_DATE: ${{ secrets.FLIGHT_OUT_DATE }}
+          FLIGHT_OUT_DEP_AIRPORT: ${{ secrets.FLIGHT_OUT_DEP_AIRPORT }}
+          FLIGHT_OUT_ARR_AIRPORT: ${{ secrets.FLIGHT_OUT_ARR_AIRPORT }}
+          FLIGHT_OUT_DEP_CITY: ${{ secrets.FLIGHT_OUT_DEP_CITY }}
+          FLIGHT_OUT_ARR_CITY: ${{ secrets.FLIGHT_OUT_ARR_CITY }}
+          FLIGHT_HOME_NUM: ${{ secrets.FLIGHT_HOME_NUM }}
+          FLIGHT_HOME_ROUTE: ${{ secrets.FLIGHT_HOME_ROUTE }}
+          FLIGHT_HOME_DEP: ${{ secrets.FLIGHT_HOME_DEP }}
+          FLIGHT_HOME_ARR: ${{ secrets.FLIGHT_HOME_ARR }}
+          FLIGHT_HOME_DATE: ${{ secrets.FLIGHT_HOME_DATE }}
+          FLIGHT_HOME_DEP_AIRPORT: ${{ secrets.FLIGHT_HOME_DEP_AIRPORT }}
+          FLIGHT_HOME_ARR_AIRPORT: ${{ secrets.FLIGHT_HOME_ARR_AIRPORT }}
+          FLIGHT_HOME_DEP_CITY: ${{ secrets.FLIGHT_HOME_DEP_CITY }}
+          FLIGHT_HOME_ARR_CITY: ${{ secrets.FLIGHT_HOME_ARR_CITY }}
+          CHECKIN_LINK: ${{ secrets.CHECKIN_LINK }}
+          INSURANCE_PRIMARY: ${{ secrets.INSURANCE_PRIMARY }}
+          INSURANCE_SECONDARY: ${{ secrets.INSURANCE_SECONDARY }}
+          INSURANCE_PHONE: ${{ secrets.INSURANCE_PHONE }}
+          AEROPLAN_POINTS: ${{ secrets.AEROPLAN_POINTS }}
+          ROOM_REQUESTS: ${{ secrets.ROOM_REQUESTS }}
+          RESORT_PHONE: ${{ secrets.RESORT_PHONE }}
+          RESORT_EMAIL: ${{ secrets.RESORT_EMAIL }}
+          RESORT_ADDRESS: ${{ secrets.RESORT_ADDRESS }}
+          RESORT_LAT: ${{ secrets.RESORT_LAT }}
+          RESORT_LNG: ${{ secrets.RESORT_LNG }}
+          RESORT_MAPS_URL: ${{ secrets.RESORT_MAPS_URL }}
+          RESORT_VIRTUAL_TOUR: ${{ secrets.RESORT_VIRTUAL_TOUR }}
+          RESORT_LOBBY_TOUR: ${{ secrets.RESORT_LOBBY_TOUR }}
+          RESORT_PHOTOS: ${{ secrets.RESORT_PHOTOS }}
+          RESORT_MAP_PDF: ${{ secrets.RESORT_MAP_PDF }}
+          DEPARTURE_DATETIME: ${{ secrets.DEPARTURE_DATETIME }}
+          TRIP_END_DATE: ${{ secrets.TRIP_END_DATE }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          sed -i "s|{{RESORT}}|${RESORT}|g" index.html
+          sed -i "s|{{ROOM_TYPE}}|${ROOM_TYPE}|g" index.html
+          sed -i "s|{{CHECKIN}}|${CHECKIN}|g" index.html
+          sed -i "s|{{CHECKOUT}}|${CHECKOUT}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_NUM}}|${FLIGHT_OUT_NUM}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_ROUTE}}|${FLIGHT_OUT_ROUTE}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_DEP}}|${FLIGHT_OUT_DEP}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_ARR}}|${FLIGHT_OUT_ARR}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_DATE}}|${FLIGHT_OUT_DATE}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_DEP_AIRPORT}}|${FLIGHT_OUT_DEP_AIRPORT}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_ARR_AIRPORT}}|${FLIGHT_OUT_ARR_AIRPORT}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_DEP_CITY}}|${FLIGHT_OUT_DEP_CITY}|g" index.html
+          sed -i "s|{{FLIGHT_OUT_ARR_CITY}}|${FLIGHT_OUT_ARR_CITY}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_NUM}}|${FLIGHT_HOME_NUM}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_ROUTE}}|${FLIGHT_HOME_ROUTE}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_DEP}}|${FLIGHT_HOME_DEP}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_ARR}}|${FLIGHT_HOME_ARR}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_DATE}}|${FLIGHT_HOME_DATE}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_DEP_AIRPORT}}|${FLIGHT_HOME_DEP_AIRPORT}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_ARR_AIRPORT}}|${FLIGHT_HOME_ARR_AIRPORT}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_DEP_CITY}}|${FLIGHT_HOME_DEP_CITY}|g" index.html
+          sed -i "s|{{FLIGHT_HOME_ARR_CITY}}|${FLIGHT_HOME_ARR_CITY}|g" index.html
+          sed -i "s|{{CHECKIN_LINK}}|${CHECKIN_LINK}|g" index.html
+          sed -i "s|{{INSURANCE_PRIMARY}}|${INSURANCE_PRIMARY}|g" index.html
+          sed -i "s|{{INSURANCE_SECONDARY}}|${INSURANCE_SECONDARY}|g" index.html
+          sed -i "s|{{INSURANCE_PHONE}}|${INSURANCE_PHONE}|g" index.html
+          sed -i "s|{{AEROPLAN_POINTS}}|${AEROPLAN_POINTS}|g" index.html
+          sed -i "s|{{ROOM_REQUESTS}}|${ROOM_REQUESTS}|g" index.html
+          sed -i "s|{{RESORT_PHONE}}|${RESORT_PHONE}|g" index.html
+          sed -i "s|{{RESORT_EMAIL}}|${RESORT_EMAIL}|g" index.html
+          sed -i "s|{{RESORT_ADDRESS}}|${RESORT_ADDRESS}|g" index.html
+          sed -i "s|{{RESORT_LAT}}|${RESORT_LAT}|g" index.html
+          sed -i "s|{{RESORT_LNG}}|${RESORT_LNG}|g" index.html
+          sed -i "s|{{RESORT_MAPS_URL}}|${RESORT_MAPS_URL}|g" index.html
+          sed -i "s|{{RESORT_VIRTUAL_TOUR}}|${RESORT_VIRTUAL_TOUR}|g" index.html
+          sed -i "s|{{RESORT_LOBBY_TOUR}}|${RESORT_LOBBY_TOUR}|g" index.html
+          sed -i "s|{{RESORT_PHOTOS}}|${RESORT_PHOTOS}|g" index.html
+          sed -i "s|{{RESORT_MAP_PDF}}|${RESORT_MAP_PDF}|g" index.html
+          sed -i "s|{{DEPARTURE_DATETIME}}|${DEPARTURE_DATETIME}|g" index.html
+          sed -i "s|{{TRIP_END_DATE}}|${TRIP_END_DATE}|g" index.html
+
+      - name: Deploy to Netlify
+        run: |
+          npm install -g netlify-cli
+          netlify deploy --prod --dir=. --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
