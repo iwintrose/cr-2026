@@ -6,6 +6,7 @@
 $file = Join-Path $PSScriptRoot "index.html"
 if (-not (Test-Path $file)) { Write-Host "ERROR: index.html not found." -ForegroundColor Red; exit 1 }
 
+
 $html = Get-Content $file -Raw -Encoding UTF8
 $original = $html.Length
 Write-Host "Read index.html ($original bytes)" -ForegroundColor Cyan
