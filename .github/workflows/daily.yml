@@ -222,6 +222,32 @@ jobs:
             'ROOM_REQUESTS_LABEL': os.environ['ROOM_REQUESTS_LABEL'],
           }
 
+          # --- FIX: JS-safe escaping for script blocks ---
+          # Apostrophes in secret values (e.g. "region's") break JS string literals.
+          # Pass 1: replace inside <script> tags with escaped values.
+          # Pass 2: replace remaining HTML placeholders with raw values.
+
+          SQ = chr(39)   # single quote
+          DQ = chr(34)   # double quote
+          BS = chr(92)   # backslash
+          NL = chr(10)   # newline
+
+          def js_escape(val):
+              return (val
+                  .replace(BS, BS + BS)
+                  .replace(SQ, BS + SQ)
+                  .replace(DQ, BS + DQ)
+                  .replace(NL, BS + 'n')
+                  .replace(chr(13), ''))
+
+          def replace_in_script(match):
+              block = match.group(1)
+              for key, val in vars.items():
+                  block = block.replace('{{' + key + '}}', js_escape(val))
+              return '<script>' + block + '</script>'
+
+          html = re.sub(r'<script>(.*?)</script>', replace_in_script, html, flags=re.DOTALL)
+
           for key, val in vars.items():
               html = html.replace('{{' + key + '}}', val)
 
