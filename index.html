@@ -1,37 +1,37 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pura Vida · {{CHECKIN_YEAR}}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Tenor+Sans&family=Cormorant:ital,wght@0,300;0,600;1,300;1,600&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&family=Cormorant:ital,wght@0,300;0,600;1,300;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --dusk:#1a0e08;
-  --dusk2:#261508;
-  --dusk3:#321b0a;
-  --ember:#c45a1a;
-  --ember2:#e07030;
-  --amber:#d4940a;
-  --amber2:#f0b830;
-  --champagne:#f5e6c8;
-  --champagne2:#faf3e4;
-  --warm-white:#fdf8f0;
-  --mahogany:#4a1e0a;
-  --sand:#c8a878;
-  --sand2:#e8d4b0;
-  --muted:#8a7060;
-  --dim:#5a4030;
-  --text:#f0e4d0;
-  --ocean:#3a7a9a;
-  --ocean2:#5a9ab8;
+  --dusk:#1B3A24;
+  --dusk2:#0D2B17;
+  --dusk3:#2B5B33;
+  --ember:#F4B41A;
+  --ember2:#F7C948;
+  --amber:#E54B4B;
+  --amber2:#FF6B6B;
+  --champagne:#E0EDE2;
+  --champagne2:#F9FBFB;
+  --warm-white:#F9FBFB;
+  --mahogany:#0D2B17;
+  --sand:#7DA07D;
+  --sand2:#C8DCC8;
+  --muted:#4A6B4A;
+  --dim:#2B5B33;
+  --text:#FFFFFF;
+  --ocean:#028090;
+  --ocean2:#03A8B8;
 }
 html{scroll-behavior:smooth}
-body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans',sans-serif;font-weight:400;overflow-x:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:var(--warm-white);color:var(--dusk);font-family:'Outfit',sans-serif;font-weight:400;overflow-x:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 
 /* ── COVER ── */
 .cover{min-height:100vh;background:var(--dusk);position:relative;display:grid;grid-template-rows:auto 1fr auto auto;overflow:hidden}
@@ -39,20 +39,20 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .cover-bg{
   position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 120% 60% at 100% 0%,rgba(196,90,26,.5) 0%,transparent 55%),
-    radial-gradient(ellipse 80% 80% at 0% 100%,rgba(74,30,10,.8) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 40% at 50% 50%,rgba(212,148,10,.08) 0%,transparent 60%),
-    linear-gradient(160deg,#120a04 0%,#1a0e08 45%,#1e1008 100%);
+    radial-gradient(ellipse 120% 60% at 100% 0%,rgba(2,128,144,.4) 0%,transparent 55%),
+    radial-gradient(ellipse 80% 80% at 0% 100%,rgba(13,43,23,.9) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 50%,rgba(244,180,26,.06) 0%,transparent 60%),
+    linear-gradient(160deg,#0A1F12 0%,#1B3A24 45%,#0D2B17 100%);
 }
 
 /* Sunset light rays */
 .cover-rays{
   position:absolute;inset:0;
   background:repeating-conic-gradient(from 280deg at 110% -10%,
-    rgba(196,90,26,.04) 0deg,
+    rgba(43,91,51,.04) 0deg,
     transparent 3deg,
     transparent 10deg,
-    rgba(212,148,10,.03) 13deg,
+    rgba(244,180,26,.03) 13deg,
     transparent 16deg
   );
   animation:rays 20s linear infinite;
@@ -62,7 +62,7 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .cover-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");pointer-events:none;z-index:1}
 
 .cover-nav{position:relative;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:28px 44px}
-.nav-logo{font-family:'Cormorant',serif;font-style:italic;font-weight:300;font-size:1.1rem;color:rgba(245,230,200,.5);letter-spacing:.12em}
+.nav-logo{font-family:'Cormorant',serif;font-style:italic;font-weight:300;font-size:1.1rem;color:rgba(255,255,255,.5);letter-spacing:.12em}
 .nav-phase{font-size:.6rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);opacity:.8}
 
 .cover-body{position:relative;z-index:5;display:flex;flex-direction:column;justify-content:flex-end;padding:0 44px 0}
@@ -82,7 +82,7 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .cover-headline .hl2{
   display:block;
   color:transparent;
-  -webkit-text-stroke:1.5px var(--ember);
+  -webkit-text-stroke:1.5px var(--ocean);
   font-style:italic;
 }
 
@@ -91,7 +91,7 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
   font-style:italic;
   font-weight:300;
   font-size:clamp(1rem,2.5vw,1.5rem);
-  color:rgba(245,230,200,.45);
+  color:rgba(255,255,255,.45);
   margin-top:20px;
   max-width:500px;
   line-height:1.55;
@@ -107,34 +107,34 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
   opacity:0;animation:fadeUp .8s ease forwards 1s;
 }
 .cd-label-block{
-  background:rgba(196,90,26,.2);
-  border-right:1px solid rgba(196,90,26,.2);
+  background:rgba(244,180,26,.2);
+  border-right:1px solid rgba(244,180,26,.2);
   padding:18px 24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
 .cd-label-text{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--ember2);writing-mode:vertical-rl;transform:rotate(180deg)}
-.cd-units{display:flex;flex:1;background:linear-gradient(to right,rgba(196,90,26,.15),rgba(212,148,10,.1))}
+.cd-units{display:flex;flex:1;background:linear-gradient(to right,rgba(2,128,144,.15),rgba(2,128,144,.1))}
 .cd-unit{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 10px;border-right:1px solid rgba(255,255,255,.06)}
 .cd-unit:last-child{border-right:none}
 .cd-num{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.8rem,5vw,3rem);color:var(--champagne);line-height:1;letter-spacing:.03em}
-.cd-lbl{font-size:.52rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:rgba(245,230,200,.35);margin-top:4px}
+.cd-lbl{font-size:.52rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:4px}
 
 /* ── META STRIP ── */
 .cover-meta{
   position:relative;z-index:5;
-  display:flex;border-top:1px solid rgba(245,230,200,.08);
+  display:flex;border-top:1px solid rgba(255,255,255,.08);
   margin-top:0;
   opacity:0;animation:fadeIn .8s ease forwards 1.2s;
 }
-.cmi{flex:1;padding:22px 28px;border-right:1px solid rgba(245,230,200,.06)}
+.cmi{flex:1;padding:22px 28px;border-right:1px solid rgba(255,255,255,.06)}
 .cmi:last-child{border-right:none}
-.cmi-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,230,200,.25);margin-bottom:6px}
-.cmi-value{font-family:'Cormorant',serif;font-size:1rem;font-weight:600;color:rgba(245,230,200,.8)}
+.cmi-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:6px}
+.cmi-value{font-family:'Cormorant',serif;font-size:1rem;font-weight:600;color:rgba(255,255,255,.8)}
 
 /* ── APP ── */
 .app{max-width:920px;margin:0 auto;padding:0 0 100px}
 
 /* ── TAB NAV ── */
-.tab-nav-wrap{position:sticky;top:0;z-index:100;background:var(--warm-white);border-bottom:1px solid var(--sand2);box-shadow:0 4px 24px rgba(26,14,8,.07);display:flex;align-items:stretch}
+.tab-nav-wrap{position:sticky;top:0;z-index:100;background:var(--warm-white);border-bottom:1px solid var(--sand2);box-shadow:0 4px 24px rgba(13,43,23,.07);display:flex;align-items:stretch}
 .tab-nav-chevron{flex-shrink:0;width:36px;display:flex;align-items:center;justify-content:center;background:var(--warm-white);border:none;cursor:pointer;color:var(--muted);transition:all .15s;z-index:3}
 .tab-nav-chevron:hover{color:var(--ember);background:var(--champagne2)}
 .tab-nav-chevron:disabled{opacity:.2;cursor:default}
@@ -148,7 +148,7 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .tab-nav-fade-left{position:absolute;left:0;top:0;bottom:0;width:32px;background:linear-gradient(to left,transparent,var(--warm-white) 80%);pointer-events:none;z-index:2;opacity:0;transition:opacity .2s}
 .tab-btn{padding:7px 14px;font-size:.63rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid transparent;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0;line-height:1}
 .tab-btn:hover{color:var(--dusk2);background:var(--champagne2);border-color:var(--sand2)}
-.tab-btn.active{color:var(--ember);background:rgba(196,90,26,.08);border-color:rgba(196,90,26,.25)}
+.tab-btn.active{color:var(--dusk3);background:rgba(43,91,51,.08);border-color:rgba(43,91,51,.3)}
 
 /* ── PANELS ── */
 .panel{display:none;padding:52px 36px 0}
@@ -162,15 +162,15 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 
 /* ── OVERVIEW ── */
 .overview-hero{background:var(--dusk);padding:44px;margin-bottom:3px;position:relative;overflow:hidden}
-.overview-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 100% 0%,rgba(196,90,26,.3) 0%,transparent 60%)}
+.overview-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 100% 0%,rgba(2,128,144,.25) 0%,transparent 60%)}
 .oh-eyebrow{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);margin-bottom:16px;position:relative;z-index:2}
 .oh-resort{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:700;color:var(--champagne);margin-bottom:8px;line-height:1.2;position:relative;z-index:2}
-.oh-room{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:rgba(245,230,200,.5);margin-bottom:28px;position:relative;z-index:2}
+.oh-room{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:rgba(255,255,255,.5);margin-bottom:28px;position:relative;z-index:2}
 .oh-tags{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:2}
 .tag{font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:2px}
-.tag-ember{background:rgba(196,90,26,.2);color:var(--ember2);border:1px solid rgba(196,90,26,.3)}
-.tag-amber{background:rgba(212,148,10,.15);color:var(--amber2);border:1px solid rgba(212,148,10,.25)}
-.tag-ocean{background:rgba(58,122,154,.2);color:var(--ocean2);border:1px solid rgba(58,122,154,.3)}
+.tag-ember{background:rgba(244,180,26,.2);color:var(--ember2);border:1px solid rgba(2,128,144,.25)}
+.tag-amber{background:rgba(229,75,75,.12);color:var(--amber2);border:1px solid rgba(229,75,75,.2)}
+.tag-ocean{background:rgba(2,128,144,.15);color:var(--ocean2);border:1px solid rgba(2,128,144,.25)}
 
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:2px}
 .stat-card{background:var(--champagne2);padding:22px 20px}
@@ -185,20 +185,20 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
   background:linear-gradient(135deg,var(--dusk) 0%,var(--dusk3) 100%);
   padding:40px 44px;margin-bottom:3px;position:relative;overflow:hidden;
 }
-.perks-intro-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 100% 50%,rgba(196,90,26,.2) 0%,transparent 60%)}
+.perks-intro-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 100% 50%,rgba(244,180,26,.2) 0%,transparent 60%)}
 .pic-label{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);margin-bottom:16px;position:relative;z-index:2}
 .pic-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:var(--champagne);line-height:1.2;margin-bottom:12px;position:relative;z-index:2}
 .pic-title em{font-style:italic;font-weight:400;color:var(--amber2)}
-.pic-desc{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:rgba(245,230,200,.6);line-height:1.65;max-width:560px;position:relative;z-index:2}
+.pic-desc{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:rgba(255,255,255,.6);line-height:1.65;max-width:560px;position:relative;z-index:2}
 
 .perks-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
 .perk-card{background:var(--champagne2);padding:28px;border:1px solid var(--sand2);transition:box-shadow .2s,transform .2s;break-inside:avoid}
-.perk-card:hover{box-shadow:0 8px 32px rgba(26,14,8,.1);transform:translateY(-1px)}
+.perk-card:hover{box-shadow:0 8px 32px rgba(13,43,23,.1);transform:translateY(-1px)}
 .perk-card.full{grid-column:1/-1}
 .perk-icon{font-size:1.8rem;margin-bottom:14px;display:block}
 .perk-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dusk);margin-bottom:8px}
 .perk-desc{font-size:.83rem;color:var(--muted);line-height:1.7}
-.perk-highlight{margin-top:12px;padding:10px 14px;background:rgba(196,90,26,.06);border-left:2px solid var(--ember);font-size:.78rem;color:var(--dusk2);line-height:1.6;font-style:italic}
+.perk-highlight{margin-top:12px;padding:10px 14px;background:rgba(43,91,51,.06);border-left:2px solid var(--ember);font-size:.78rem;color:var(--dusk2);line-height:1.6;font-style:italic}
 
 /* ── BUTLER SECTION ── */
 .butler-card{
@@ -207,18 +207,18 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
   display:grid;grid-template-columns:1fr 1fr;gap:40px;
   align-items:center;position:relative;overflow:hidden;
 }
-.butler-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(196,90,26,.15) 0%,transparent 60%)}
+.butler-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 0% 50%,rgba(2,128,144,.15) 0%,transparent 60%)}
 .bc-label{font-size:.58rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--ember2);margin-bottom:14px;position:relative;z-index:2}
 .bc-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;color:var(--champagne);line-height:1.2;margin-bottom:16px;position:relative;z-index:2}
-.bc-desc{font-size:.85rem;color:rgba(245,230,200,.6);line-height:1.75;position:relative;z-index:2}
+.bc-desc{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.75;position:relative;z-index:2}
 .bc-tips{display:flex;flex-direction:column;gap:2px;position:relative;z-index:2}
-.bc-tip{background:rgba(245,230,200,.04);border:1px solid rgba(245,230,200,.08);padding:16px 20px}
+.bc-tip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:16px 20px}
 .bc-tip-title{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber2);margin-bottom:6px}
-.bc-tip-text{font-size:.8rem;color:rgba(245,230,200,.6);line-height:1.6}
+.bc-tip-text{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.6}
 
 /* ── FLIGHTS ── */
 .flight-card{background:var(--champagne2);border:1px solid var(--sand2);padding:32px 36px;margin-bottom:3px;position:relative;overflow:hidden;transition:box-shadow .2s}
-.flight-card:hover{box-shadow:0 8px 32px rgba(26,14,8,.08)}
+.flight-card:hover{box-shadow:0 8px 32px rgba(13,43,23,.08)}
 .flight-dir-badge{display:inline-flex;align-items:center;gap:8px;font-size:.6rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--ember);margin-bottom:24px}
 .flight-dir-badge::before{content:'';width:20px;height:1px;background:var(--ember)}
 .fc-num{position:absolute;top:32px;right:36px;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--sand2);letter-spacing:.05em}
@@ -227,7 +227,7 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .airport-city{font-size:.7rem;color:var(--muted);margin-top:4px;font-weight:500}
 .route-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
 .route-line-wrap{width:100%;display:flex;align-items:center;gap:8px}
-.rline{flex:1;height:1px;background:linear-gradient(to right,var(--ember),rgba(196,90,26,.15))}
+.rline{flex:1;height:1px;background:linear-gradient(to right,var(--ocean),rgba(2,128,144,.15))}
 .rplane{color:var(--ember);font-size:1rem}
 .route-dur{font-size:.62rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .flight-footer{display:flex;justify-content:space-between;margin-top:20px;padding-top:18px;border-top:1px solid var(--sand2)}
@@ -236,18 +236,18 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 
 /* ── ACTIVITIES ── */
 .activity-item{display:grid;grid-template-columns:72px 1fr;gap:0;margin-bottom:3px;background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s,transform .2s}
-.activity-item:hover{box-shadow:0 8px 32px rgba(26,14,8,.1);transform:translateY(-1px)}
-.ai-number{background:var(--dusk);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:rgba(245,230,200,.1);flex-shrink:0}
+.activity-item:hover{box-shadow:0 8px 32px rgba(13,43,23,.1);transform:translateY(-1px)}
+.ai-number{background:var(--dusk);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:rgba(255,255,255,.1);flex-shrink:0}
 .ai-body{padding:26px 30px}
 .ai-category{font-size:.55rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--ember);margin-bottom:8px}
 .ai-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--dusk);margin-bottom:8px;line-height:1.2}
 .ai-desc{font-size:.83rem;color:var(--muted);line-height:1.75;margin-bottom:12px}
-.ai-tip{display:flex;gap:10px;align-items:flex-start;background:rgba(196,90,26,.05);border-left:2px solid var(--ember);padding:10px 14px;font-size:.77rem;color:var(--dusk2);line-height:1.6}
+.ai-tip{display:flex;gap:10px;align-items:flex-start;background:rgba(43,91,51,.05);border-left:2px solid var(--ember);padding:10px 14px;font-size:.77rem;color:var(--dusk2);line-height:1.6}
 
 /* ── DINING ── */
 .dining-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
 .dining-card{background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s}
-.dining-card:hover{box-shadow:0 8px 32px rgba(26,14,8,.1)}
+.dining-card:hover{box-shadow:0 8px 32px rgba(13,43,23,.1)}
 .dining-card.featured{grid-column:1/-1}
 .dc-header{padding:26px 26px 0}
 .dc-tags{display:flex;gap:6px;margin-bottom:10px}
@@ -262,8 +262,8 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 /* ── BEST TIMES ── */
 .timing-list{display:flex;flex-direction:column;gap:3px}
 .timing-item{display:grid;grid-template-columns:180px 1fr;background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s}
-.timing-item:hover{box-shadow:0 4px 20px rgba(26,14,8,.07)}
-.ti-left{background:rgba(196,90,26,.06);padding:22px;border-right:1px solid var(--sand2);display:flex;flex-direction:column;justify-content:center}
+.timing-item:hover{box-shadow:0 4px 20px rgba(13,43,23,.07)}
+.ti-left{background:rgba(43,91,51,.06);padding:22px;border-right:1px solid var(--sand2);display:flex;flex-direction:column;justify-content:center}
 .ti-place{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--dusk);margin-bottom:5px}
 .ti-time{font-size:.8rem;font-weight:600;color:var(--ember);letter-spacing:.05em;line-height:1.3}
 .ti-right{padding:22px 26px}
@@ -284,11 +284,11 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .resort-info-card{background:var(--champagne2);border:1px solid var(--sand2);padding:18px 20px}
 .ric-label{font-size:.55rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .ric-value{font-size:.82rem;color:var(--dusk2);line-height:1.5}
-.ric-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(58,122,154,.25)}
+.ric-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(2,128,144,.2)}
 .resort-links-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
 .resort-link-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .2s;cursor:pointer;border:none}
-.rlb-primary{background:var(--ember);color:var(--warm-white)}
-.rlb-primary:hover{background:#a84a12}
+.rlb-primary{background:var(--dusk3);color:var(--warm-white);transition:all .3s ease}
+.rlb-primary:hover{background:var(--ocean);transform:scale(1.05)}
 .rlb-secondary{background:var(--champagne2);color:var(--dusk2);border:1px solid var(--sand2)}
 .rlb-secondary:hover{background:var(--sand2)}
 .pdf-embed-wrap{border:1px solid var(--sand2);overflow:hidden}
@@ -317,9 +317,9 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .rec-cat-label{font-size:.58rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--ember);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--sand2)}
 .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
 .rec-card{background:var(--champagne2);border:1px solid var(--sand2);padding:22px 24px;transition:box-shadow .2s}
-.rec-card:hover{box-shadow:0 4px 20px rgba(26,14,8,.08)}
+.rec-card:hover{box-shadow:0 4px 20px rgba(13,43,23,.08)}
 .rec-card.full{grid-column:1/-1}
-.rc-essential{display:inline-block;font-size:.56rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ember2);background:rgba(196,90,26,.08);border:1px solid rgba(196,90,26,.2);padding:3px 10px;border-radius:2px;margin-bottom:8px}
+.rc-essential{display:inline-block;font-size:.56rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--dusk3);background:rgba(43,91,51,.08);border:1px solid rgba(43,91,51,.2);padding:3px 10px;border-radius:2px;margin-bottom:8px}
 .rc-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--dusk);margin-bottom:6px}
 .rc-why{font-size:.8rem;color:var(--muted);line-height:1.65;margin-bottom:8px}
 .rc-tip{font-size:.75rem;color:var(--ocean);font-style:italic}
@@ -333,34 +333,34 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 .info-card.full{grid-column:1/-1}
 .info-card.emergency{background:var(--dusk);border-color:var(--dusk)}
 .ic-label{font-size:.56rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.info-card.emergency .ic-label{color:rgba(245,230,200,.3)}
+.info-card.emergency .ic-label{color:rgba(255,255,255,.3)}
 .ic-value{font-size:.88rem;color:var(--dusk2);line-height:1.7}
-.ic-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(58,122,154,.25)}
+.ic-value a{color:var(--ocean);text-decoration:none;border-bottom:1px solid rgba(2,128,144,.2)}
 .emergency-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--ember2);margin-top:8px;letter-spacing:.03em}
-.emergency-label{font-size:.62rem;color:rgba(245,230,200,.3);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.emergency-label{font-size:.62rem;color:rgba(255,255,255,.3);font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
 
 /* ── FACTS ── */
 .fact-feature{background:var(--dusk);padding:48px 44px;position:relative;overflow:hidden;margin-bottom:3px}
-.fact-feature::before{content:'"';font-family:'Playfair Display',serif;font-size:18rem;color:rgba(245,230,200,.03);position:absolute;top:-40px;left:20px;line-height:1}
+.fact-feature::before{content:'"';font-family:'Playfair Display',serif;font-size:18rem;color:rgba(255,255,255,.03);position:absolute;top:-40px;left:20px;line-height:1}
 .fact-nav{display:flex;gap:3px;margin-bottom:28px}
-.fact-nav-btn{padding:7px 14px;font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:rgba(245,230,200,.05);border:1px solid rgba(245,230,200,.1);color:rgba(245,230,200,.35);cursor:pointer;transition:all .2s;border-radius:2px}
+.fact-nav-btn{padding:7px 14px;font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);cursor:pointer;transition:all .2s;border-radius:2px}
 .fact-nav-btn.active,.fact-nav-btn:hover{background:var(--ember);border-color:var(--ember);color:var(--warm-white)}
 .fact-text{font-family:'Cormorant',serif;font-style:italic;font-size:clamp(1.2rem,3vw,1.75rem);font-weight:300;color:var(--champagne);line-height:1.65;max-width:640px;transition:opacity .4s ease,transform .4s ease;position:relative;z-index:2}
-.fact-attr{margin-top:22px;font-size:.6rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,230,200,.2);position:relative;z-index:2}
+.fact-attr{margin-top:22px;font-size:.6rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.2);position:relative;z-index:2}
 
 /* ── ROADMAP ── */
 .roadmap-intro{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:40px;padding-left:16px;border-left:2px solid var(--sand2)}
 .roadmap-list{display:flex;flex-direction:column;gap:3px}
 .roadmap-item{display:grid;grid-template-columns:160px 1fr;background:var(--champagne2);border:1px solid var(--sand2);overflow:hidden;transition:box-shadow .2s;break-inside:avoid}
-.roadmap-item:hover{box-shadow:0 4px 20px rgba(26,14,8,.08)}
-.roadmap-item.active-phase{border-color:var(--ember);box-shadow:0 0 0 2px rgba(196,90,26,.15)}
+.roadmap-item:hover{box-shadow:0 4px 20px rgba(13,43,23,.08)}
+.roadmap-item.active-phase{border-color:var(--ocean);box-shadow:0 0 0 2px rgba(2,128,144,.2)}
 .roadmap-item.completed{opacity:.5}
-.ri-left{padding:22px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--sand2);background:rgba(196,90,26,.04)}
-.ri-left.active-bg{background:linear-gradient(135deg,rgba(196,90,26,.12),rgba(196,90,26,.04))}
+.ri-left{padding:22px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--sand2);background:rgba(43,91,51,.04)}
+.ri-left.active-bg{background:linear-gradient(135deg,rgba(196,90,26,.12),rgba(43,91,51,.04))}
 .ri-date{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ember);line-height:1.1;margin-bottom:4px}
 .ri-days{font-size:.62rem;font-weight:600;color:var(--muted);letter-spacing:.08em}
 .ri-status{display:inline-block;margin-top:8px;font-size:.52rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
-.status-now{background:rgba(196,90,26,.15);color:var(--ember)}
+.status-now{background:rgba(2,128,144,.15);color:var(--ocean)}
 .status-upcoming{background:rgba(58,122,154,.1);color:var(--ocean2)}
 .status-done{background:rgba(90,64,48,.1);color:var(--muted)}
 .ri-right{padding:22px 26px}
@@ -382,7 +382,7 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 /* ── LEAFLET ── */
-.leaflet-popup-content-wrapper{border-radius:3px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.leaflet-popup-content-wrapper{border-radius:8px;box-shadow:0 8px 32px rgba(13,43,23,.2)}
 .leaflet-popup-content{margin:14px 16px;min-width:180px}
 
 /* ── PRINT ── */
@@ -408,6 +408,33 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
   #explore-map{height:300px}#resort-map{height:260px}
   .tab-nav-chevron{width:28px}
 }
+
+/* -- TROPICAL INTERACTIONS -- */
+.tag{transition:all .2s ease}
+.tag:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(13,43,23,.12)}
+.perk-card{transition:all .3s cubic-bezier(.4,0,.2,1)}
+.perk-card:hover{box-shadow:0 8px 32px rgba(13,43,23,.15);transform:translateY(-3px) scale(1.01)}
+.flight-card{transition:all .3s cubic-bezier(.4,0,.2,1)}
+.flight-card:hover{box-shadow:0 12px 40px rgba(13,43,23,.12);transform:translateY(-2px)}
+.activity-item{transition:all .3s cubic-bezier(.4,0,.2,1)}
+.activity-item:hover{box-shadow:0 10px 36px rgba(13,43,23,.12);transform:translateY(-3px) scale(1.005)}
+.dining-card{transition:all .3s cubic-bezier(.4,0,.2,1)}
+.dining-card:hover{box-shadow:0 10px 36px rgba(13,43,23,.12);transform:translateY(-2px)}
+.timing-item{transition:all .25s ease}
+.timing-item:hover{box-shadow:0 8px 28px rgba(13,43,23,.1);transform:translateY(-1px)}
+.roadmap-item{transition:all .25s ease}
+.roadmap-item:hover{box-shadow:0 6px 24px rgba(13,43,23,.1);transform:translateY(-1px)}
+.rec-card{transition:all .3s ease}
+.rec-card:hover{box-shadow:0 8px 28px rgba(13,43,23,.1);transform:translateY(-2px)}
+.resort-link-btn{transition:all .25s ease}
+.rlb-secondary:hover{transform:scale(1.03)}
+.cl-item{transition:background .15s ease}
+.cl-item:hover{background:rgba(43,91,51,.03);border-radius:4px}
+.info-card{transition:all .25s ease}
+.info-card:hover{box-shadow:0 6px 24px rgba(13,43,23,.08);transform:translateY(-1px)}
+.stat-card{transition:all .2s ease}
+.stat-card:hover{box-shadow:0 4px 16px rgba(13,43,23,.08)}
+a{transition:color .2s ease}
 </style>
 </head>
 <body>
@@ -651,11 +678,11 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
     <h2 class="sec-headline reveal">Everything within <em>reach.</em></h2>
     <p class="map-intro reveal">Your resort sits in {{RESORT_REGION}} — one of the most strategically located spots on this coast. Everything on your list is within 45 minutes.</p>
     <div class="map-legend reveal">
-      <div class="legend-item"><div class="legend-dot" style="background:#c45a1a"></div>Resort</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#3a7a9a"></div>Dining</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#b8960c"></div>Excursions</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#5a8a5a"></div>Beaches</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#6a4a8a"></div>Airport</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2B5B33"></div>Resort</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#028090"></div>Dining</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F4B41A"></div>Excursions</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3CB371"></div>Beaches</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E54B4B"></div>Airport</div>
     </div>
     <div id="explore-map" class="reveal"></div>
     <div class="resort-map-section reveal">
@@ -766,7 +793,7 @@ body{background:var(--warm-white);color:var(--dusk);font-family:'Instrument Sans
     <h2 class="sec-headline reveal">Everything you need, <em>all in one place.</em></h2>
     <div class="info-grid">
       <div class="info-card full reveal"><div class="ic-label">Hotel Pre-Check-In</div><div class="ic-value"><a href="{{CHECKIN_LINK}}" target="_blank">Complete your pre-arrival check-in →</a><br><span style="color:var(--muted);font-size:.8rem">Confirm room preferences · Upload ID · Set arrival time · Request early check-in</span></div></div>
-      <div class="info-card emergency reveal"><div class="ic-label">Emergency Insurance</div><div class="ic-value" style="color:rgba(245,230,200,.55);font-size:.8rem">{{INSURANCE_PRIMARY}} (primary)<br>{{INSURANCE_SECONDARY}} (secondary)</div><div class="emergency-num">{{INSURANCE_PHONE}}</div><div class="emergency-label">Emergency Line · Available 24/7</div></div>
+      <div class="info-card emergency reveal"><div class="ic-label">Emergency Insurance</div><div class="ic-value" style="color:rgba(255,255,255,.55);font-size:.8rem">{{INSURANCE_PRIMARY}} (primary)<br>{{INSURANCE_SECONDARY}} (secondary)</div><div class="emergency-num">{{INSURANCE_PHONE}}</div><div class="emergency-label">Emergency Line · Available 24/7</div></div>
       <div class="info-card reveal"><div class="ic-label">Arrival Airport</div><div class="ic-value"><strong>{{FLIGHT_OUT_ARR_AIRPORT}}</strong> — {{FLIGHT_OUT_ARR_CITY}}<br>~45 min drive to resort<br><span style="color:var(--muted);font-size:.8rem">Pre-arrange transfer or Uber — both reliable from {{FLIGHT_OUT_ARR_AIRPORT}}</span></div></div>
     </div>
   </div>
@@ -870,25 +897,25 @@ function initMaps(){
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:18}).addTo(map);
   function mkIcon(c,s){s=s||14;return L.divIcon({html:'<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:'+c+';border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,.35)"></div>',className:'',iconSize:[s,s],iconAnchor:[s/2,s/2],popupAnchor:[0,-s/2]})}
   const locs=[
-    {lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),c:'#c45a1a',s:18,n:'{{RESORT}}',cat:'⭐ Your Resort',d:'{{ROOM_TYPE}} · {{RESORT_ADDRESS}}'},
-    {lat:10.5933,lng:-85.5444,c:'#6a4a8a',s:14,n:'{{FLIGHT_OUT_ARR_CITY}} ({{FLIGHT_OUT_ARR_AIRPORT}})',cat:'✈ Airport',d:'~45 min drive to resort.'},
-    {lat:10.5519,lng:-85.6955,c:'#5a8a5a',s:13,n:'{{REST_1_AREA}}',cat:'🏖️ Beach · Dining',d:'15 min from resort. Must-reserve restaurant nearby.'},
-    {lat:10.5651,lng:-85.6890,c:'#3a7a9a',s:13,n:'{{REST_1_NAME}}',cat:'🍽️ Dining',d:"One of the region's best. Reserve 3–5 days ahead."},
-    {lat:10.5580,lng:-85.7020,c:'#5a8a5a',s:13,n:'{{REST_2_AREA}}',cat:'🏖️ Beach · Dining',d:'20 min from resort. Best local seafood nearby.'},
-    {lat:10.5595,lng:-85.7045,c:'#3a7a9a',s:13,n:'{{REST_2_NAME}}',cat:'🍽️ Dining',d:'Fresh local seafood. Cash only. Sell out by 2 PM.'},
-    {lat:10.3493,lng:-85.6568,c:'#5a8a5a',s:13,n:'{{ACT_5_NAME}}',cat:'🏄 Beach',d:'45 min south. Famous surf beach.'},
-    {lat:10.3487,lng:-85.6482,c:'#3a7a9a',s:13,n:'{{REST_3_NAME}}',cat:'🍽️ Dining',d:'Beachfront tables, exceptional sunset views.'},
-    {lat:10.4572,lng:-85.6428,c:'#b8960c',s:13,n:'{{ACT_3_NAME}}',cat:'🤿 Excursion',d:'45 min by boat. Morning only.'},
-    {lat:10.4630,lng:-84.7027,c:'#b8960c',s:13,n:'{{ACT_2_NAME}}',cat:'🌋 Excursion',d:'3 hrs away. Leave by 6 AM.'},
-    {lat:10.3350,lng:-85.1820,c:'#b8960c',s:13,n:'{{ACT_6_NAME}}',cat:'🐊 Wildlife',d:'Boat cruise through mangroves. Dawn is best.'},
+    {lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),c:'#2B5B33',s:18,n:'{{RESORT}}',cat:'⭐ Your Resort',d:'{{ROOM_TYPE}} · {{RESORT_ADDRESS}}'},
+    {lat:10.5933,lng:-85.5444,c:'#E54B4B',s:14,n:'{{FLIGHT_OUT_ARR_CITY}} ({{FLIGHT_OUT_ARR_AIRPORT}})',cat:'✈ Airport',d:'~45 min drive to resort.'},
+    {lat:10.5519,lng:-85.6955,c:'#3CB371',s:13,n:'{{REST_1_AREA}}',cat:'🏖️ Beach · Dining',d:'15 min from resort. Must-reserve restaurant nearby.'},
+    {lat:10.5651,lng:-85.6890,c:'#028090',s:13,n:'{{REST_1_NAME}}',cat:'🍽️ Dining',d:"One of the region's best. Reserve 3–5 days ahead."},
+    {lat:10.5580,lng:-85.7020,c:'#3CB371',s:13,n:'{{REST_2_AREA}}',cat:'🏖️ Beach · Dining',d:'20 min from resort. Best local seafood nearby.'},
+    {lat:10.5595,lng:-85.7045,c:'#028090',s:13,n:'{{REST_2_NAME}}',cat:'🍽️ Dining',d:'Fresh local seafood. Cash only. Sell out by 2 PM.'},
+    {lat:10.3493,lng:-85.6568,c:'#3CB371',s:13,n:'{{ACT_5_NAME}}',cat:'🏄 Beach',d:'45 min south. Famous surf beach.'},
+    {lat:10.3487,lng:-85.6482,c:'#028090',s:13,n:'{{REST_3_NAME}}',cat:'🍽️ Dining',d:'Beachfront tables, exceptional sunset views.'},
+    {lat:10.4572,lng:-85.6428,c:'#F4B41A',s:13,n:'{{ACT_3_NAME}}',cat:'🤿 Excursion',d:'45 min by boat. Morning only.'},
+    {lat:10.4630,lng:-84.7027,c:'#F4B41A',s:13,n:'{{ACT_2_NAME}}',cat:'🌋 Excursion',d:'3 hrs away. Leave by 6 AM.'},
+    {lat:10.3350,lng:-85.1820,c:'#F4B41A',s:13,n:'{{ACT_6_NAME}}',cat:'🐊 Wildlife',d:'Boat cruise through mangroves. Dawn is best.'},
   ];
   locs.forEach(l=>{const m=L.marker([l.lat,l.lng],{icon:mkIcon(l.c,l.s)}).addTo(map);m.bindPopup('<div class="map-popup-name">'+l.n+'</div><div class="map-popup-cat" style="color:'+l.c+'">'+l.cat+'</div><div class="map-popup-desc">'+l.d+'</div>',{maxWidth:260})});
   const rm=L.map('resort-map',{zoomControl:true,scrollWheelZoom:false}).setView([parseFloat('{{RESORT_LAT}}'),parseFloat('{{RESORT_LNG}}')],17);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(rm);
-  [{lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),c:'#c45a1a',s:16,n:'{{RESORT}}',d:'Main entrance — check in here, meet your {{ROOM_CLASS}} butler.'},
-   {lat:parseFloat('{{RESORT_LAT}}')+0.0009,lng:parseFloat('{{RESORT_LNG}}')-0.001,c:'#d4940a',s:14,n:'{{ROOM_CLASS}} Area',d:'Your exclusive {{ROOM_CLASS}} pool, restaurant, and butler service.'},
-   {lat:parseFloat('{{RESORT_LAT}}')-0.0007,lng:parseFloat('{{RESORT_LNG}}')+0.0007,c:'#3a7a9a',s:14,n:'Resort Beach',d:'Direct beach access. Best at sunrise and golden hour.'},
-   {lat:parseFloat('{{RESORT_LAT}}')-0.0004,lng:parseFloat('{{RESORT_LNG}}')-0.0005,c:'#5a8a5a',s:14,n:'Main Pool',d:'Central resort pool and swim-up bar.'}
+  [{lat:parseFloat('{{RESORT_LAT}}'),lng:parseFloat('{{RESORT_LNG}}'),c:'#2B5B33',s:16,n:'{{RESORT}}',d:'Main entrance — check in here, meet your {{ROOM_CLASS}} butler.'},
+   {lat:parseFloat('{{RESORT_LAT}}')+0.0009,lng:parseFloat('{{RESORT_LNG}}')-0.001,c:'#028090',s:14,n:'{{ROOM_CLASS}} Area',d:'Your exclusive {{ROOM_CLASS}} pool, restaurant, and butler service.'},
+   {lat:parseFloat('{{RESORT_LAT}}')-0.0007,lng:parseFloat('{{RESORT_LNG}}')+0.0007,c:'#028090',s:14,n:'Resort Beach',d:'Direct beach access. Best at sunrise and golden hour.'},
+   {lat:parseFloat('{{RESORT_LAT}}')-0.0004,lng:parseFloat('{{RESORT_LNG}}')-0.0005,c:'#3CB371',s:14,n:'Main Pool',d:'Central resort pool and swim-up bar.'}
   ].forEach(p=>{const m=L.marker([p.lat,p.lng],{icon:mkIcon(p.c,p.s)}).addTo(rm);m.bindPopup('<div class="map-popup-name">'+p.n+'</div><div class="map-popup-desc">'+p.d+'</div>',{maxWidth:220})});
 }
 
